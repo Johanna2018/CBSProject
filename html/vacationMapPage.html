@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vacation Page</title>
+</head>
+<body>
+    <h1>Create a New Vacation</h1>
+
+    <div>
+        <label for="vacationTitle">Title: </label>
+        <input id="vacationTitle" placeholder="My Denmark Vacation" type="text">
+    </div>
+
+    <div>
+        <label for="vacationDescription">Description: </label>
+        <textarea cols= "30" rows="10" id="vacationDescription" placeholder="Describe your Vacation"></textarea>
+    </div>
+
+    <div id="map" height="460px" width="100%"></div>
+    <div>
+      <table>
+      <tr><td>Name:</td> <td><input type="text" id="pinName"/> </td></tr>
+      <tr><td>Comment:</td> <td><input type="text2 id="pinComment"/> </td> </tr>
+      <tr><td>Type:</td> <td><select id="pinType">
+                 <option value="viewpoint" SELECTED>Viewpoint</option>
+                 <option value="restaurant">Restaurant</option>
+                 <option value="bar">Bar</option>
+                 <option value="shopping mall">Shop</option>
+                 <option value="cafe">Café</option>
+                 <option value="museum">Museum</option>
+                 <option value="sight">Sight</option>
+                 <option value="other">Other</option>
+                 </select> </td></tr>
+                 <tr><td></td><td><button id="pinSave" onclick="saveData()">Save</button></td></tr>
+                 <!-- Need to change the function here in cancel -->
+                 <tr><td></td><td><button id="pinCancel" onclick="saveData()">Cancel</button></td></tr>
+                 
+      </table>
+    
+    
+
+    <script type="text/javascritp" src=""></script>
+</body>
+</html>
