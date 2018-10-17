@@ -2,9 +2,10 @@
 class User {
 
     // The constructor for our class, which will allow us to create new objects of our class
-    constructor(name, username, email, password) {
+    constructor(name, username, gender, email, password) {
       this.name = name;
       this.username = username;
+      this.gender = gender;
       this.email = email;
       this.password = this.hashPassword(password);
       this.lastAccess = null;
@@ -42,26 +43,32 @@ class User {
   var users = [];
   
   // Fill it up with a few users
-  users.push(new User("Henrik Thorn", "thorn", "123@cbs.dk", "qwerty"));
-  users.push(new User("Peter Pan", "milkway", "456@cbs.dk", "password"));
+  users.push(new User("Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty"));
+  users.push(new User("Peter Pan", "milkway", "Male", "456@cbs.dk", "password"));
+
+
   
   // Bind the button to a variable for later use
   var login = document.getElementById("login");
   
   // Bind the span for result text for later use
-    var resultSpan = document.getElementById('loginResult');
+    var resultSpan = document.getElementById("loginResult");
   
   // Bind a counter in order to see if the user has tried to login too many times
   var counter = 3;
   
   // Bind the onClick-function to our own function
   login.onclick = function(){
-  
+    console.log('login function called')
     // Bind the two input fields and get the value
-    var inputEmail = document.getElementById("email");
-    var inputPassword = document.getElementById("password");
+    var inputEmail = document.getElementById("email").value;
+    var inputPassword = document.getElementById("password").value;
+    console.log(inputEmail, inputPassword)
   
-    if(inputEmail.value.length == 0 || inputPassword.value.length == 0){
+
+
+
+    if(inputEmail.length == 0 || inputPassword.length == 0){
       // We set the resultspan with a new text and return false to get out of this function
       resultSpan.innerText = "You need to enter your email address and password in order to use the website.";
       return false;

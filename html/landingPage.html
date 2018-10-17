@@ -20,7 +20,7 @@
             <label for="passoword">Password: </label> 
             <input id="password" type="password" >
          </div>
-        <button type="button" id="login">Log-in</button>
+        <button id="login">Log-in</button>
 
         <span id="loginResult"></span>
 
@@ -32,10 +32,6 @@
     </form>
     <form>
         <h2>Sign-in</h2>
-        <div>
-            <label for="email">E-Mail: </label>
-            <input id="email" type="text" required>
-        </div>
         <div>
             <label for="wholeName">Name: </label>
             <input id="wholeName" type="text"required>
@@ -52,22 +48,25 @@
             <input type="radio" id="genderFemale" name="gender-choice" value="female"> 
             <label for="genderOther">Other</label>
             <input type="radio" id="genderOther" name="gender-choice" value="other"> 
-
         </div>
         <div>
-            <label for="password">Password: </label>
-            <input id="password" type="password" required>
+            <label for="emailSignin">E-Mail: </label>
+            <input id="emailSignin" type="text" required>
+        </div>
+        <div>
+            <label for="passwordSignin">Password: </label>
+            <input id="passwordSignin" type="password" required>
         </div>
         <div>
             <label for="repeatPassword">Repeat password: </label>
             <input id="repeatPassword" type="password" required>
         </div>
-        <button id="signin">Sign-in</button>
+        <button type="button" id="signin">Sign-in</button>
 
 
     </form>
 
-    <script type="text/javascript" src=""></script>
+    <script type="text/javascript" src="../scripts/singin.js"></script>
 
 </body>
 </html>
