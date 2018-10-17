@@ -1,4 +1,5 @@
 // We create a user class, so we have an easy way to create users and further implement features at a later stage
+
 class User {
 
     // The constructor for our class, which will allow us to create new objects of our class
@@ -89,7 +90,7 @@ class User {
       try {
   
         // We try to create a variable with the hashed version of the inputPassword
-        var hashedInputPassword = user.hashPassword(inputPassword.value);
+        var hashedInputPassword = user.hashPassword(inputPassword);
       } catch(error){
   
         // We console log any error that might have been thrown
@@ -97,7 +98,7 @@ class User {
       }
   
       // If username and password we have in put matches the one in our loop
-      if(user.email == inputEmail.value && user.password == hashedInputPassword) {
+      if(user.email == inputEmail && user.password == hashedInputPassword) {
   
         // Update the lastAccess of the user-object
         user.setLastAccess();
@@ -106,7 +107,7 @@ class User {
         // TODO: We wan't something better than unixtime for the user!
         // resultSpan.innerText = "Hi " + user.name + ", you've successfully entered the website at: "+user.lastAccess;
         
-        //redirecting to other page
+        //redirecting to homepage
         window.location = "homePage.html"; 
   
         // Return true to jump out of the function, since we now have all we need.
