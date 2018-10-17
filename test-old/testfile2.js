@@ -9,38 +9,39 @@ var newUsers = [];
 // newUsers.push(JSON.parse(localStorage.getItem("users")));
 // }
 
-// push all elements that are stored in local storage into the newUsers array
-    Array.prototype.push.apply(newUsers, JSON.parse(localStorage.getItem("users")));
-  
 
+
+// push all elements that are stored in local storage into the newUsers array
+    Array.prototype.push.apply(newUsers, JSON.parse(localStorage.getItem("users")));    
+    
 // Bind the onClick-function to our own function --> could also use an Event listener
 register.onclick = function(){
 
   // Bind the input fields and get the value
-  var name = document.getElementById("wholeName").value;
-  var username = document.getElementById("username").value;
-  var email = document.getElementById("email").value;
-  var password = document.getElementById("password").value;
+  var inputName = document.getElementById("wholeName").value;
+  var inputUsername = document.getElementById("username").value;
+  var inputEmail = document.getElementById("email").value;
+  var inputPassword = document.getElementById("password").value;
   var repeatPassword = document.getElementById("repeatPassword").value;
-  var gender ="";
+  var inputGender ="";
 
   // TODO: Could use also drop down? Something different than if statements?
   //Give inputGender a value, go through the radio buttons and look which is clicked
     if(document.getElementById("genderMale").checked) {
-        gender = "Male";
+        inputGender = "Male";
     }
     if(document.getElementById("genderFemale").checked) {
-        gender = "Female";
+        inputGender = "Female";
     } 
     if (document.getElementById("genderOther").checked) {
-        gender = "Other";
+        inputGender = "Other";
     }
   
 
 // check if they are all filled out and password equals repeated password
-  if(name && username && email && gender && (password === repeatPassword)){
+  if(inputName && inputUsername && inputEmail && inputGender && (inputPassword === repeatPassword)){
     // newUser is an Object with the inputs as properties
-    var newUser = {name, username, gender, email, password};
+    var newUser = {inputName, inputUsername, inputGender, inputEmail, inputPassword};
   
     //Work on that later
   //   var inputRepeatPassword = document.getElementById("repeatPassword");

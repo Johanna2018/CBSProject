@@ -1,5 +1,4 @@
 // We create a user class, so we have an easy way to create users and further implement features at a later stage
-
 class User {
 
     // The constructor for our class, which will allow us to create new objects of our class
@@ -12,11 +11,30 @@ class User {
       // this.lastAccess = null;
     }
   }
-  
-  //   // Function that allows us to set lastAccess to current time in unix time (Date.now())
-  //   setLastAccess(){
-  //     this.lastAccess = Date.now();
-  //   }
+
+// We create an empty array users, so we can push user obejcts in there, also needed if local storage is empty
+var users = [];
+
+// We push some users in the array to show log-in functionality, so we don´t need to register every time
+users.push(new User("Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty"));
+users.push(new User("Peter Pan", "milkway", "Male", "456@cbs.dk", "password"));
+
+// Loop through local storage array and create new User of User class
+// var Storage = JSON.parse(localStorage.getItem("users"));
+
+// for(i = 0; i < Storage.length; i++){
+//   var userValues = Object.values(Storage[i]);
+//   users.push(new User(userValues.values()));
+// }
+
+// push all elements that are stored in local storage into the users array
+Array.prototype.push.apply(users, JSON.parse(localStorage.getItem("users")));
+
+    // Function that allows us to set lastAccess to current time in unix time (Date.now())
+    // setLastAccess(){
+    //   this.lastAccess = Date.now();
+    // }
+
   
   //   // Simple function to hash passwords in order for us not to store then in clear text
   //   hashPassword(rawPassword){
@@ -36,20 +54,18 @@ class User {
   //     }
   //     return String(a);
   //   }
-  // }
+// }
   
   // We set a debug variable in order to switch on or off debug mode of our small program
 //   var debug = 1;
   
   // Initialize an empty array
-  var users = [];
+  // var users = [];
   
-  // Fill it up with a few users to show log-in functionality, so we don´t need to register new user every time
-  users.push(new User("Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty"));
-  users.push(new User("Peter Pan", "milkway", "Male", "456@cbs.dk", "password"));
+  // Fill it up with a few users
+  // users.push(new User("Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty"));
+  // users.push(new User("Peter Pan", "milkway", "Male", "456@cbs.dk", "password"));
 
-  // push all elements that are stored in local storage into the users array
-Array.prototype.push.apply(users, JSON.parse(localStorage.getItem("users")));
 
   
   // Bind the button to a variable for later use
@@ -68,7 +84,6 @@ Array.prototype.push.apply(users, JSON.parse(localStorage.getItem("users")));
     var inputPassword = document.getElementById("password").value;
     // console.log(inputEmail, inputPassword)
   
-
     if(inputEmail.length == 0 || inputPassword.length == 0){
       // We set the resultspan with a new text and return false to get out of this function
       resultSpan.innerText = "You need to enter your email address and password in order to use the website.";
@@ -86,21 +101,21 @@ Array.prototype.push.apply(users, JSON.parse(localStorage.getItem("users")));
     //     console.log(user);
     //   }
   
-      // // We use a try-catch for the hash-password function, since something could go wrong.
+      //  // We use a try-catch for the hash-password function, since something could go wrong.
       // try {
   
-      //   // We try to create a variable with the hashed version of the inputPassword
+      //  // We try to create a variable with the hashed version of the inputPassword
       //   var hashedInputPassword = user.hashPassword(inputPassword);
       // } catch(error){
   
-      //   // We console log any error that might have been thrown
+      //  // We console log any error that might have been thrown
       //   console.log(error);
       // }
   
       // If username and password we have in put matches the one in our loop
       if(user.email == inputEmail && user.password == inputPassword) {
   
-        // // Update the lastAccess of the user-object
+        // Update the lastAccess of the user-object
         // user.setLastAccess();
   
         // We set the resultspan with a new text and return true to get out of this function. The date will be in unixtime
@@ -114,6 +129,7 @@ Array.prototype.push.apply(users, JSON.parse(localStorage.getItem("users")));
         return true;
       }
     }
+  
   
     // We check if the user has tried to enter a wrong username and password too many times
     if(counter == 0){
