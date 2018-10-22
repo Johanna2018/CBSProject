@@ -3,16 +3,18 @@
 class User {
 
     // The constructor for our class, which will allow us to create new objects of our class
-    constructor(name, username, gender, email, password) {
+    constructor(name, username, gender, email, password, description, isLoggedIn) {
       this.name = name;
       this.username = username;
       this.gender = gender;
       this.email = email;
       this.password = password;
+      this.description = description;
+      this.isLoggedIn = false;
       // this.lastAccess = null;
     }
   }
-  
+
   //   // Function that allows us to set lastAccess to current time in unix time (Date.now())
   //   setLastAccess(){
   //     this.lastAccess = Date.now();
@@ -45,8 +47,11 @@ class User {
   var users = [];
   
   // Fill it up with a few users to show log-in functionality, so we don´t need to register new user every time
-  users.push(new User("Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty"));
-  users.push(new User("Peter Pan", "milkway", "Male", "456@cbs.dk", "password"));
+  users.push(new User("Johanna", "jojo", "Female", "jo@cbs.dk", "1234", "Blabla", false));
+  users.push(new User("Peter Pan", "milkway", "Male", "456@cbs.dk", "password", "Lorem ipsum dolor sit amet", false));
+  users.push(new User("Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty", "Lorem ipsum dolor sit amet", false));
+  users.push(new User("Tina", "tete", "Female", "tete@cbs.dk", "1111", "Lorem ipsum dolor sit amet", false));
+  
 
   // push all elements that are stored in local storage into the users array
 Array.prototype.push.apply(users, JSON.parse(localStorage.getItem("users")));
@@ -80,6 +85,7 @@ Array.prototype.push.apply(users, JSON.parse(localStorage.getItem("users")));
   
       // Bind user to a variable for easy use
       var user = users[i];
+      
   
       // If debug mode is enabled, we console.log the user object from the list
     //   if(debug == 1){
@@ -98,7 +104,7 @@ Array.prototype.push.apply(users, JSON.parse(localStorage.getItem("users")));
       // }
   
       // If username and password we have in put matches the one in our loop
-      if(user.email == inputEmail && user.password == inputPassword) {
+      if(user.email === inputEmail && user.password === inputPassword) {
   
         // // Update the lastAccess of the user-object
         // user.setLastAccess();
@@ -107,10 +113,16 @@ Array.prototype.push.apply(users, JSON.parse(localStorage.getItem("users")));
         // TODO: We wan't something better than unixtime for the user!
         // resultSpan.innerText = "Hi " + user.name + ", you've successfully entered the website at: "+user.lastAccess;
         
+        user.isLoggedIn = true;
+        //save (the current) user in localStorage to recall him/her later on profile page
+        // var userString = JSON.stringify(user);
+        // // to store you need ("key", value)
+        // localStorage.setItem("currentUser", userString);
+
         //redirecting to homepage
-        window.location = "homePage.html"; 
+        window.location = "profile.html"; 
   
-        // Return true to jump out of the function, since we now have all we need.
+        //Return true to jump out of the function, since we now have all we need.
         return true;
       }
     }

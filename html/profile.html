@@ -12,10 +12,10 @@
 
 <div>
         <label for="wholeName"> <b>Name: </b> </label>
-        <input type="text" name="wholeName" id="whole-name" placeholder="to be filled from js" /> <br>
+        <input type="text" name="wholeName" id="wholeName" placeholder="to be filled from js" /> <br>
        
         <label for="username"> <b> User Name:</b> </label>
-        <input type="text" name="userName" id="username" placeholder="to be filled from js" />
+        <input type="text" name="username" id="username" placeholder="to be filled from js" />
         <!-- What is the purpose of the name here? Do we need it?? -->
 
 </div>
@@ -46,6 +46,14 @@
 
 </div>
 
+<div>
+<button type="button" id="saveChanges">Save</button>
+</div>
+
+<div>
+<span id = "changeResult"></span>
+</div>
+
 <h2>Settings</h2>
 
 <label for = "password">Current password </label>
@@ -54,15 +62,23 @@
 <label for = "newPassword">New password </label>
 <input type= "password" name="newPassword" placeholder="to be filled by user"/> <br/>
 
-<label for = "confirmeNewPassword">Confirm new password </label>
+<label for = "confirmNewPassword">Confirm new password </label>
 <input type= "password" name="confirmNewPassword" placeholder="to be filled by user"/>
 
+<div>
+<button type="button" id="saveSettings">Save</button>
+</div>
 
+<div>
+<span id = "settingsResult"></span>
+</div>
 
+<div>
+<button type="button" id="logout">Log-out</button>
+</div>
 
-
-
-
+<script type="text/javascript" src="../scripts/login.js"></script>
+<script type="text/javascript" src="../scripts/profile.js"></script>
     
 </body>
 </html>

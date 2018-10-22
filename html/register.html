@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Registration</title>
 </head>
 <body>
-        <h2>Registration</h2>
+    <h1>My Vacation Map</h1>    
+    <h2>Registration</h2>
         <div>
             <label for="wholeName">Name: </label>
             <input id="wholeName" type="text"required>
@@ -25,6 +26,13 @@
             <label for="genderOther">Other</label>
             <input type="radio" id="genderOther" name="gender-choice" value="other"> 
         </div>
+
+        <div>
+            <label for="userDescription"> <b> Description/Bio </b>  </label>
+            <textarea cols= "30" rows="10" name="user-description" id="user-description" placeholder="Few words about yourself"></textarea>
+            
+        </div>
+
         <div>
             <label for="email">E-Mail: </label>
             <input id="email" type="text" required>
@@ -38,7 +46,10 @@
             <input id="repeatPassword" type="password" required>
         </div>
         <button type="button" id="register">Register</button>
-
+        
+        <div>
+        <span id="registerResult"></span>
+        </div>
 
     <script type="text/javascript" src="../scripts/register.js"></script>
 </body>
