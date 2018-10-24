@@ -1,20 +1,42 @@
+// We create a user class, so we have an easy way to create users and further implement features at a later stage
+
+class User {
+
+    // The constructor for our class, which will allow us to create new objects of our class
+    constructor(name, username, gender, email, password, description, isLoggedIn) {
+      this.name = name;
+      this.username = username;
+      this.gender = gender;
+      this.email = email;
+      this.password = password;
+      this.description = description;
+      this.isLoggedIn = isLoggedIn;
+      this.index = null;
+      // this.lastAccess = null;
+    }
+  }
+
+
+// Initialize an empty array
+var users = [];
+  
+// Fill it up with a few users to show log-in functionality, so we don´t need to register new user every time
+users.push(new User("Johanna", "jojo", "Female", "jo@cbs.dk", "1234", "Blabla", false));
+users.push(new User("Peter Pan", "milkway", "Male", "456@cbs.dk", "password", "Lorem ipsum dolor sit amet", false));
+users.push(new User("Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty", "Lorem ipsum dolor sit amet", false));
+users.push(new User("Tina", "tete", "Female", "tete@cbs.dk", "1111", "Lorem ipsum dolor sit amet", false));
+  
+
 // Bind the button to a variable for later use
 var register = document.getElementById("register");
 
-// var newUsers = [];
-//whatever is in local storage is assigned to var newUsers
-var newUsers = [];
-
-// if(JSON.parse(localStorage.getItem("users")) !== null){
-// newUsers.push(JSON.parse(localStorage.getItem("users")));
-// }
-
 // push all elements that are stored in local storage into the newUsers array
-    Array.prototype.push.apply(newUsers, JSON.parse(localStorage.getItem("users")));
+    // Array.prototype.push.apply(newUsers, JSON.parse(localStorage.getItem("users")));
   
 // Bind the span for result text for later use
 var resultSpanRegister = document.getElementById("registerResult");
 
+//TODO later:
 // Create a function with which validation of registration input can be checked
 // function checkForm(){ 
 //     //password needs to be between 8 to 20 characters long, contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character
@@ -48,39 +70,38 @@ register.onclick = function(){
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
   var repeatPassword = document.getElementById("repeatPassword").value;
+  //gender is empty string now, but will filled with value later
   var gender ="";
 
-  // TODO: Could use also drop down? Something different than if statements?
-  //Give inputGender a value, go through the radio buttons and look which is clicked
-    if(document.getElementById("genderMale").checked) {
-        gender = "Male";
-    }
-    if(document.getElementById("genderFemale").checked) {
-        gender = "Female";
-    } 
-    if (document.getElementById("genderOther").checked) {
-        gender = "Other";
-    }
-
+  //radios is an array because radio buttons have all the same name
+  var radios = document.getElementsByName("gender-choice");
+  //loop over the radio buttons because we need to get the value from the radio button that is checked 
+  for (var i = 0, length = radios.length; i < length; i++){
+   if (radios[i].checked){
+    // assign value from checked radio button to gender
+    gender = radios[i].value;
+    // only one radio can be logically checked, don't check the rest
+    break;
+   }
+  }
     var description = document.getElementById("user-description").value;
     var isLoggedIn = false;
-// check if they are all filled out and password equals repeated password
-  if(name && username && email && gender && (password === repeatPassword)){
-    // newUser is an Object with the inputs as properties
-    var newUser = {name, username, gender, email, password, description, isLoggedIn};
+    // check if they are all filled out and password equals repeated password
+    if(name && username && email && gender && (password === repeatPassword)){
+
+    // push the new registered user in the user array, newUser makes it part of the user class
+    users.push(new User(name, username, gender, email, password, description, isLoggedIn));
   
-    //Work on that later
-  //   var inputRepeatPassword = document.getElementById("repeatPassword");
+    //TODO: Work on that later
+    //var inputRepeatPassword = document.getElementById("repeatPassword");
+ 
+//store updated users array in local storage, store(y, keyname) 
+//keyName --> make sure keyName is always String, need to remember for later use, y --> array
+store(users, "users");
+//does the same as this
+    //var usersString = JSON.stringify(users);
+    //localStorage.setItem("users", usersString);
   
-
-  //push newUser into array newUsers
-  newUsers.push(newUser);
-
-  // JSON.stringify makes a string out of the variable (in this case --> object newUser), to store it in the local storage
-  var newUsersString = JSON.stringify(newUsers);
-
-  // to store you need ("key", value)
-  localStorage.setItem("users", newUsersString);
 
   //redirecting to login page
   window.location = "login.html"; 

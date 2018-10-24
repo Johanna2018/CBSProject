@@ -1,25 +1,4 @@
-// We create a user class, so we have an easy way to create users and further implement features at a later stage
-
-class User {
-
-    // The constructor for our class, which will allow us to create new objects of our class
-    constructor(name, username, gender, email, password, description, isLoggedIn) {
-      this.name = name;
-      this.username = username;
-      this.gender = gender;
-      this.email = email;
-      this.password = password;
-      this.description = description;
-      this.isLoggedIn = false;
-      // this.lastAccess = null;
-    }
-  }
-
-  //   // Function that allows us to set lastAccess to current time in unix time (Date.now())
-  //   setLastAccess(){
-  //     this.lastAccess = Date.now();
-  //   }
-  
+//TODO: Hash password funtion
   //   // Simple function to hash passwords in order for us not to store then in clear text
   //   hashPassword(rawPassword){
   //     var a = 1, c = 0, h, o;
@@ -42,26 +21,17 @@ class User {
   
   // We set a debug variable in order to switch on or off debug mode of our small program
 //   var debug = 1;
-  
-  // Initialize an empty array
-  var users = [];
-  
-  // Fill it up with a few users to show log-in functionality, so we don´t need to register new user every time
-  users.push(new User("Johanna", "jojo", "Female", "jo@cbs.dk", "1234", "Blabla", false));
-  users.push(new User("Peter Pan", "milkway", "Male", "456@cbs.dk", "password", "Lorem ipsum dolor sit amet", false));
-  users.push(new User("Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty", "Lorem ipsum dolor sit amet", false));
-  users.push(new User("Tina", "tete", "Female", "tete@cbs.dk", "1111", "Lorem ipsum dolor sit amet", false));
-  
+ 
+  //use getStorage function to get users from local storage 
+  //assging it to users variable  
+  //is the same as var users = JSON.parse(localStorage.getItem("users"));
+  var users = getStorage("users");
 
-  // push all elements that are stored in local storage into the users array
-Array.prototype.push.apply(users, JSON.parse(localStorage.getItem("users")));
-
-  
   // Bind the button to a variable for later use
   var login = document.getElementById("login");
   
   // Bind the span for result text for later use
-    var resultSpan = document.getElementById("loginResult");
+  var resultSpan = document.getElementById("loginResult");
   
   // Bind a counter in order to see if the user has tried to login too many times
   var counter = 3;
@@ -103,21 +73,22 @@ Array.prototype.push.apply(users, JSON.parse(localStorage.getItem("users")));
       //   console.log(error);
       // }
   
-      // If username and password we have in put matches the one in our loop
-      if(user.email === inputEmail && user.password === inputPassword) {
+        // If username and password we have in put matches the one in our loop
+        if(user.email === inputEmail && user.password === inputPassword) {
   
-        // // Update the lastAccess of the user-object
-        // user.setLastAccess();
-  
-        // We set the resultspan with a new text and return true to get out of this function. The date will be in unixtime
-        // TODO: We wan't something better than unixtime for the user!
-        // resultSpan.innerText = "Hi " + user.name + ", you've successfully entered the website at: "+user.lastAccess;
-        
+      
+        //set property isLoggedIn of user object to true, so we can see later (in profile) which user is currently logged in
         user.isLoggedIn = true;
-        //save (the current) user in localStorage to recall him/her later on profile page
-        // var userString = JSON.stringify(user);
-        // // to store you need ("key", value)
-        // localStorage.setItem("currentUser", userString);
+
+        //set property of user object to i, so it can be used to find the current user later in users array
+        user.index = i;
+
+        //store updated users array in local storage, store(y, keyname) 
+        //keyName --> make sure keyName is always String, need to remember for later use, y --> array
+        store(users, "users");
+        //store the logged in user in local storage, store(y, keyname) 
+        //keyName --> make sure keyName is always String, need to remember for later use, y --> object
+        store(user, "currentUser");
 
         //redirecting to homepage
         window.location = "profile.html"; 
