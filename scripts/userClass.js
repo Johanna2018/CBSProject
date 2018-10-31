@@ -3,7 +3,7 @@
 class User {
 
     // The constructor for our class, which will allow us to create new objects of our class
-    constructor(name, username, gender, email, password, description, isLoggedIn) {
+    constructor(name, username, gender, email, password, description, isLoggedIn, vacations) {
       this.name = name;
       this.username = username;
       this.gender = gender;
@@ -12,6 +12,7 @@ class User {
       this.description = description;
       this.isLoggedIn = isLoggedIn;
       this.index = null;
+      this.vacations = vacations;
       // this.lastAccess = null;
     }
   }

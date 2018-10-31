@@ -2,10 +2,10 @@
 var users = [];
   
 // Fill it up with a few users to show log-in functionality, so we don´t need to register new user every time
-users.push(new User("Johanna", "jojo", "Female", "jo@cbs.dk", "1234", "Blabla", false));
-users.push(new User("Peter Pan", "milkway", "Male", "456@cbs.dk", "password", "Lorem ipsum dolor sit amet", false));
-users.push(new User("Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty", "Lorem ipsum dolor sit amet", false));
-users.push(new User("Tina", "tete", "Female", "tete@cbs.dk", "1111", "Lorem ipsum dolor sit amet", false));
+users.push(new User("Johanna", "jojo", "Female", "jo@cbs.dk", "1234", "Blabla", false, [1,2,3]));
+users.push(new User("Peter Pan", "milkway", "Male", "456@cbs.dk", "password", "Lorem ipsum dolor sit amet", false, [1,2,3]));
+users.push(new User("Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty", "Lorem ipsum dolor sit amet", false, [1,2,3]));
+users.push(new User("Tina", "tete", "Female", "tete@cbs.dk", "1111", "Lorem ipsum dolor sit amet", false, [1,2,3]));
   
 
 // Bind the button to a variable for later use
@@ -15,7 +15,7 @@ var register = document.getElementById("register");
     // Array.prototype.push.apply(newUsers, JSON.parse(localStorage.getItem("users")));
   
 // Bind the span for result text for later use
-var resultSpanRegister = document.getElementById("registerResult");
+// var resultSpanRegister = document.getElementById("registerResult");
 
 //TODO later:
 // Create a function with which validation of registration input can be checked
@@ -67,11 +67,13 @@ register.onclick = function(){
   }
     var description = document.getElementById("user-description").value;
     var isLoggedIn = false;
+    //empty array for vacations, because when registering, no vacations exist yet
+    var vacations = [];
     // check if they are all filled out and password equals repeated password
     if(name && username && email && gender && (password === repeatPassword)){
 
     // push the new registered user in the user array, newUser makes it part of the user class
-    users.push(new User(name, username, gender, email, password, description, isLoggedIn));
+    users.push(new User(name, username, gender, email, password, description, isLoggedIn, vacations));
   
     //TODO: Work on that later
     //var inputRepeatPassword = document.getElementById("repeatPassword");
