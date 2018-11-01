@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Vacation Page</title>
     <script type="text/javascript" src="../scripts/util.js"></script>
+    <script type="text/javascript" src="../scripts/vacationsClass.js"></script>
     
 </head>
 <body>
@@ -45,7 +46,20 @@
       </table> -->
     
     <div>
-    <button type="button" id="saveVac">Save</button>
+        <label for="publish">Publish your map </label>
+        <input id="publish" type="checkbox">
+    </div>
+
+    <div>
+        <label for="tags">Tags </label>
+        <input id="tags" placeholder="Choose tags for your vacation" type="text">
+        <div>
+            <span id="tagSpan">One tag can only be one word. Please seperate the tags with an #</span>
+        </div>
+    </div>  
+
+    <div>
+        <button type="button" id="saveVac">Save</button>
     </div>
 
     <script type="text/javascript" src="../scripts/createVacation.js"></script>

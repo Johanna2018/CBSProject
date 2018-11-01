@@ -91,7 +91,7 @@
         store(user, "currentUser");
 
         //redirecting to homepage
-        window.location = "profile.html"; 
+        window.location = "homePage.html"; 
   
         //Return true to jump out of the function, since we now have all we need.
         return true;

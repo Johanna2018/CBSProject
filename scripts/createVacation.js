@@ -26,24 +26,32 @@ saveVac.onclick = function(){
     // Bind the input fields and get the value
     var title = document.getElementById("vacTitle").value;
     var description = document.getElementById("vacDescription").value;
-    var pins = [];
-    var isSelected = true;
+   //TODO: what is mapPosition and zoom? How can I get it?
+    // var mapPosition = "";
+    // var zoom = "";
+    // var pins = [];
+    var isSelected = false;
+    if (document.getElementById("publish").checked == true){
+        var isPublished = true;
+    }
+    //get input from tag input in HTML, .split splits the input after whatever you put in here ("")
+    var tags = document.getElementById("tags").value.split(",");
+    
    
-// push the new vacation in the vacations array, new Vacation makes it part of the Vacation class   
-// vacations.push(new Vacation(title, description, pins, isSelected));
-
-var newVacation = {title, description, pins, isSelected};
-// vacations.push(newVacation);
+        
+// push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
+//TODO: put mapPosition and zoom and pins in here 
+var currentVac = (new Vacation(title, description, isSelected, isPublished, tags));
 
 //push newVacation into vacations array in currentUser Object 
-currentUser.vacations.push(newVacation);
+currentUser.vacations.push(currentVac);
 
 //update changes of user in users array
 users[currentUser.index] = currentUser;
 
-//store updated vacations array in local storage, store(y, keyname) 
-//keyName --> make sure keyName is always String, need to remember for later use, y --> array
-// store(vacations, "vacations");
+// store new vacation in local storage, store(y, keyname) 
+// keyName --> make sure keyName is always String, need to remember for later use, y --> variable 
+store(currentVac, "currentVac");
 
 
 //store updated users array in local storage, make sure keyName is always String!
