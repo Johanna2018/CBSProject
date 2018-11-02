@@ -17,6 +17,12 @@
 var users = getStorage("users");
 var currentUser = getStorage("currentUser");
 
+var publishedVac = getStorage("publishedVac");
+  
+// if the localStorgae is empty, because we came directly to login (without registration), we need to fill the users array with hardcoded users
+if (publishedVac === null){
+  //Define users as an empty arrayfor later --> to store published vacations in localStorage, because you cannot push into an variable which is null
+  var publishedVac = [];}
 // Bind the button to a variable for later use
 var saveVac = document.getElementById("saveVac");
 
@@ -35,6 +41,7 @@ saveVac.onclick = function(){
         var isPublished = true;
     }
     //get input from tag input in HTML, .split splits the input after whatever you put in here ("")
+    //makes automatically an array out of it
     var tags = document.getElementById("tags").value.split(",");
     
    
@@ -46,24 +53,86 @@ var currentVac = (new Vacation(title, description, isSelected, isPublished, tags
 //push newVacation into vacations array in currentUser Object 
 currentUser.vacations.push(currentVac);
 
-//update changes of user in users array
-users[currentUser.index] = currentUser;
+
+// We loop over the vacations array in the currentUser object to find out on which position the currentVacation is
+for(var i = 0; i < currentUser.vacations.length; i++) {
+    if(currentVac.title === currentUser.vacations.title){
+    currentVac.index = i;
+}
+}
+
+//if the user wants to publish the current vacation the property isPublished of the currentVac object is true
+//Only if it is true the currentVac will be pushed (as an object of the Vacation class) into the publishedVac array we initialized earlier
+if(currentVac.isPublished === true){
+    publishedVac.push(new Vacation(title, description, isSelected, isPublished, tags));
+    }
+
+//update changes of currentVac in currentUser.vacations array
+currentUser.vacations[currentVac.index] = currentVac;
+
+//TODO: this will be needed when we want to edit vacations
+// currentUser.vacations[currentVac.index] = currentVac
+  
+//     // Bind user to a variable for easy use
+//     var user = users[i];
+//  //set property of user object to i, so it can be used to find the current user later in users array
+//  user.index = i;
 
 // store new vacation in local storage, store(y, keyname) 
 // keyName --> make sure keyName is always String, need to remember for later use, y --> variable 
 store(currentVac, "currentVac");
 
+//we store the publishedVac array in the local storage
+// store new vacation in local storage, store(y, keyname) 
+// keyName --> make sure keyName is always String, need to remember for later use, y --> array 
+store(publishedVac, "publishedVac");
+
+//store updated currentUser object in local storage, make sure keyName is always String! 
+//keyName --> you need it to recall it later!
+store(currentUser, "currentUser");
+
+//update changes of user in users array
+users[currentUser.index] = currentUser;
 
 //store updated users array in local storage, make sure keyName is always String!
 //keyName --> you need it to recall it later!
 store(users, "users");
 
-//store updated currentUser object in local storage, make sure keyName is always String! 
-//keyName --> you need it to recall it later!
-store(currentUser, "currentUser");
 }
 
+// Bind the button from HTML to a variable for later use    
+var home = document.getElementById("home");
+//make a function to save to home, when button is clicked
+home.onclick = function(){
+    //redirecting to log out page
+    window.location = "homePage.html"; 
+    //Return true to jump out of the function, since we now have all we need.
+    return true;
+}
 
+// Bind the button from HTML to a variable for later use    
+var myVac = document.getElementById("myVac");
+//make a function to save to home, when button is clicked
+myVac.onclick = function(){
+    //redirecting to log out page
+    window.location = "myVacations.html"; 
+    //Return true to jump out of the function, since we now have all we need.
+    return true;
+}
+
+// Bind the button from HTML to a variable for later use    
+var logout = document.getElementById("logout");
+//make a function to save to logout, when button is clicked
+logout.onclick = function(){
+    //set variable isLoggedIn to false
+    currentUser.isLoggedIn = false;
+    
+    //redirecting to log out page
+    window.location = "logout.html"; 
+  
+    //Return true to jump out of the function, since we now have all we need.
+    return true;
+}
 
 
 

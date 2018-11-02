@@ -19,3 +19,17 @@ home.onclick = function(){
     //Return true to jump out of the function, since we now have all we need.
     return true;
 }
+
+// Bind the button from HTML to a variable for later use    
+var logout = document.getElementById("logout");
+//make a function to save to logout, when button is clicked
+logout.onclick = function(){
+    //set variable isLoggedIn to false
+    currentUser.isLoggedIn = false;
+    
+    //redirecting to log out page
+    window.location = "logout.html"; 
+  
+    //Return true to jump out of the function, since we now have all we need.
+    return true;
+}

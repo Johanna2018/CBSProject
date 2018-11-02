@@ -22,10 +22,25 @@
   // We set a debug variable in order to switch on or off debug mode of our small program
 //   var debug = 1;
  
-  //use getStorage function to get users from local storage 
-  //assging it to users variable  
-  //is the same as var users = JSON.parse(localStorage.getItem("users"));
-  var users = getStorage("users");
+
+//use getStorage function to get users from local storage --> if someone registered
+//assging it to users variable  
+//is the same as var users = JSON.parse(localStorage.getItem("users"));
+var users = getStorage("users");
+  
+// if the localStorgae is empty, because we came directly to login (without registration), we need to fill the users array with hardcoded users
+if (users == null){
+  //Define users as an empty array, because you cannot push into an variable which is null
+  var users = [];}
+  // Fill it up with a few users to show log-in functionality, so we don´t need to register new user every time
+  users.push(new User("Johanna", "jojo", "Female", "jo@cbs.dk", "1234", "Blabla", false, [1,2,3]));
+  users.push(new User("Peter Pan", "milkway", "Male", "456@cbs.dk", "password", "Lorem ipsum dolor sit amet", false, [1,2,3]));
+  users.push(new User("Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty", "Lorem ipsum dolor sit amet", false, [1,2,3]));
+  users.push(new User("Tina", "tete", "Female", "tete@cbs.dk", "1111", "Lorem ipsum dolor sit amet", false, [1,2,3]));
+  
+//store updated users array in local storage, store(y, keyname) 
+//keyName --> make sure keyName is always String, need to remember for later use, y --> array
+store(users, "users");
 
   // Bind the button to a variable for later use
   var login = document.getElementById("login");
