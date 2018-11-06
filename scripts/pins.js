@@ -36,7 +36,7 @@ var recentMarker;
             "<option value='Hotel'>Hotel</option>" +
             "<option value='Other'>Other</option>" +
             "</select> </td></tr>" +
-            "<tr><td></td><td><input type='button' value='Save' onclick='saveStuff()' /></td></tr></table></div><div id='message' style='visibility: hidden;  '><b>Location saved!</b></div>";
+            "<tr><td></td><td><input type='button' value='Save' onclick='savePin()' /></td></tr></table></div><div id='message' style='visibility: hidden;  '><b>Location saved!</b></div>";
 
             // connect infowindow with the set contenString
             infowindow = new google.maps.InfoWindow({
@@ -50,7 +50,7 @@ var recentMarker;
                     map: map
                 });
 
-                // displays an info window when the user created marker
+                // displays an info window when the user created marker ???
                 infowindow.open(map, marker);
                 
                 // set current marker variable to `normal´ marker variable 
@@ -69,25 +69,29 @@ var pinIndex = 0;
 
 //Now it is time to safe the set pins!!!
         // save marker data
-        function saveStuff() {
+        function savePin() {
 
-            //???
+            //We need message to show "location saved" after clicking the Save button
             document.getElementById('message').style.visibility = "visible";
+            
+            //??? find out what an "inline is"
             document.getElementById("toggle").style.display = "inline";
 
 
             // create variable pinObjectsString to check if any pin already exists
-            var pinObjectsString = localStorage.getItem('pinObjectsString');
+            ////var pinObjectsString = JSON.parse(localStorage.getItem('pinObjectsString'));
+            var pinObjectsString = getStorage("pinObjectsString");
 
-            // data will be safed in empty variable pinObjects
+            // ???data will be safed in empty variable pinObjects --> why do we have to set an empoty string again?
             var pinObjects = [];
 
             // if loop: if pinObjectsString is unequal zero, we know that already a pin exists!
             if (pinObjectsString != null) {
 
                 //save pinObjectsString in pinObjects to retrieve the data later
-                pinObjects = JSON.parse(pinObjectsString);
-                
+                ////pinObjects = JSON.parse(localStorage.getItem("pinObjectsString"));
+                pinObjects = getStorage("pinObjectsString");
+
                 //??? --> I deleted it from the script and it still works... maybe no need for that?
                 pinIndex = pinObjects.length;
             }
@@ -113,10 +117,16 @@ var pinIndex = 0;
 
             // now, store pin in (existing) pinObjects array
             pinObjects[pinIndex] = selectedPin;
+            
+            //??? Why do we need the Index++ again? 
             pinIndex++;
 
+            // push the pin in the user array, new Pin makes it part of the pin class
+            pinObjects.push(new Pin(name, comment, type, latlng));
+
             // store stringified pins 
-            localStorage.setItem('pinObjectsString', JSON.stringify(pinObjects));
+            ////localStorage.setItem('pinObjectsString', JSON.stringify(pinObjects));
+            store(pinObjects, "pinObjectsString");
 
             // display info window and "LOCATION SAVED" for 1 second, then dismiss
             setTimeout(function() {
@@ -137,13 +147,16 @@ var pinIndex = 0;
 
         // callback function to retrieve markers
         function start() {
-
+              
             //With getItem we retrieve the data from the localStorage and put it back into the pinobjectsString. After that the PinObjectsString Data will be put into the PinObjects variable
-            var pinObjectsString = localStorage.getItem('pinObjectsString');
-            var pinObjects = JSON.parse(pinObjectsString);
+            ////var pinObjectsString = JSON.parse(localStorage.getItem('pinObjectsString'));
+            var pinObjectsString = getStorage("pinObjectsString")
+
+            ////var pinObjects = JSON.parse(localStorage.getItem('pinObjectsString'));
+            var pinObjects = getStorage("pinObjectsString")
 
             // if no markers are saved, initialize empty map
-            if (pinObjects == null || pinObjects.length == 0) {
+            if (pinObjects == null || pinObjects.length == 0){
                 initMap();
                 return;
             }
@@ -162,7 +175,7 @@ var pinIndex = 0;
                 var latlng = currentMarker.latlng;
 
 
-                // Now we take the collected data from above and create a marker (var retrievedMarkers) to display them later
+                // ??? Now we take the collected data from above and create a marker (var retrievedMarkers) to display them later
                 retrievedMarkers[i] = new google.maps.Marker({
                     position: currentMarker.latlng,
                     map: map,
@@ -170,7 +183,7 @@ var pinIndex = 0;
                 });
             }
 
-            // add displaying of markers to the event queue
+            // add displaying of markers to the event queue --> 0 means that the pins show up after 0 seconds... so its about displaying the pins
             setTimeout(function() {
                 showMarkers(pinObjects);
             }, 0);
@@ -178,7 +191,7 @@ var pinIndex = 0;
             initMap();
         }
 
-        // display markers retrieved from the localstorage
+        // ??? --> Why using function showMarkers?  Display markers retrieved from the localstorage
         function showMarkers(pinObjects) {
 
             // value of i is passed into a closure 
@@ -222,9 +235,10 @@ var pinIndex = 0;
 
         }
 
-        // delete local storage to remove saved markers
+        // ??? delete local storage to remove saved markers --> When is the function actually called? Will it delete everything in the local storage?
         function clearStorage() {
-            localStorage.clear();
+            ////localStorage.clear();
+            localStorage.removeItem("pinObjectsString")
             location.reload();
         }
 
