@@ -17,17 +17,45 @@
 var users = getStorage("users");
 var currentUser = getStorage("currentUser");
 
-var publishedVac = getStorage("publishedVac");
+// var publishedVac = getStorage("publishedVac");
+// Henrik said it is smarter to have an array with all vacations and find the published ones with a loop (isPubished)
+var allVac = getStorage("allVac");
   
+// // if the localStorgae is empty, because we came directly to login (without registration), we need to fill the users array with hardcoded users
+// if (publishedVac === null){
+//   //Define users as an empty arrayfor later --> to store published vacations in localStorage, because you cannot push into an variable which is null
+//   var publishedVac = [];}
+
 // if the localStorgae is empty, because we came directly to login (without registration), we need to fill the users array with hardcoded users
-if (publishedVac === null){
-  //Define users as an empty arrayfor later --> to store published vacations in localStorage, because you cannot push into an variable which is null
-  var publishedVac = [];}
+if (allVac === null){
+    //Define users as an empty array for later --> to store all vacations in localStorage, because you cannot push into an variable which is null
+    var allVac = [];}
+
 // Bind the button to a variable for later use
 var saveVac = document.getElementById("saveVac");
 
 // Bind the onClick-function to our own function --> could also use an Event listener
 saveVac.onclick = function(){
+
+    //TODO: Make this work!!!
+//     // Generate an ID with function
+//     function getNextId(){
+//     // Loop over array 
+//     // Make sure when calling this function that the array filled with data from localStorage
+//     for(i = 0; i < allVac.length; i++){
+//     // Find the biggest id and add one
+//     if(allVac[i].id !== undefined){
+//         var result = Math.max(allVac[i].id) + 1;
+//         return result;
+//     }else{
+//     return 0;
+//     }
+// }
+// }
+
+    // generated ID with getNextId function (in util.js defined)
+    var id = getNextId();
+    
 
     // Bind the input fields and get the value
     var title = document.getElementById("vacTitle").value;
@@ -48,27 +76,28 @@ saveVac.onclick = function(){
         
 // push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
 //TODO: put mapPosition and zoom and pins in here 
-var currentVac = (new Vacation(title, description, isSelected, isPublished, tags));
+var currentVac = new Vacation(id, title, description, isSelected, isPublished, tags);
 
 //push newVacation into vacations array in currentUser Object 
 currentUser.vacations.push(currentVac);
+allVac.push(currentVac);
 
 
-// We loop over the vacations array in the currentUser object to find out on which position the currentVacation is
-for(var i = 0; i < currentUser.vacations.length; i++) {
-    if(currentVac.title === currentUser.vacations.title){
-    currentVac.index = i;
-}
-}
+// // We loop over the vacations array in the currentUser object to find out on which position the currentVacation is
+// for(var i = 0; i < currentUser.vacations.length; i++) {
+//     if(currentVac.title === currentUser.vacations.title){
+//     currentVac.index = i;
+// }
+// }
 
-//if the user wants to publish the current vacation the property isPublished of the currentVac object is true
-//Only if it is true the currentVac will be pushed (as an object of the Vacation class) into the publishedVac array we initialized earlier
-if(currentVac.isPublished === true){
-    publishedVac.push(new Vacation(title, description, isSelected, isPublished, tags));
-    }
+// //if the user wants to publish the current vacation the property isPublished of the currentVac object is true
+// //Only if it is true the currentVac will be pushed (as an object of the Vacation class) into the publishedVac array we initialized earlier
+// if(currentVac.isPublished === true){
+//     publishedVac.push(new Vacation(title, description, isSelected, isPublished, tags));
+//     }
 
 //update changes of currentVac in currentUser.vacations array
-currentUser.vacations[currentVac.index] = currentVac;
+// currentUser.vacations.id[currentVac.id] = currentVac;
 
 //TODO: this will be needed when we want to edit vacations
 // currentUser.vacations[currentVac.index] = currentVac
@@ -82,10 +111,15 @@ currentUser.vacations[currentVac.index] = currentVac;
 // keyName --> make sure keyName is always String, need to remember for later use, y --> variable 
 store(currentVac, "currentVac");
 
-//we store the publishedVac array in the local storage
+// //we store the publishedVac array in the local storage
+// // store new vacation in local storage, store(y, keyname) 
+// // keyName --> make sure keyName is always String, need to remember for later use, y --> array 
+// store(publishedVac, "publishedVac");
+
+//we store the allVac array in the local storage
 // store new vacation in local storage, store(y, keyname) 
 // keyName --> make sure keyName is always String, need to remember for later use, y --> array 
-store(publishedVac, "publishedVac");
+store(allVac, "allVac");
 
 //store updated currentUser object in local storage, make sure keyName is always String! 
 //keyName --> you need it to recall it later!
@@ -133,8 +167,3 @@ logout.onclick = function(){
     //Return true to jump out of the function, since we now have all we need.
     return true;
 }
-
-
-
-
-
