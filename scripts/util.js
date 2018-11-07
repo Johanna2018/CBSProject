@@ -17,15 +17,20 @@ function getStorage(keyName){
 }
 
 
-// // Generate an ID with function
-// function getNextId(arr){
-//     // Loop over array 
-//     // Make sure when calling this function that the array filled with data from localStorage
-//     for(i = 0; i <= arr.length; i++){
-//     // Find the biggest id and add one
-//     Math.max(arr[i].id)
-//     var result = Math.max(arr[i].id) + 1;
-//     }
-//     return result;
-
-// }
+function getNextId(arr){
+    // Generate an ID with function
+    // set variable max to 0
+    var max = 0;
+    // Loop over array 
+    // Make sure when calling this function that the array filled with data from localStorage
+    for(i = 0; i < arr.length; i++){
+        // Find the biggest id and add one
+        // Has to be >= max, because the allVac array could be 0, if non vacation yet
+            if(arr[i].id >= max){
+            // Set max to one more than biggest existing id
+                max = arr[i].id + 1;
+            }
+        
+    }
+    return max;
+}

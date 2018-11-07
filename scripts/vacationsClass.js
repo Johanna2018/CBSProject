@@ -1,10 +1,11 @@
 
 class Vacation {
     //Constructor allows us to create new objects in this class (with these properties)
-       constructor (id, title, description, isSelected, isPublished, tags){
+       constructor (id, title, description, pins, isSelected, isPublished, tags){
            this.id = id;
            this.title = title;
            this.description = description;
+           this.pins = pins;
            this.isSelected = isSelected;
            this.isPublished = isPublished;
            this.tags = tags;

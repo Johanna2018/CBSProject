@@ -47,6 +47,7 @@ var register = document.getElementById("register");
 register.onclick = function(){
 
   // Bind the input fields and get the value
+  var id = getNextId(users);
   var name = document.getElementById("wholeName").value;
   var username = document.getElementById("username").value;
   var email = document.getElementById("email").value;
@@ -74,7 +75,7 @@ register.onclick = function(){
     if(name && username && email && gender && (password === repeatPassword)){
 
     // push the new registered user in the user array, newUser makes it part of the user class
-    users.push(new User(name, username, gender, email, password, description, isLoggedIn, vacations));
+    users.push(new User(id, name, username, gender, email, password, description, isLoggedIn, vacations));
   
     //TODO: Work on that later
     //var inputRepeatPassword = document.getElementById("repeatPassword");
