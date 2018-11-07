@@ -37,26 +37,25 @@ var saveVac = document.getElementById("saveVac");
 // Bind the onClick-function to our own function --> could also use an Event listener
 saveVac.onclick = function(){
 
-
- function getNextId(){
-    // TODO: Make this work!!!
-    // Generate an ID with function
-    var max = 0;
-    // Loop over array 
-    // Make sure when calling this function that the array filled with data from localStorage
-    for(i = 0; i < allVac.length; i++){
-        // Find the biggest id and add one
-            if(allVac[i].id >= max){
-                max = allVac[i].id + 1;
-            }
+// Put it in util 
+//  function getNextId(){
+//     // TODO: Make this work!!!
+//     // Generate an ID with function
+//     var max = 0;
+//     // Loop over array 
+//     // Make sure when calling this function that the array filled with data from localStorage
+//     for(i = 0; i < allVac.length; i++){
+//         // Find the biggest id and add one
+//             if(allVac[i].id >= max){
+//                 max = allVac[i].id + 1;
+//             }
         
-    }
-    console.log(max)
-    return max;
-}
+//     }
+//     return max;
+// }
 
     // generated ID with getNextId function (in util.js defined)
-    var id = getNextId();
+    var id = getNextId(allVac);
     
 
     // Bind the input fields and get the value
@@ -84,19 +83,6 @@ var currentVac = new Vacation(id, title, description, isSelected, isPublished, t
 currentUser.vacations.push(currentVac);
 allVac.push(currentVac);
 
-
-// // We loop over the vacations array in the currentUser object to find out on which position the currentVacation is
-// for(var i = 0; i < currentUser.vacations.length; i++) {
-//     if(currentVac.title === currentUser.vacations.title){
-//     currentVac.index = i;
-// }
-// }
-
-// //if the user wants to publish the current vacation the property isPublished of the currentVac object is true
-// //Only if it is true the currentVac will be pushed (as an object of the Vacation class) into the publishedVac array we initialized earlier
-// if(currentVac.isPublished === true){
-//     publishedVac.push(new Vacation(title, description, isSelected, isPublished, tags));
-//     }
 
 //update changes of currentVac in currentUser.vacations array
 // currentUser.vacations.id[currentVac.id] = currentVac;

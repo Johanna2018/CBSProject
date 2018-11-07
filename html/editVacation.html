@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vacation Page</title>
+    <script type="text/javascript" src="../scripts/util.js"></script>
+    <script type="text/javascript" src="../scripts/vacationsClass.js"></script>
+    
+</head>
+<body>
+    <h1>Create a New Vacation</h1>
+
+    <div>
+        <label for="vacTitle">Title: </label>
+        <input id="vacTitle" placeholder="to be filled from js" type="text">
+    </div>
+
+    <div>
+        <label for="vacDescription">Description: </label>
+        <textarea cols= "30" rows="10" id="vacDescription" placeholder="to be filled from js"></textarea>
+    </div>
+
+    <div id="map" height="460px" width="100%"></div>
+    <div>
+    
+        <!-- This is for the pins -->
+      <!-- <table>
+      <tr><td>Name:</td> <td><input type="text" id="pinName"/> </td></tr>
+      <tr><td>Comment:</td> <td><input type="text2 id="pinComment"/> </td> </tr>
+      <tr><td>Type:</td> <td><select id="pinType">
+                 <option value="viewpoint" SELECTED>Viewpoint</option>
+                 <option value="restaurant">Restaurant</option>
+                 <option value="bar">Bar</option>
+                 <option value="shopping mall">Shop</option>
+                 <option value="cafe">Café</option>
+                 <option value="museum">Museum</option>
+                 <option value="sight">Sight</option>
+                 <option value="other">Other</option>
+                 </select> </td></tr>
+                 <tr><td></td><td><button id="pinSave" onclick="saveData()">Save</button></td></tr>
+                 Need to change the function here in cancel
+                 <tr><td></td><td><button id="pinCancel" onclick="saveData()">Cancel</button></td></tr>
+                 
+      </table> -->
+    
+    <div>
+        <label for="publish">Publish your map </label>
+        <input id="publish" type="checkbox">
+    </div>
+
+    <div>
+        <label for="tags">Tags </label>
+        <input id="tags" placeholder="to be filled from js" type="text">
+        <div>
+            <span id="tagSpan">One tag can only be one word. Please seperate the tags with an #</span>
+        </div>
+    </div>  
+
+    <div>
+        <button type="button" id="saveChanges">Save</button>
+    </div>
+
+    <div>
+        <button type="button" id="home">Home</button>
+    </div>
+        
+    <div>
+        <button type="button" id="myVac">My Vacations</button>
+    </div>
+        
+    <div>
+        <button type="button" id="logout">Log-out</button>
+    </div>
+
+    <script type="text/javascript" src="../scripts/editVacation.js"></script>
+</body>
+</html>
