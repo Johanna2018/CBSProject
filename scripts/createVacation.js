@@ -37,21 +37,23 @@ var saveVac = document.getElementById("saveVac");
 // Bind the onClick-function to our own function --> could also use an Event listener
 saveVac.onclick = function(){
 
-    //TODO: Make this work!!!
-//     // Generate an ID with function
-//     function getNextId(){
-//     // Loop over array 
-//     // Make sure when calling this function that the array filled with data from localStorage
-//     for(i = 0; i < allVac.length; i++){
-//     // Find the biggest id and add one
-//     if(allVac[i].id !== undefined){
-//         var result = Math.max(allVac[i].id) + 1;
-//         return result;
-//     }else{
-//     return 0;
-//     }
-// }
-// }
+
+ function getNextId(){
+    // TODO: Make this work!!!
+    // Generate an ID with function
+    var max = 0;
+    // Loop over array 
+    // Make sure when calling this function that the array filled with data from localStorage
+    for(i = 0; i < allVac.length; i++){
+        // Find the biggest id and add one
+        if(allVac[i].id !== undefined){
+            if(allVac[i].id > max){
+                max = allVac[i].id;
+            }
+        }
+    }
+    return max;
+}
 
     // generated ID with getNextId function (in util.js defined)
     var id = getNextId();
