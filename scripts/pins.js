@@ -196,6 +196,7 @@ if (pinObjects == null){
                 (function(index) {
 
                     //set Map for all Objects in the retrievedPins array (here we need those more information we do not have in pinObjects)
+                    allMarkers.push(retrievedPins[i]);
                     retrievedPins[i].setMap(map);
                     var name = pinObjects[i].name;
                     var comment = pinObjects[i].comment;
