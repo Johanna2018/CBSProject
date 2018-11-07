@@ -73,6 +73,7 @@ saveVac.onclick = function(){
     //makes automatically an array out of it
     var tags = document.getElementById("tags").value.split(",");
     
+    
    
         
 // push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
