@@ -1,6 +1,8 @@
 var map;
 var pin;
 var infowindow;
+var allMarkers = [];
+var recentMarker;
 
 
     // initialize the Map
@@ -51,6 +53,12 @@ var infowindow;
                 // displays an info window when the user created pin
                 infowindow.open(map, pin);
 
+                // set current marker variable to `normal´ marker variable 
+                recentMarker = pin;
+
+                // now, the marker variable will be pushed into the empty allMarkers Array (we will need this later on)
+                allMarkers.push(pin);
+
             });
 
         }
@@ -85,7 +93,7 @@ if (pinObjects == null){
             var latlng = pin.getPosition();
 
             // construct info about current pin
-            updateInfoWindow(pin, name, comment, type);
+            updateInfoWindow(recentMarker, name, comment, type);
 
             //I kept this just in case --> not important now
             // create a variable newPin with all data (name, comment, type, latlng) to store it in the next step, because localStorage can just store strings
@@ -254,8 +262,9 @@ if (pinObjects == null){
                 event = "mouseout";
 
             // Below the function checks ALL the markers to show/hide them
-            for (var i = 0; i < retrievedPins.length; i++) {
-                google.maps.event.trigger(retrievedPins[i], event);
+            for (var i = 0; i < allMarkers.length; i++) {
+                google.maps.event.trigger(allMarkers[i], event);
+            
             }
 
         }

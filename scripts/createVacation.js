@@ -46,12 +46,12 @@ saveVac.onclick = function(){
     // Make sure when calling this function that the array filled with data from localStorage
     for(i = 0; i < allVac.length; i++){
         // Find the biggest id and add one
-        if(allVac[i].id !== undefined){
-            if(allVac[i].id > max){
-                max = allVac[i].id;
+            if(allVac[i].id >= max){
+                max = allVac[i].id + 1;
             }
-        }
+        
     }
+    console.log(max)
     return max;
 }
 
