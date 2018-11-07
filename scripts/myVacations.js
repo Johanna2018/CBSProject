@@ -3,7 +3,7 @@ var createVac = document.getElementById("createVac");
 //make a function to save to createVac, when button is clicked
 createVac.onclick = function(){
     //redirecting to create vaction page
-    window.location = "createVacations_pins.html"; 
+    window.location = "createVacation.html"; 
   
     //Return true to jump out of the function, since we now have all we need.
     return true;

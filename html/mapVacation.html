@@ -26,56 +26,16 @@
 <body>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKWDH2tfpzh33fGeXac1fOuTOBGgD-Jsg&callback=start"></script>
     
-    <script type="text/javascript" src="../scripts/util.js"></script>
-    <script type="text/javascript" src="../scripts/pinClass.js"></script>
-    <script type="text/javascript" src="../scripts/pins.js"></script>
-    <script type="text/javascript" src="../scripts/createVacation.js"></script>
 
     <h1 style="text-align: center; margin-top: 15px; margin-bottom: 0px;">Share your experience!</h1>
     <button id ="deletePins" style="background-color: crimson; color: white; font-size: 15px; font-family: verdana;">Delete all entries</button>
     <button id="toggle" style="display: none; background-color: cornflowerblue; color: white; font-size: 15px; font-family: verdana;">Toggle all entries</button>
 
-    <div>
-        <label for="vacTitle">Title: </label>
-        <input id="vacTitle" placeholder="My Denmark Vacation" type="text">
-    </div>
-
-    <div>
-        <label for="vacDescription">Description: </label>
-        <textarea cols= "30" rows="10" id="vacDescription" placeholder="Describe your Vacation"></textarea>
-    </div>
-
     <div id="map" height="460px" width="100%"></div>
+    <script type="text/javascript" src="../scripts/util.js"></script>
+    <script type="text/javascript" src="../scripts/pinClass.js"></script>
+    <script type="text/javascript" src="../scripts/pins.js"></script>
 
-    <div>
-        <label for="publish">Publish your map </label>
-        <input id="publish" type="checkbox">
-    </div>
-
-    <div>
-        <label for="tags">Tags </label>
-        <input id="tags" placeholder="Choose tags for your vacation" type="text">
-        <div>
-            <span id="tagSpan">One tag can only be one word. Please seperate the tags with an #</span>
-        </div>
-    </div>  
-
-    <div>
-        <button type="button" id="saveVac">Save</button>
-    </div>
-
-    <div>
-        <button type="button" id="home">Home</button>
-    </div>
-        
-    <div>
-        <button type="button" id="myVac">My Vacations</button>
-    </div>
-        
-    <div>
-        <button type="button" id="logout">Log-out</button>
-    </div>
-    
 </body>
 
 </html>
