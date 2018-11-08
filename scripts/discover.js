@@ -53,6 +53,13 @@ button.addEventListener("click", function(){
         // console.log(searchResult[i].title);
         // }
 
+         // Display our searchResults on screen HTML
+
+    // 1. We need a place to display our results XX
+    // 2. We need to loop over all searchResults XX
+    // 3. Create a new HTML element
+    // 3.1 Add innerHTML content to that element
+       
         //we select the html div part which has an Id "searchResult" in the discover.html and declare that it is currently empty, this helps empty it out with each new search
         document.getElementById('searchResult').innerHTML = ''
 
@@ -84,18 +91,6 @@ button.addEventListener("click", function(){
     
        //The following part should help display a result
         
-    // Display our searchResults on screen HTML
-
-    // 1. We need a place to display our results XX
-    // 2. We need to loop over all searchResults XX
-    // 3. Create a new HTML element
-    // 3.1 Add innerHTML content to that element
-
-
-    
-
-       
-       
     //        for(i = 0; i<searchResult.length; i++){
     //        var html = "";
     //        html = searchResult[i].createHTML();
