@@ -270,21 +270,6 @@ if (pinObjects == null){
 
         }
 
-// Initialize an empty array
-// var vacations = [
-//     {Title: "Title", 
-//     Description: "description", 
-//     Pins: [], 
-//     isSelected: false},
-//     {Title: "XX", 
-//     Description: "XX", 
-//     Pins: [], 
-//     isSelected: false},
-//     {Title: "YY", 
-//     Description: "YY", 
-//     Pins: [], 
-//     isSelected: false}
-// ];
 
 var users = getStorage("users");
 var currentUser = getStorage("currentUser");
@@ -345,7 +330,7 @@ saveVac.onclick = function(){
     //makes automatically an array out of it
     var tags = document.getElementById("tags").value.split(",");
     
-    var pins = pinObjects
+    var pins = pinObjects;
         
 // push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
 //TODO: put mapPosition and zoom and pins in here 
@@ -362,17 +347,6 @@ allVac.push(currentVac);
             users[i] = currentUser;
         }
     } 
-
-//update changes of currentVac in currentUser.vacations array
-// currentUser.vacations.id[currentVac.id] = currentVac;
-
-//TODO: this will be needed when we want to edit vacations
-// currentUser.vacations[currentVac.index] = currentVac
-  
-//     // Bind user to a variable for easy use
-//     var user = users[i];
-//  //set property of user object to i, so it can be used to find the current user later in users array
-//  user.index = i;
 
 // store new vacation in local storage, store(y, keyname) 
 // keyName --> make sure keyName is always String, need to remember for later use, y --> variable 

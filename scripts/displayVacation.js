@@ -144,27 +144,27 @@ var currentVac = getStorage("currentVac");
         showPins();
 
 
-        // // update info window of the passed marker with its respecting data
-        // function updateInfoWindow(pin, name, comment, type) {
+        // update info window of the passed marker with its respecting data
+        function updateInfoWindow(pin, name, comment, type) {
 
-        //     // Now we have to rebuild an infowindow (name, comment, type)
-        //     var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
+            // Now we have to rebuild an infowindow (name, comment, type)
+            var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
 
-        //     //updating info window
-        //     var infowindow = new google.maps.InfoWindow({
-        //         content: contentString
-        //     });
+            //updating info window
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
 
-        //     // mouseover and mouseout event listeners
-        //     pin.addListener('mouseover', function() {
-        //         infowindow.open(map, this);
-        //     });
+            // mouseover and mouseout event listeners
+            pin.addListener('mouseover', function() {
+                infowindow.open(map, this);
+            });
 
-        //     pin.addListener('mouseout', function() {
-        //         infowindow.close();
-        //     });
+            pin.addListener('mouseout', function() {
+                infowindow.close();
+            });
 
-        // }
+        }
 
         //set a variable entriesHidden to true --> to use it later for if statement
         var entriesHidden = true;
@@ -196,14 +196,14 @@ var currentVac = getStorage("currentVac");
 
 
 
-// //get the currently choosen vacation in currentVac variable from local storage with the keyName (always string)
-// var currentVac = getStorage("currentVac");
-//get the all vacations array from local storage with the keyName (always string), to update Data later
-var allVac = getStorage("allVac");
-//get the users array from local storage with the keyName (always string), to update Data later
-var users = getStorage("users");
-//get the currently logged in User from local storage with the keyName (always string), to update Data later
-var currentUser = getStorage("currentUser");
+// // //get the currently choosen vacation in currentVac variable from local storage with the keyName (always string)
+// // var currentVac = getStorage("currentVac");
+// //get the all vacations array from local storage with the keyName (always string), to update Data later
+// var allVac = getStorage("allVac");
+// //get the users array from local storage with the keyName (always string), to update Data later
+// var users = getStorage("users");
+// //get the currently logged in User from local storage with the keyName (always string), to update Data later
+// var currentUser = getStorage("currentUser");
 
 // Bind spans from HTML to variables --> later we need it to manipulate the span elements in HTML later
 var titleSpan = document.getElementById("vacTitle");
