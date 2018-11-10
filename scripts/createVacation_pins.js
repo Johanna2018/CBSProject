@@ -64,14 +64,19 @@ var recentMarker;
         }
 
 //use getStorage function to get pins from local storage --> if there are some
+// I think we should delete this --> pinObjects always has to be empty in the beginning!!
 //assging it to pinObjects variable  
 //is the same as var pinObjects = JSON.parse(localStorage.getItem("pinObjects"));
-var pinObjects = getStorage("pinObjects");
+// var pinObjects = getStorage("pinObjects");
   
-// if the localStorgae is empty
-if (pinObjects == null){
-  //Define pinObjects as an empty array, because you cannot push into an variable which is null
-  var pinObjects = [];}
+// // if the localStorgae is empty
+// if (pinObjects == null){
+//   //Define pinObjects as an empty array, because you cannot push into an variable which is null
+//   var pinObjects = [];}
+
+// set new variable pinObjects as an empty array, so it can be filled with data later
+var pinObjects = [];
+
 
 
 //Now it is time to safe the set pins!!!
@@ -95,25 +100,9 @@ if (pinObjects == null){
             // construct info about current pin
             updateInfoWindow(recentMarker, name, comment, type);
 
-            //I kept this just in case --> not important now
-            // create a variable newPin with all data (name, comment, type, latlng) to store it in the next step, because localStorage can just store strings
-            // var newPin = {
-            //     name,
-            //     comment,
-            //     type,
-            //     latlng
-            // };
-            // pinObjects.push(newPin);
-            // pinObjects[pinIndex] = newPin;
-            // pinIndex++;
-
             // instead of comments below --> we do it shorter
             //push the new Pin in the pinObjects array, new Pin makes it part of the Pin class
             pinObjects.push(new Pin(name, comment, type, latlng));
-            
-            //is this the same functionality?: pinObjects[pinIndex] = (new Pin(name, comment, type, latlng); pinIndex++;
-            //Could be used for edit function
-            //Need to figure out index before!!
 
             //store pinObjects in localStorage with store function
             store(pinObjects, 'pinObjects')
@@ -239,8 +228,18 @@ if (pinObjects == null){
         // delete pinObjects from localStorage
         //IMPORTANT: do not delete whole localStorage, otherwise everything (user data, vacation data will be deleted as well)
         deletePins.onclick = function () {
-            localStorage.removeItem("pinObjects");
-            location.reload();
+            //Opens up a pop up window do ask the following.. 
+            var con = confirm("Do you really want to remove all pins? There is no way back if you click \"OK\"!")
+            // If user clicks "OK" all pins are delted, if he clicks "Cancel" nothing happens
+            if (con === true){
+                //removes the item pinObjects from localStorage
+                localStorage.removeItem("pinObjects");
+                //Page needs to be refreshed otherwise pins would stay on there
+                location.reload();
+                return true;
+            }else{
+                return false;
+            }
         }
         
         //set a variable entriesHidden to true --> to use it later for if statement

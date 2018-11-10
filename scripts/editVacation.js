@@ -223,16 +223,27 @@ if (pinObjects == null){
         // delete pinObjects from localStorage
         //IMPORTANT: do not delete whole localStorage, otherwise everything (user data, vacation data will be deleted as well)
         deletePins.onclick = function () {
-            //TODO: Pop up window: Do you really want to delete all entries? All other changes will be lost, too. Yes, No 
-            localStorage.removeItem("pinObjects");
-            // If we want to delete all pins, also currentVac.pins need to be set to empty array
-            currentVac.pins = [];
-            //store updated currentVac in local storage
-            store(currentVac, "currentVac");
-            currentVac = getStorage("currentVac");
-            //TODO: Is there another solution than reloading whole page? Problem: If user changes descirption and title before clicking delete all entries, the changes will not be saved
-            //But page needs to be refreshed otherwise pins would stay on there
-            location.reload();
+            //Opens up a pop up window do ask the following.. 
+            var con = confirm("Do you really want to remove all pins? If you have made other changes in the vacation and you have not clicked \"Save Changes\" the changes will be lost!")
+            // If user clicks "OK" all pins are delted, if he clicks "Cancel" nothing happens
+            if (con === true){
+                //removes the item pinObjects from localStorage
+                localStorage.removeItem("pinObjects");
+                // If we want to delete all pins, also currentVac.pins need to be set to empty array
+                currentVac.pins = [];
+                //store updated currentVac in local storage
+                store(currentVac, "currentVac");
+                currentVac = getStorage("currentVac");
+                //TODO: Is there another solution than reloading whole page? Problem: If user changes descirption and title before clicking delete all entries, the changes will not be saved
+                //But page needs to be refreshed otherwise pins would stay on there
+                location.reload();
+                return true;
+            }else{
+                return false;
+            }
+            
+            
+            
         }
 
         //set a variable entriesHidden to true --> to use it later for if statement
