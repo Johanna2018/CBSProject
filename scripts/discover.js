@@ -2,11 +2,37 @@
 
 // Now we get all of the saved vacations from the local storage - it works that way that everything needs to be retrieved and then we can filter     
 var allVacations = getStorage('allVac');
+var selectedVacationId;
 // we declare a published vacation variable and then with the help of filter function (it's from the JS API, there are different ones such as Browser APIs, web APIs) we filter through allVacations and call a function which will return all of those that have the boolean published set to true and form an array of objects out of it
 //function(vacation) - the vacation in this case is literally just a name we are declaring at the same time as we are writing the function, it only exists in the scope of the callback function of the filter
 var publishedVacations = allVacations.filter(function(vacation) {
     return vacation.isPublished === true;
 });
+
+// 1-2 = 2
+
+//  var levels = {
+//     one: {
+//         min: 1,
+//         max: 2
+//     },
+//     two: {
+//         min: 2,
+//         max: 3
+//     },
+//     three: {
+//         min: 3,
+//         max: 4
+//     }
+//  }
+
+// var radioValue = 'two'
+
+// if radioValue
+//     publishedVacations = publishedVacations.filter(function(vacation) {
+//         return vacation.rating > levels[radioValue].min && vacation.rating <= levels[radioValue].max
+//     });
+
 
 //Even though this is not visible in the code, the filter function creates and array with objects - maps that are published, to test, we use console below
 
@@ -90,6 +116,7 @@ function initVacationElementEvents(vacationElement) {
        //In this case the evet.target.id is the id that we have passed to our html element from the JS (from a property of our vacation in our published vacation array) 
       //We declare this variable for a better readibility, so we don't later compare to event.target.id
        var vacationIdWeAreLookingFor = event.target.id;
+       selectedVacationId = event.target.id;
         // now we declare a vacationToDisplay variable and we assign it a value of that vacation from our publishedVacations array, which fits the criteria (id)
         //find function is similar to the filter function, but what it does is that it loops over an array and stops once it found that one result - makes sense in this case, because we will only point at one vacation with a unique
         var vacationToDisplay = publishedVacations.find(function (vacation) {
@@ -114,6 +141,8 @@ function initVacationElementEvents(vacationElement) {
 //The function that will delete the map
 function deleteMap() {
     var map = document.getElementById('map');
+    var mapElement = document.getElementById('rating');
+    mapElement.innerHTML = '';
     map.innerHTML = '';
 }
 //function that will initialize a map, passing it a parameters of pins, which will be pins of the particular map that matches our criteria
@@ -144,7 +173,26 @@ function initMap(pins) {
 
         updateInfoWindow(map, marker, pin.name, pin.comment, pin.type);
     }
+
+    var mapElement = document.getElementById('rating');
+    var newElement = document.createElement('div');
+    newElement.innerHTML = '<h5>Please rate this map</h5> <div><input type ="radio" name="rating" value="one">1 <input type ="radio" name="rating" value="two">2 <input type ="radio" name="rating" value="three">3 <input type ="radio" name="rating" value="four">4 <input type="radio" name="rating" value="five">5 <input class="rate-button" type="submit" value="Rate"></div>';
+    mapElement.appendChild(newElement);
+    addRatingEvent();
 }
+
+function addRatingEvent() {
+    var element = document.getElementsByClassName('rate-button')[0];
+    element.addEventListener('click', function(event) {
+        var radios = document.getElementsByName("rating");
+        selectedVacationId
+        console.log(radios);
+         // if any of the options is selected, get the value
+         // update the ratings array by pushing the value
+         // update allVacations array and then override them in the localstorage
+    })
+}
+
 
 //The following section just displays the info windows for particular pins
 function updateInfoWindow(map, pin, name, comment, type) {

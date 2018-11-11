@@ -22,35 +22,31 @@
       }
 
   </style>
-    
 </head>
 <body>
-    <h1>Discover Vacations</h1>
+  <h1>Discover Vacations</h1>
 
-    <h2>Search for vacations of others </h2>
+  <h2>Search for vacations of others </h2>
 
-
-    
   <div>
-<label for = "search"> Search </label>
-<input type ="search" id="mySearch" placeholder="Insert location or tag">
-<button id = "submit">Submit</button>
-
-  </div>
-  
-  <div id = "searchResult">
+    <label for = "search"> Search </label>
+    <input type ="search" id="mySearch" placeholder="Insert location or tag">
+    <button id = "submit">Submit</button>
   </div>
 
   <h5>Filter</h5>
 
   <label for = "filter">Show</label> <br/>
-  <input type ="checkbox" name ="oneStarOrMore" value ="1-2"> 1-2 stars maps <br/>
-  <input type ="checkbox" name ="twoStarOrMore" value ="2-3"> 2-3 stars maps<br/>
-  <input type ="checkbox" name ="threeStarOrMore" value ="3-4"> 3-4 stars maps<br/>
-  <input type ="checkbox" name ="fourStarOrMore" value ="4-5"> 4-5 stars maps<br/>
-  <input type ="checkbox" name ="fiveStars" value ="5"> 5 stars maps<br/>
+  <input type ="radio" name="choice" value="one"> 1-2 stars maps <br/>
+  <input type ="radio" name="choice" value="two"> 2-3 stars maps<br/>
+  <input type ="radio" name="choice" value="three"> 3-4 stars maps<br/>
+  <input type ="radio" name="choice" value="four"> 4-5 stars maps<br/>
+  <input type ="radio" name="choice" value="five"> 5 stars maps<br/>
+
+  <div id="searchResult"></div>
 
   <div id="map" height="460px" width="100%"></div>
+  <div id="rating"></div>
 
 <!-- not sure about the values, they might need to be changed -->
 
@@ -61,8 +57,5 @@
 <script src="../scripts/discover.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKWDH2tfpzh33fGeXac1fOuTOBGgD-Jsg"></script>
 
-
-
-  
 </body>
 </html>
