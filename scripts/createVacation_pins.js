@@ -195,7 +195,7 @@ var pinObjects = [];
                     //updateInfoWindow is defined below
                     updateInfoWindow(retrievedPins[i], name, comment, type);
 
-                    //What does the i mean? --> if I delete it pins are not shown anymore
+                    //What does the i mean? --> if I delete it pins are not shown anymore (it is the i above you use in the forloop)
                 })(i);
             }
         }
@@ -322,6 +322,7 @@ saveVac.onclick = function(){
     // var zoom = "";
     // var pins = [];
     var isSelected = false;
+    var isPublished = false;
     if (document.getElementById("publish").checked == true){
         var isPublished = true;
     }

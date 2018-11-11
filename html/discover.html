@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Discover</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+
+      #map {
+          height: 92%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+
+      html,
+      body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+      }
+
+  </style>
     
 </head>
 <body>
@@ -22,31 +39,29 @@
   </div>
   
   <div id = "searchResult">
-
   </div>
-  
-
-
-
-
-
-
-
 
   <h5>Filter</h5>
 
-<label for = "filter">Show</label> <br/>
-<input type ="checkbox" name ="oneStarOrMore" value ="1-2"> 1-2 stars maps <br/>
-<input type ="checkbox" name ="twoStarOrMore" value ="2-3"> 2-3 stars maps<br/>
-<input type ="checkbox" name ="threeStarOrMore" value ="3-4"> 3-4 stars maps<br/>
-<input type ="checkbox" name ="fourStarOrMore" value ="4-5"> 4-5 stars maps<br/>
-<input type ="checkbox" name ="fiveStars" value ="5"> 5 stars maps<br/>
+  <label for = "filter">Show</label> <br/>
+  <input type ="checkbox" name ="oneStarOrMore" value ="1-2"> 1-2 stars maps <br/>
+  <input type ="checkbox" name ="twoStarOrMore" value ="2-3"> 2-3 stars maps<br/>
+  <input type ="checkbox" name ="threeStarOrMore" value ="3-4"> 3-4 stars maps<br/>
+  <input type ="checkbox" name ="fourStarOrMore" value ="4-5"> 4-5 stars maps<br/>
+  <input type ="checkbox" name ="fiveStars" value ="5"> 5 stars maps<br/>
+
+  <div id="map" height="460px" width="100%"></div>
 
 <!-- not sure about the values, they might need to be changed -->
 
-<script src="../scripts/vacationsClass.js"></script>
 <!-- util goes here -->
+<script src="../scripts/util.js"></script>
+
+<script src="../scripts/vacationsClass.js"></script>
 <script src="../scripts/discover.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKWDH2tfpzh33fGeXac1fOuTOBGgD-Jsg"></script>
+
+
 
   
 </body>
