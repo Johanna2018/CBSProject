@@ -25,7 +25,7 @@ var discover = document.getElementById("discover");
 //make a function to save to home, when button is clicked
 discover.onclick = function(){
     //redirecting to profile page
-    window.location = ""; 
+    window.location = "discover.html"; 
   
     //Return true to jump out of the function, since we now have all we need.
     return true;
