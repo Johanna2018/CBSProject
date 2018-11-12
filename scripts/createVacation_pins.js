@@ -64,14 +64,19 @@ var recentMarker;
         }
 
 //use getStorage function to get pins from local storage --> if there are some
+// I think we should delete this --> pinObjects always has to be empty in the beginning!!
 //assging it to pinObjects variable  
 //is the same as var pinObjects = JSON.parse(localStorage.getItem("pinObjects"));
-var pinObjects = getStorage("pinObjects");
+// var pinObjects = getStorage("pinObjects");
   
-// if the localStorgae is empty
-if (pinObjects == null){
-  //Define pinObjects as an empty array, because you cannot push into an variable which is null
-  var pinObjects = [];}
+// // if the localStorgae is empty
+// if (pinObjects == null){
+//   //Define pinObjects as an empty array, because you cannot push into an variable which is null
+//   var pinObjects = [];}
+
+// set new variable pinObjects as an empty array, so it can be filled with data later
+var pinObjects = [];
+
 
 
 //Now it is time to safe the set pins!!!
@@ -95,25 +100,9 @@ if (pinObjects == null){
             // construct info about current pin
             updateInfoWindow(recentMarker, name, comment, type);
 
-            //I kept this just in case --> not important now
-            // create a variable newPin with all data (name, comment, type, latlng) to store it in the next step, because localStorage can just store strings
-            // var newPin = {
-            //     name,
-            //     comment,
-            //     type,
-            //     latlng
-            // };
-            // pinObjects.push(newPin);
-            // pinObjects[pinIndex] = newPin;
-            // pinIndex++;
-
             // instead of comments below --> we do it shorter
             //push the new Pin in the pinObjects array, new Pin makes it part of the Pin class
             pinObjects.push(new Pin(name, comment, type, latlng));
-            
-            //is this the same functionality?: pinObjects[pinIndex] = (new Pin(name, comment, type, latlng); pinIndex++;
-            //Could be used for edit function
-            //Need to figure out index before!!
 
             //store pinObjects in localStorage with store function
             store(pinObjects, 'pinObjects')
@@ -206,7 +195,7 @@ if (pinObjects == null){
                     //updateInfoWindow is defined below
                     updateInfoWindow(retrievedPins[i], name, comment, type);
 
-                    //What does the i mean? --> if I delete it pins are not shown anymore
+                    //What does the i mean? --> if I delete it pins are not shown anymore (it is the i above you use in the forloop)
                 })(i);
             }
         }
@@ -239,8 +228,18 @@ if (pinObjects == null){
         // delete pinObjects from localStorage
         //IMPORTANT: do not delete whole localStorage, otherwise everything (user data, vacation data will be deleted as well)
         deletePins.onclick = function () {
-            localStorage.removeItem("pinObjects");
-            location.reload();
+            //Opens up a pop up window do ask the following.. 
+            var con = confirm("Do you really want to remove all pins? There is no way back if you click \"OK\"!")
+            // If user clicks "OK" all pins are delted, if he clicks "Cancel" nothing happens
+            if (con === true){
+                //removes the item pinObjects from localStorage
+                localStorage.removeItem("pinObjects");
+                //Page needs to be refreshed otherwise pins would stay on there
+                location.reload();
+                return true;
+            }else{
+                return false;
+            }
         }
         
         //set a variable entriesHidden to true --> to use it later for if statement
@@ -270,21 +269,6 @@ if (pinObjects == null){
 
         }
 
-// Initialize an empty array
-// var vacations = [
-//     {Title: "Title", 
-//     Description: "description", 
-//     Pins: [], 
-//     isSelected: false},
-//     {Title: "XX", 
-//     Description: "XX", 
-//     Pins: [], 
-//     isSelected: false},
-//     {Title: "YY", 
-//     Description: "YY", 
-//     Pins: [], 
-//     isSelected: false}
-// ];
 
 var users = getStorage("users");
 var currentUser = getStorage("currentUser");
@@ -338,6 +322,7 @@ saveVac.onclick = function(){
     // var zoom = "";
     // var pins = [];
     var isSelected = false;
+    var isPublished = false;
     if (document.getElementById("publish").checked == true){
         var isPublished = true;
     }
@@ -345,7 +330,7 @@ saveVac.onclick = function(){
     //makes automatically an array out of it
     var tags = document.getElementById("tags").value.split(",");
     
-    var pins = pinObjects
+    var pins = pinObjects;
         
 // push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
 //TODO: put mapPosition and zoom and pins in here 
@@ -362,17 +347,6 @@ allVac.push(currentVac);
             users[i] = currentUser;
         }
     } 
-
-//update changes of currentVac in currentUser.vacations array
-// currentUser.vacations.id[currentVac.id] = currentVac;
-
-//TODO: this will be needed when we want to edit vacations
-// currentUser.vacations[currentVac.index] = currentVac
-  
-//     // Bind user to a variable for easy use
-//     var user = users[i];
-//  //set property of user object to i, so it can be used to find the current user later in users array
-//  user.index = i;
 
 // store new vacation in local storage, store(y, keyname) 
 // keyName --> make sure keyName is always String, need to remember for later use, y --> variable 
