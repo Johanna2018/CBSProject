@@ -77,8 +77,13 @@ if (pinObjects == null){
 
     // store(pinObjects, 'pinObjects')
 
-//Now it is time to safe the set pins!!!
-        // save pin data
+// Function to edit and save already existing pins
+// 
+
+
+
+
+// Function to save the new pins
 
         //onlcik function --> onclick defined in HTML Part, if I changed it stops working --> do know why?
         function savePin() {
@@ -118,6 +123,8 @@ if (pinObjects == null){
             //DATA IS SAVED and INFO WINDOW IS CLOSED
         }
         // Now, we need a variable to display the retrieve the data from the local storage 
+        // We cannot use pinObjects, because in pinObjects not all data (from google API) are saved
+        // We rebuild the pins on the map with the retrievedPins
         var retrievedPins = [];
 
         // callback function to retrieve pins

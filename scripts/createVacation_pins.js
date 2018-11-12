@@ -370,6 +370,20 @@ store(currentUser, "currentUser");
 //keyName --> you need it to recall it later!
 store(users, "users");
 
+// clear the input fields for later
+document.getElementById("vacTitle").value = "";
+document.getElementById("vacDescription").value = "";
+document.getElementById("publish").checked = false;
+document.getElementById("tags").value = "";
+
+
+// delete pinObjects from localStorage for later
+
+    localStorage.removeItem("pinObjects");
+    location.reload();
+
+
+//alert and redirecting to myVacations page
 alert("Awesome! Your vacation is saved! You can review and edit it under My Vacations!")
 
 window.location = "myVacations.html"; 
