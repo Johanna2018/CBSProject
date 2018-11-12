@@ -3,6 +3,7 @@ var map;
 var pin;
 var infowindow;
 var allMarkers = [];
+var retrievedPins = [];
 
 //get the currently choosen vacation in currentVac variable from local storage with the keyName (always string)
 var currentVac = getStorage("currentVac");
@@ -61,7 +62,7 @@ var recentMarker;
                 recentMarker = pin;
 
                 // now, the marker variable will be pushed into the empty allMarkers Array (we will need this later on)
-                allMarkers.push(pin);
+                retrievedPins.push(pin);
 
         });
     }
@@ -75,7 +76,7 @@ if (pinObjects == null){
     //Define pinObjects as an empty array, because you cannot push into an variable which is null
     var pinObjects = [];}
 
-    // store(pinObjects, 'pinObjects')
+    store(pinObjects, 'pinObjects')
 
 // Function to edit and save already existing pins
 // 
@@ -125,7 +126,7 @@ if (pinObjects == null){
         // Now, we need a variable to display the retrieve the data from the local storage 
         // We cannot use pinObjects, because in pinObjects not all data (from google API) are saved
         // We rebuild the pins on the map with the retrievedPins
-        var retrievedPins = [];
+        
 
         // callback function to retrieve pins
         // it has to have this name --> Has to do with google I think
@@ -147,28 +148,28 @@ if (pinObjects == null){
             //TODO: work on edit function --> work with the index here?? --> to update the pinObjects array
 
 
-            //loop over existing array and display them as a pin, each for one pin
-            // iterate over restored pins (object) to get data about name, comment, etc. 
-            for (var i = 0; i < pinObjects.length; i++) {
+            // //loop over existing array and display them as a pin, each for one pin
+            // // iterate over restored pins (object) to get data about name, comment, etc. 
+            // for (var i = 0; i < pinObjects.length; i++) {
 
-                var currentPin = pinObjects[i];
-                var name = currentPin.name;
-                var comment = currentPin.comment;
-                var type = currentPin.type;
-                var latlng = currentPin.latlng;
+            //     var currentPin = pinObjects[i];
+            //     var name = currentPin.name;
+            //     var comment = currentPin.comment;
+            //     var type = currentPin.type;
+            //     var latlng = currentPin.latlng;
 
 
-                // Now we take the collected data from above and create a pin (var retrievedPins) to display them later
-                // In pinObjects there are not as many data saved as we need to display them (I think)
-                // new google.maps.Marker --> is like a own class defined by google
-                retrievedPins[i] = new google.maps.Marker({
-                    position: latlng,
-                    map: map,
-                    title: name,
-                    comment: comment,
-                    type: type
-                });
-            }
+            //     // Now we take the collected data from above and create a pin (var retrievedPins) to display them later
+            //     // In pinObjects there are not as many data saved as we need to display them (I think)
+            //     // new google.maps.Marker --> is like a own class defined by google
+            //     retrievedPins[i] = new google.maps.Marker({
+            //         position: latlng,
+            //         map: map,
+            //         title: name,
+            //         comment: comment,
+            //         type: type
+            //     });
+            // }
 
             // add displaying of pins to the event queue
             //showPins function will be defined right after the setTimeout function
@@ -179,29 +180,95 @@ if (pinObjects == null){
 
             initMap();
         }
-
         // display pins retrieved from the localStorage --> e.g. when page is refreshed or opened
         //Why do we need that (pinObjects) here?
         function showPins(pinObjects) {
-            // value of i is passed into a closure 
-            for (var i = 0; i < retrievedPins.length; i++) {
-                (function(index) {
 
-                    //set Map for all Objects in the retrievedPins array (here we need those more information we do not have in pinObjects)
-                    allMarkers.push(retrievedPins[i]);
-                    retrievedPins[i].setMap(map);
-                    var name = pinObjects[i].name;
-                    var comment = pinObjects[i].comment;
-                    var type = pinObjects[i].type;
+            //loop over existing array and display them as a pin, each for one pin
+            // iterate over restored pins (object) to get data about name, comment, etc. 
+            for (var i = 0; i < pinObjects.length; i++) {
 
-                    // construct info about every retrieved marker
-                    //updateInfoWindow is defined below
-                    updateInfoWindow(retrievedPins[i], name, comment, type);
+                var currentPin = pinObjects[i];
+                var name = currentPin.name;
+                var comment = currentPin.comment;
+                var type = currentPin.type;
+                var latlng = currentPin.latlng;
 
-                    //What does the i mean? --> if I delete it pins are not shown anymore
-                })(i);
+        // Now we take the collected data from above and create a pin (var retrievedPins) to display them later
+                // In pinObjects there are not as many data saved as we need to display them (I think)
+                // new google.maps.Marker --> is like a own class defined by google
+                //to save the marker on map (only marker!)
+                retrievedPins[i] = new google.maps.Marker({
+                    position: latlng,
+                    map: map,
+                    title: name,
+                    comment: comment,
+                    type: type
+                    
+                });
+
+              //  allMarkers.push(retrievedPins[i]);
+                //for info window
+                retrievedPins[i].setMap(map);
+                // var name = pins[i].name;
+                // var comment = pins[i].comment;
+                // var type = pins[i].type;
+
+                // construct info about every retrieved marker
+                //updateInfoWindow is defined below
+                updateInfoWindow(retrievedPins[i], name, comment, type);
+                changeInfoWindow(retrievedPins[i], name, comment, type);
+
+                
             }
         }
+
+        // // display pins retrieved from the localStorage --> e.g. when page is refreshed or opened
+        // //Why do we need that (pinObjects) here?
+        // function showPins(pinObjects) {
+        //     //loop over existing array and display them as a pin, each for one pin
+        //     // iterate over restored pins (object) to get data about name, comment, etc. 
+        //     for (var i = 0; i < pinObjects.length; i++) {
+
+        //         var currentPin = pinObjects[i];
+        //         var name = currentPin.name;
+        //         var comment = currentPin.comment;
+        //         var type = currentPin.type;
+        //         var latlng = currentPin.latlng;
+
+
+        //         // Now we take the collected data from above and create a pin (var retrievedPins) to display them later
+        //         // In pinObjects there are not as many data saved as we need to display them (I think)
+        //         // new google.maps.Marker --> is like a own class defined by google
+        //         retrievedPins[i] = new google.maps.Marker({
+        //             position: latlng,
+        //             map: map,
+        //             title: name,
+        //             comment: comment,
+        //             type: type
+        //         });
+                
+        //     }
+
+        //     // value of i is passed into a closure 
+        //     for (var i = 0; i < retrievedPins.length; i++) {
+        //         (function(index) {
+
+        //             //set Map for all Objects in the retrievedPins array (here we need those more information we do not have in pinObjects)
+        //             allMarkers.push(retrievedPins[i]);
+        //             retrievedPins[i].setMap(map);
+        //             var name = pinObjects[i].name;
+        //             var comment = pinObjects[i].comment;
+        //             var type = pinObjects[i].type;
+
+        //             // construct info about every retrieved marker
+        //             //updateInfoWindow is defined below
+        //             updateInfoWindow(retrievedPins[i], name, comment, type);
+
+        //             //What does the i mean? --> if I delete it pins are not shown anymore
+        //         })(i);
+        //     }
+        // }
 
         // update info window of the passed marker with its respecting data
         function updateInfoWindow(pin, name, comment, type) {
@@ -224,6 +291,43 @@ if (pinObjects == null){
             });
 
         }
+
+        //function to make changes in pin
+
+        function changeInfoWindow(pin, name, comment, type) {
+        //setting contenString variable to define pin pop up info window (e.g. Titel, Comment, Type)
+        // it is filled out with the variables name, comment, type
+        var contentString = "<div id='form'><table>" +
+        "<tr><td>Name:</td><td><input type='text'  id='name' value = '"+name+"'/> </td></tr>" +
+        "<tr><td>Comment:</td><td><input type='text' id='comment' value = '"+comment+"' /></td></tr><tr>" +
+        "<td>Type:</td><td><select id='type' value = '"+type+"'>" +
+            "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
+            "<option value='Restaurant'>Restaurant</option>" +
+            "<option value='Bar'>Bar</option>" +
+            "<option value='Shopping'>Shopping</option>" +
+            "<option value='Cafe'>Cafe</option>" +
+            "<option value='Night club'>Night club</option>" +
+            "<option value='Supermarket'>Supermarket</option>" +
+            "<option value='Museum'>Museum</option>" +
+            "<option value='Hotel'>Hotel</option>" +
+            "<option value='Other'>Other</option>" +
+            "</select> </td></tr>" +
+            "<tr><td></td><td><input type='button' id='save' value='Save' onclick='savePin()' /></td></tr></table></div><div id='message' style='visibility: hidden;  '><b>Location saved!</b></div>";
+
+            // connect infowindow with the set contenString
+            infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            // mouseover and mouseout event listeners
+            pin.addListener('click', function() {
+                infowindow.open(map, this);
+            });
+
+            }
+
+
+
 
         // Bind the button from HTML to a variable for later use
         var deletePins = document.getElementById("deletePins");
@@ -272,9 +376,15 @@ if (pinObjects == null){
             else
                 event = "mouseout";
 
-            // Below the function checks ALL the markers to show/hide them
-            for (var i = 0; i < allMarkers.length; i++) {
-                google.maps.event.trigger(allMarkers[i], event);
+            // // Below the function checks ALL the markers to show/hide them
+            // for (var i = 0; i < allMarkers.length; i++) {
+            //     google.maps.event.trigger(allMarkers[i], event);
+            
+            // }
+
+             // Below the function checks ALL the markers to show/hide them
+             for (var i = 0; i < retrievedPins.length; i++) {
+                google.maps.event.trigger(retrievedPins[i], event);
             
             }
 
