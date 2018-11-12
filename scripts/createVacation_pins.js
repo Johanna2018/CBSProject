@@ -1,8 +1,12 @@
 var map;
 var pin;
 var infowindow;
+//creating allMarkers as an empty array for later use
 var allMarkers = [];
 var recentMarker;
+// creating pinObjects as an empty array for later use
+var pinObjects = [];
+
 
 
     // initialize the Map
@@ -68,23 +72,6 @@ var recentMarker;
         }
 
 
-
-//use getStorage function to get pins from local storage --> if there are some
-// I think we should delete this --> pinObjects always has to be empty in the beginning!!
-//assging it to pinObjects variable  
-//is the same as var pinObjects = JSON.parse(localStorage.getItem("pinObjects"));
-// var pinObjects = getStorage("pinObjects");
-  
-// // if the localStorgae is empty
-// if (pinObjects == null){
-//   //Define pinObjects as an empty array, because you cannot push into an variable which is null
-//   var pinObjects = [];}
-
-// set new variable pinObjects as an empty array, so it can be filled with data later
-var pinObjects = [];
-
-
-
 //Now it is time to safe the set pins!!!
         // save pin data
 
@@ -93,8 +80,9 @@ var pinObjects = [];
 
             //Show message field
             document.getElementById('message').style.visibility = "visible";
-            //??
+            //Make the toggle and the delete button visible
             document.getElementById("toggle").style.display = "inline";
+            document.getElementById("deletePins").style.display = "inline";
 
             //data entered by the user in the info window form:
             //Saves the name, comment, location type (whether a bar or restaurant), and pin coordinates entered by the user in the info window form
@@ -133,83 +121,8 @@ var pinObjects = [];
         // callback function to retrieve pins
         // it has to have this name --> Has to do with google I think
         function start() {
-
-            
-
-            // //use getStorage function to get pins from local storage
-            // //assging it to pinObjects variable --> it is easier if it has always the same name, because it is the same thing
-            // var pinObjects = getStorage("pinObjects");
-
-            // // if no pins are saved, initialize empty map
-            // if (pinObjects == null || pinObjects.length == 0) {
-            //     initMap();
-            //     return;
-            // }
-
-            // display button to show/hide all pins
-            document.getElementById("toggle").style.display = "inline";
-            
-            //TODO: work on edit function --> work with the index here?? --> to update the pinObjects array
-
-
-            // //loop over existing array and display them as a pin, each for one pin
-            // // iterate over restored pins (object) to get data about name, comment, etc. 
-            // for (var i = 0; i < pinObjects.length; i++) {
-
-            //     var currentPin = pinObjects[i];
-            //     var name = currentPin.name;
-            //     var comment = currentPin.comment;
-            //     var type = currentPin.type;
-            //     var latlng = currentPin.latlng;
-
-
-            //     // Now we take the collected data from above and create a pin (var retrievedPins) to display them later
-            //     // In pinObjects there are not as many data saved as we need to display them (I think)
-            //     // new google.maps.Marker --> is like a own class defined by google
-            //     retrievedPins[i] = new google.maps.Marker({
-            //         position: latlng,
-            //         map: map,
-            //         title: name,
-            //         comment: comment,
-            //         type: type
-            //     });
-            // }
-
-            // add displaying of pins to the event queue
-            //showPins function will be defined right after the setTimeout function
-            setTimeout(function() {
-                // //Why do we need that (pinObjects) here?
-                // showPins(pinObjects);
-            }, 0);
-            
-            initMap();
-            
+            initMap(); 
         }
-        
-
-        // // display pins retrieved from the localStorage --> e.g. when page is refreshed or opened
-        // //Why do we need that (pinObjects) here?
-        // function showPins(pinObjects) {
-        //     // value of i is passed into a closure 
-        //     for (var i = 0; i < retrievedPins.length; i++) {
-        //         (function(index) {
-
-        //             //set Map for all Objects in the retrievedPins array (here we need those more information we do not have in pinObjects)
-        //             allMarkers.push(retrievedPins[i]);
-        //             retrievedPins[i].setMap(map);
-        //             var name = pinObjects[i].name;
-        //             var comment = pinObjects[i].comment;
-        //             var type = pinObjects[i].type;
-
-        //             // construct info about every retrieved marker
-        //             //updateInfoWindow is defined below
-        //             updateInfoWindow(retrievedPins[i], name, comment, type);
-
-        //             //What does the i mean? --> if I delete it pins are not shown anymore (it is the i above you use in the forloop)
-        //         })(i);
-        //     }
-        // }
-
 
         // update info window of the passed marker with its respecting data
         function updateInfoWindow(pin, name, comment, type) {
@@ -239,7 +152,7 @@ var pinObjects = [];
         //IMPORTANT: do not delete whole localStorage, otherwise everything (user data, vacation data will be deleted as well)
         deletePins.onclick = function () {
             //Opens up a pop up window do ask the following.. 
-            var con = confirm("Do you really want to remove all pins? There is no way back if you click \"OK\"!")
+            var con = confirm("Do you really want to remove all pins? There is no way back if you click \"OK\"! All other changes will be lost, too!")
             // If user clicks "OK" all pins are delted, if he clicks "Cancel" nothing happens
             if (con === true){
                 //removes the item pinObjects from localStorage
@@ -289,14 +202,9 @@ var currentUser = getStorage("currentUser");
 // Henrik said it is smarter to have an array with all vacations and find the published ones with a loop (isPubished)
 var allVac = getStorage("allVac");
   
-// // if the localStorgae is empty, because we came directly to login (without registration), we need to fill the users array with hardcoded users
-// if (publishedVac === null){
-//   //Define users as an empty arrayfor later --> to store published vacations in localStorage, because you cannot push into an variable which is null
-//   var publishedVac = [];}
-
-// if the localStorgae is empty, because we came directly to login (without registration), we need to fill the users array with hardcoded users
+// if the localStorgae is empty
 if (allVac === null){
-    //Define users as an empty array for later --> to store all vacations in localStorage, because you cannot push into an variable which is null
+    //Define allVac as an empty array for later --> to store all vacations in localStorage, because you cannot push into an variable which is null
     var allVac = [];}
 
 // Bind the button to a variable for later use
@@ -305,36 +213,15 @@ var saveVac = document.getElementById("saveVac");
 // Bind the onClick-function to our own function --> could also use an Event listener
 saveVac.onclick = function(){
 
-// Put it in util 
-//  function getNextId(){
-//     // TODO: Make this work!!!
-//     // Generate an ID with function
-//     var max = 0;
-//     // Loop over array 
-//     // Make sure when calling this function that the array filled with data from localStorage
-//     for(i = 0; i < allVac.length; i++){
-//         // Find the biggest id and add one
-//             if(allVac[i].id >= max){
-//                 max = allVac[i].id + 1;
-//             }
-        
-//     }
-//     return max;
-// }
-
     // generated ID with getNextId function (in util.js defined)
     var id = getNextId(allVac);
-    
 
     // Bind the input fields and get the value
     var title = document.getElementById("vacTitle").value;
     var description = document.getElementById("vacDescription").value;
-   //TODO: what is mapPosition and zoom? How can I get it?
-    // var mapPosition = "";
-    // var zoom = "";
-    // var pins = [];
     var isSelected = false;
     var isPublished = false;
+
     if (document.getElementById("publish").checked == true){
         var isPublished = true;
     }
@@ -351,15 +238,14 @@ saveVac.onclick = function(){
     //Getting zoom level --> map will open at same zoom level again
     var zoom = map.getZoom();
         
-// push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
-//TODO: put mapPosition and zoom and pins in here 
-var currentVac = new Vacation(id, title, description, pins, isSelected, isPublished, tags, center, zoom);
+    // push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
+    var currentVac = new Vacation(id, title, description, pins, isSelected, isPublished, tags, center, zoom);
 
-//push newVacation into vacations array in currentUser Object 
-currentUser.vacations.push(currentVac);
-allVac.push(currentVac);
+    //push newVacation into vacations array in currentUser Object 
+    currentUser.vacations.push(currentVac);
+    allVac.push(currentVac);
 
-// update changes of currentUser in users array
+    // update changes of currentUser in users array
     // Loop over users array to find the object with the same id and set it to currentUser
     for(i = 0; i < users.length; i++){
         if(currentUser.id === users[i].id){
@@ -389,18 +275,16 @@ store(currentUser, "currentUser");
 //keyName --> you need it to recall it later!
 store(users, "users");
 
+//Now all fields need to be reseted
 // clear the input fields for later
 document.getElementById("vacTitle").value = "";
 document.getElementById("vacDescription").value = "";
 document.getElementById("publish").checked = false;
 document.getElementById("tags").value = "";
 
-
 // delete pinObjects from localStorage for later
-
     localStorage.removeItem("pinObjects");
     location.reload();
-
 
 //alert and redirecting to myVacations page
 alert("Awesome! Your vacation is saved! You can review and edit it under My Vacations!")
