@@ -10,7 +10,7 @@ class Vacation {
            this.isPublished = isPublished;
            this.tags = tags;
            this.index = null;
-           this.ratings = [];
+           this.ratings = ratings;
         }
 
            createHTML() {

@@ -196,21 +196,57 @@ function initMap(pins) {
 //TODO create and empty array that will store the value of the ratings,
 //This has to become a property in the Vacation class, an array of rating values
 // Somewhere, we will need a function which will calculate the average rating from the values in the array, don't know where yet (only at the end by the filter, just before the filter?)
+var ratingValues = [];
 function addRatingEvent() {
     var element = document.getElementsByClassName('rate-button')[0];
     element.addEventListener('click', function(event) {
         var radios = document.getElementsByName("rating");
-       
-        //1. Assign values to the radio buttons? or they automatically have a value?
+    
         //2. Get the value from the radio button that the user clicked on
-        //3. Store the value in an array to start with
-        //4. Later implement a new property of the Vacation class - an array of rating values
+          //3. Store the value in an array to start with
+    
+        for (var i = 0; i < radios.length; i++){
+            // if one of the buttons has the value which equals the value in ratings?? Not sure if this should equal ratingValues??they're empty 
+            //wait does this actally check whether the user has already rated???, because when I change it to ==radios, it lets me rate multiple times
+           if (radios[i].value == ratingValues){
+            // check this button
+            radios[i].checked = true;
+            // only one radio can be logically checked, don't check the rest
+            break;
+           }
+          }
+        
+          //wait this is some strange forloop???
+        for (var i = 0, length = radios.length; i < length; i++){
+            if (radios[i].checked){
+                 ratingValues.push(radios[i].value);
+            }
+        }
+        
+       
+      //4. Later implement a new property of the Vacation class - an array of rating values and implement the changes below
        
         selectedVacationId
         console.log(radios);
          // if any of the options is selected, get the value
          // update the ratings array by pushing the value
-         // update allVacations array and then override them in the localstorage
+         // update allVacations array and then override them in the localstorage:
+         //1. Loop over the allVacations array
+         //2. find the correct vacation by id (if selectedVacationId = allVacations[i].id)
+
+         for(i=0; i< allVacations.length;i++){
+             if (selectedVacationId = allVacations[i].id) {
+                 //3. access the array of that vacation's ratings and add to the end of that array the value from ratingValue
+         // OBS , currently, if I'm able to only rate once, I'm overwriting it with every rating
+                allVacations[i].ratings = ratingValues; //instead of just declaring, overwriting, add the value to the end of the ratings array
+             }
+
+         }
+         
+        
+         
+         //4. overwrite the local storage (maybe the same way as in the profile?)
+
     })
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
