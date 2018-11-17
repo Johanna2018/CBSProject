@@ -1,7 +1,7 @@
 
 class Vacation {
     //Constructor allows us to create new objects in this class (with these properties)
-       constructor (id, title, description, pins, isSelected, isPublished, tags, center, zoom) {
+       constructor (id, title, description, pins, isSelected, isPublished, tags, center, zoom, ratings, ) {
            this.id = id;
            this.title = title;
            this.description = description;
@@ -12,7 +12,7 @@ class Vacation {
            this.index = null;
            this.center = center;
            this.zoom = zoom;
-           this.ratings = [];
+           this.ratings = ratings || [];
         }
 
            createHTML() {

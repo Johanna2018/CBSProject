@@ -14,7 +14,8 @@ class Pin {
    // }
   //}
 
-  constructor(name, comment, type, latlng) {
+  constructor(id, name, comment, type, latlng) {
+    this.id = id;
     this.name = name;
     this.comment = comment;
     this.type = type;

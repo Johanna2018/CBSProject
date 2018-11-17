@@ -86,6 +86,7 @@ var pinObjects = [];
 
             //data entered by the user in the info window form:
             //Saves the name, comment, location type (whether a bar or restaurant), and pin coordinates entered by the user in the info window form
+            var id = getNextId(pinObjects);
             var name = document.getElementById('name').value;
             var comment = document.getElementById('comment').value;
             var type = document.getElementById('type').value;
@@ -96,7 +97,7 @@ var pinObjects = [];
 
             // instead of comments below --> we do it shorter
             //push the new Pin in the pinObjects array, new Pin makes it part of the Pin class
-            pinObjects.push(new Pin(name, comment, type, latlng));
+            pinObjects.push(new Pin(id, name, comment, type, latlng));
 
             //store pinObjects in localStorage with store function
             // store(pinObjects, 'pinObjects')
@@ -198,7 +199,6 @@ var pinObjects = [];
 var users = getStorage("users");
 var currentUser = getStorage("currentUser");
 
-// var publishedVac = getStorage("publishedVac");
 // Henrik said it is smarter to have an array with all vacations and find the published ones with a loop (isPubished)
 var allVac = getStorage("allVac");
   

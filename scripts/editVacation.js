@@ -2,7 +2,9 @@
 var map;
 var pin;
 var infowindow;
+var infowindowEdit;
 var recentMarker;
+// var changedPin;
 
 //create as an empty array for later use
 var retrievedPins = [];
@@ -95,6 +97,7 @@ if (pinObjects == null){
             var comment = document.getElementById('commentCreate').value;
             var type = document.getElementById('typeCreate').value;
             var latlng = pin.getPosition();
+            var id = getNextId(pinObjects);
 
             // construct infowindow about new pin
             updateInfoWindow(recentMarker, name, comment, type);
@@ -106,7 +109,7 @@ if (pinObjects == null){
                 });
 
             //push the new Pin in the pinObjects array, new Pin makes it part of the Pin class
-            pinObjects.push(new Pin(name, comment, type, latlng));
+            pinObjects.push(new Pin(id, name, comment, type, latlng));
 
             //store pinObjects in localStorage with store function
             // store(pinObjects, 'pinObjects')
@@ -126,24 +129,73 @@ if (pinObjects == null){
         }
        
         
-    // //onlcik function --> on button changePin
-    // function changePin(){
-    //     var changedPin = pinObjects.id
-    //     var name = document.getElementById('changeName').value;
-    //     var comment = document.getElementById('changeComment').value;
-    //     var type = document.getElementById('changeComment').value;
-    //     var id = ;
+    // //onlcik function --> on button editPin
+    function editPin(){
+        //Make message field in infowindow visible 
+        document.getElementById('messageEdit').style.visibility = "visible";
 
-    // //store pinObjects in localStorage with store function
-    // store(pinObjects, 'pinObjects')
+        //We need to update pinObjects with the changes the user typed in the infowindow
+        //1. we need to find out which pin is edited, we use the id for that. We retrieve the id from the HTML from the infowindow in changeInfoWindow() function
+        var id = formEdit.dataset['object'];
+        // console.log(id);
+        // var id = changedPin.id;
 
-    // }
+        //2. get create new local variables and assign them the input values from the infowindow
+       var name = document.getElementById('nameEdit').value;
+       var comment = document.getElementById('commentEdit').value;
+       var type = document.getElementById('typeEdit').value;
 
-        // Now, we need a variable to display the retrieve the data from the local storage 
+       //3. update changes in pinObjects array
+        // Loop over array to find the object with the same id 
+        for(i = 0; i < pinObjects.length; i++){
+        if(pinObjects[i].id == id){
+            pinObjects[i].name = name;
+            pinObjects[i].comment = comment;
+            pinObjects[i].type = type;
+            //we need the latlng of the selected pin later
+            var latlng = pinObjects[i].latlng;
+        }
+        // console.log(pinObjects);
+    }
+    //    var latlng = selectedPin.latlng;
+
+        //4. we rebuild the pin on the map
+       editedPin = new google.maps.Marker({
+        position: latlng,
+        map: map,
+        title: name,
+        comment: comment,
+        type: type,
+        id: id
+        
+    });
+        
+    //5. we construct the infowindow for the rebuilded pin
+    updateInfoWindow(editedPin, name, comment, type);
+
+    //6. we consrtuct the editable infowindow for the rebuilded pin
+    google.maps.event.addListener(editedPin, 'click', function() {
+        // alert(this.title);
+        changeInfoWindow(editedPin, name, comment, type);
+        });
+
+    //7. we reset and close the infowindow
+        setTimeout(function() {
+        // reset info window for next pin
+        document.getElementById('messageEdit').style.visibility = "hidden";
+        document.getElementById('nameEdit').value = "";
+        document.getElementById('commentEdit').value = "";
+        document.getElementById('typeEdit').value = "viewpoint";
+        infowindowEdit.close();
+
+        }, 1000);
+    }
+
+        // Now, we need a variable to display the pins 
         // We cannot use pinObjects, because in pinObjects not all data (from google API) are saved
         // We rebuild the pins on the map with the retrievedPins
         // callback function to retrieve pins
-        // it has to have this name --> Has to do with google I think
+        // start() --> it has to have this name --> Has to do with google I think
         function start() {
 
             //use getStorage function to get pins from local storage
@@ -183,6 +235,7 @@ if (pinObjects == null){
                 var comment = currentPin.comment;
                 var type = currentPin.type;
                 var latlng = currentPin.latlng;
+                var id = currentPin.id;
 
             // Now we take the collected data from above and create a pin (the red marker) on the map for every object in pinObjects
             // In pinObjects there are not as many data saved as we need to display them (I think)
@@ -193,7 +246,8 @@ if (pinObjects == null){
                     map: map,
                     title: name,
                     comment: comment,
-                    type: type
+                    type: type,
+                    id: id
                     
                 });
 
@@ -242,7 +296,7 @@ if (pinObjects == null){
 
         //setting contenString variable to define pin pop up info window (e.g. Titel, Comment, Type)
         // it is filled out with the variables name, comment, type
-        var contentString = "<div id='formEdit'><table>" +
+        var contentString = "<div id='formEdit' data-object='" + pin.id + "'><table>" +
         "<tr><td>Name:</td><td><input type='text'  id='nameEdit' value = '"+name+"'/> </td></tr>" +
         "<tr><td>Comment:</td><td><input type='text' id='commentEdit' value = '"+comment+"' /></td></tr><tr>" +
         "<td>Type:</td><td><select id='typeEdit' value = '"+type+"'>" +
@@ -257,20 +311,25 @@ if (pinObjects == null){
             "<option value='Hotel'>Hotel</option>" +
             "<option value='Other'>Other</option>" +
             "</select> </td></tr>" +
-            "<tr><td></td><td><input type='button' id='saveEdit' value='Save'/></td></tr></table></div><div id='messageEdit' style='visibility: hidden;  '><b>Changes saved!</b></div>";
+            "<tr><td></td><td><input type='button' id='editPin' value='Save' onclick='editPin()'/></td></tr></table></div><div id='messageEdit' style='visibility: hidden;  '><b>Changes saved!</b></div>";
 
             // connect infowindow with the set contenString
             // this variable infowindow is only local 
-            var infowindow = new google.maps.InfoWindow({
+            infowindowEdit = new google.maps.InfoWindow({
                 content: contentString
             });
 
             // click event listeners on pin --> so infowindow opens
-            pin.addListener('click', function() {
-                infowindow.open(map, this);
+            pin.addListener('click', function(element) {
+                infowindowEdit.open(map, this);
             });
 
+            // changedPin = pin;
+
             }
+
+            //data-object='" + JSON.stringify(pin) + "'
+            //JSON.parse(element.target.dataset.object);
 
         //function to delete all Pins    
         // Bind the button from HTML to a variable for later use
@@ -357,6 +416,8 @@ var saveChanges = document.getElementById("saveChanges");
 //make a function to save the changes made in the vacation, when button is clicked
 saveChanges.onclick = function(){
     //upadte the properties of the currentVac with input
+    currentVac.center = map.getCenter();
+    currentVac.zoom = map.getZoom();
     currentVac.title = document.getElementById("vacTitle").value;
     currentVac.description = document.getElementById("vacDescription").value;
     currentVac.tags = document.getElementById("tags").value;
@@ -367,8 +428,6 @@ saveChanges.onclick = function(){
 }
     // update currentVac.pins by assign pinObjects to it
     currentVac.pins = pinObjects;
-
-    //TODO: this is not working --> why?
     
     // // if user pressed Button Delete all pins --> pinObjects is delted from localStorage
     // // currentVac.pins has to be an empty array then!
