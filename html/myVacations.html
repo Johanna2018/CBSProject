@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>My Vactions</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+  
+        #map {
+            height: 92%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+  
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+  
+    </style>
     <!-- <link rel="stylesheet" href="rating.css"> -->
 </head>
 <body>
@@ -36,10 +53,14 @@
         <button type="button" id="logout">Log-out</button>
     </div>
 
+    <div id="map" height="460px" width="100%"></div>
+
 
     <script type="text/javascript" src="../scripts/util.js"></script>
     <script type="text/javascript" src="../scripts/userClass.js"></script>
     <script type="text/javascript" src="../scripts/myVacations.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKWDH2tfpzh33fGeXac1fOuTOBGgD-Jsg"></script>
+
 
 </body>
 </html>

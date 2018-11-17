@@ -4,7 +4,7 @@
 
 //function to store something in the local storage, y = value (object/array), keyName = name of key which you assign value to and save it in localStorage
 //keyName --> you need it to recall it later in getStorage
-function store(y, keyName){
+function store(y, keyName) {
    var stringified = JSON.stringify(y);
     localStorage.setItem(String(keyName), stringified);
 }
@@ -15,7 +15,6 @@ function getStorage(keyName){
     var parsed = JSON.parse(localStorage.getItem(keyName));
     return parsed;
 }
-
 
 function getNextId(arr){
     // Generate an ID with function
