@@ -218,8 +218,10 @@ function addRatingEvent() {
         
           //wait this is some strange forloop???
         for (var i = 0, length = radios.length; i < length; i++){
+            
             if (radios[i].checked){
                  ratingValues.push(radios[i].value);
+            break;
             }
         }
         
@@ -233,17 +235,23 @@ function addRatingEvent() {
          // update allVacations array and then override them in the localstorage:
          //1. Loop over the allVacations array
          //2. find the correct vacation by id (if selectedVacationId = allVacations[i].id)
-
+        if (ratingValues.length ===1){
          for(i=0; i< allVacations.length;i++){
-             if (selectedVacationId = allVacations[i].id) {
+             if (selectedVacationId = allVacations[i].id); {
+               
                  //3. access the array of that vacation's ratings and add to the end of that array the value from ratingValue
-         // OBS , currently, if I'm able to only rate once, I'm overwriting it with every rating
-                allVacations[i].ratings = ratingValues; //instead of just declaring, overwriting, add the value to the end of the ratings array
-             }
-
+         // OBS , currently, I can rate multiple times 
+         //I thought of implementing an if statement, which will check if the length of an array of ratings 
+                allVacations[i].ratings = ratingValues; //this way I'm adding to the array, somehow, isn't push better for this?
+            } // else {
+            //    alert("You have already rated this vacation")  
+            //  }
          }
          
-        
+        }
+        else {
+            alert("You have already rated this vacation");
+        }
          
          //4. overwrite the local storage (maybe the same way as in the profile?)
 

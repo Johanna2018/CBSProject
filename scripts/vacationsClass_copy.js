@@ -12,7 +12,7 @@ class Vacation {
            this.index = null;
            this.center = center;
            this.zoom = zoom;
-           this.ratings = ratings;
+           this.ratings = [];
         }
 
            createHTML() {
