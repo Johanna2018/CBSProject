@@ -31,17 +31,18 @@
   <div>
     <label for = "search"> Search </label>
     <input type ="search" id="mySearch" placeholder="Insert location or tag">
-    <button id = "submit">Submit</button>
+    <button id = "search">Submit</button>
   </div>
 
   <h5>Filter</h5>
 
-  <label for = "filter">Show</label> <br/>
-  <input type ="radio" name="choice" value=1> 1-2 stars maps <br/>
-  <input type ="radio" name="choice" value=2> 2-3 stars maps<br/>
-  <input type ="radio" name="choice" value=3> 3-4 stars maps<br/>
-  <input type ="radio" name="choice" value=4> 4-5 stars maps<br/>
-  <input type ="radio" name="choice" value=5> 5 stars maps<br/>
+  <label for="filter">Show</label> <br/>
+  <input type="radio" name="filterChoice" value=1>1 or less stars maps <br/>
+  <input type="radio" name="filterChoice" value=2>2 or less stars maps<br/>
+  <input type="radio" name="filterChoice" value=3>3 or less stars maps<br/>
+  <input type="radio" name="filterChoice" value=4>4 or less stars maps<br/>
+  <input type="radio" name="filterChoice" value=5>5 or less stars maps<br/>
+  <button id="filter">Filter</button>
 
   <div id="searchResult"></div>
 
