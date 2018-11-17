@@ -1,35 +1,35 @@
-//inialize map 
+//inialize global variables, so they can be used in different parts of this JS
 var map;
 var pin;
 var infowindow;
-// var allMarkers = [];
+var recentMarker;
+
+//create as an empty array for later use
 var retrievedPins = [];
 
 //get the currently choosen vacation in currentVac variable from local storage with the keyName (always string)
 var currentVac = getStorage("currentVac");
-var recentMarker;
-
 
     // initialize the Map
     function initMap() {
 
         // set start location variable --> location where map opens at first
         var MapPosition = {
-                lat: 25.048921,
-                lng: 9.553599
+                lat: currentVac.center.lat,
+                lng: currentVac.center.lng
             };
 
             // fill map variable with initialized map and set start location and zoom level
             map = new google.maps.Map(document.getElementById('map'), {
                 center: MapPosition,
-                zoom: 2
+                zoom: currentVac.zoom
             });
 
         //setting contenString variable to define pin pop up info window (e.g. Titel, Comment, Type)
-        var contentString = "<div id='form'><table>" +
-        "<tr><td>Name:</td><td><input type='text'  id='name' /> </td></tr>" +
-        "<tr><td>Comment:</td><td><input type='text' id='comment' /></td></tr><tr>" +
-        "<td>Type:</td><td><select id='type'>" +
+        var contentString = "<div id='formCreate'><table>" +
+        "<tr><td>Name:</td><td><input type='text'  id='nameCreate' /> </td></tr>" +
+        "<tr><td>Comment:</td><td><input type='text' id='commentCreate' /></td></tr><tr>" +
+        "<td>Type:</td><td><select id='typeCreate'>" +
             "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
             "<option value='Restaurant'>Restaurant</option>" +
             "<option value='Bar'>Bar</option>" +
@@ -41,7 +41,7 @@ var recentMarker;
             "<option value='Hotel'>Hotel</option>" +
             "<option value='Other'>Other</option>" +
             "</select> </td></tr>" +
-            "<tr><td></td><td><input type='button' id='save' value='Save' onclick='savePin()' /></td></tr></table></div><div id='message' style='visibility: hidden;  '><b>Location saved!</b></div>";
+            "<tr><td></td><td><input type='button' id='saveCreate' value='Save' onclick='savePin()' /></td></tr></table></div><div id='messageCreate' style='visibility: hidden;  '><b>Location saved!</b></div>";
 
             // connect infowindow with the set contenString
             infowindow = new google.maps.InfoWindow({
@@ -76,13 +76,7 @@ if (pinObjects == null){
     //Define pinObjects as an empty array, because you cannot push into an variable which is null
     var pinObjects = [];}
 
-    store(pinObjects, 'pinObjects')
-
-// Function to edit and save already existing pins
-// 
-
-
-
+    // store(pinObjects, 'pinObjects')
 
 // Function to save the new pins
 
@@ -90,52 +84,71 @@ if (pinObjects == null){
         function savePin() {
 
             //Show message field
-            document.getElementById('message').style.visibility = "visible";
+            document.getElementById('messageCreate').style.visibility = "visible";
             //Make the toggle and the delete button visible
             document.getElementById("toggle").style.display = "inline";
             document.getElementById("deletePins").style.display = "inline";
 
             //data entered by the user in the info window form:
             //Saves the name, comment, location type (whether a bar or restaurant), and pin coordinates entered by the user in the info window form
-            var name = document.getElementById('name').value;
-            var comment = document.getElementById('comment').value;
-            var type = document.getElementById('type').value;
+            var name = document.getElementById('nameCreate').value;
+            var comment = document.getElementById('commentCreate').value;
+            var type = document.getElementById('typeCreate').value;
             var latlng = pin.getPosition();
 
-            // construct info about current pin
+            // construct infowindow about new pin
             updateInfoWindow(recentMarker, name, comment, type);
+
+            // consrtuct editable infowindow about new pin
+            google.maps.event.addListener(recentMarker, 'click', function() {
+                // alert(this.title);
+                changeInfoWindow(recentMarker, name, comment, type);
+                });
 
             //push the new Pin in the pinObjects array, new Pin makes it part of the Pin class
             pinObjects.push(new Pin(name, comment, type, latlng));
 
             //store pinObjects in localStorage with store function
-            store(pinObjects, 'pinObjects')
+            // store(pinObjects, 'pinObjects')
 
             // display info window and "LOCATION SAVED" for 1 second, then dismiss
             setTimeout(function() {
                 // reset info window for next pin
-                document.getElementById('message').style.visibility = "hidden";
-                document.getElementById('name').value = "";
-                document.getElementById('comment').value = "";
-                document.getElementById('type').value = "viewpoint";
+                document.getElementById('messageCreate').style.visibility = "hidden";
+                document.getElementById('nameCreate').value = "";
+                document.getElementById('commentCreate').value = "";
+                document.getElementById('typeCreate').value = "viewpoint";
                 infowindow.close();
 
             }, 1000);
 
             //DATA IS SAVED and INFO WINDOW IS CLOSED
         }
+       
+        
+    // //onlcik function --> on button changePin
+    // function changePin(){
+    //     var changedPin = pinObjects.id
+    //     var name = document.getElementById('changeName').value;
+    //     var comment = document.getElementById('changeComment').value;
+    //     var type = document.getElementById('changeComment').value;
+    //     var id = ;
+
+    // //store pinObjects in localStorage with store function
+    // store(pinObjects, 'pinObjects')
+
+    // }
+
         // Now, we need a variable to display the retrieve the data from the local storage 
         // We cannot use pinObjects, because in pinObjects not all data (from google API) are saved
         // We rebuild the pins on the map with the retrievedPins
-        
-
         // callback function to retrieve pins
         // it has to have this name --> Has to do with google I think
         function start() {
 
             //use getStorage function to get pins from local storage
             //assging it to pinObjects variable --> it is easier if it has always the same name, because it is the same thing
-            var pinObjects = getStorage("pinObjects");
+            // var pinObjects = getStorage("pinObjects");
 
             // if no pins are saved, initialize empty map
             if (pinObjects == null || pinObjects.length == 0) {
@@ -157,12 +170,12 @@ if (pinObjects == null){
             initMap();
         }
 
-        // display pins retrieved from the localStorage --> e.g. when page is refreshed or opened
+        // display pins on the map
         //Why do we need that (pinObjects) here?
         function showPins(pinObjects) {
 
             //loop over existing array and display them as a pin, each for one pin
-            // iterate over restored pins (object) to get data about name, comment, etc. 
+            // iterate over stored pins (pinObjects) to get data about name, comment, etc. 
             for (var i = 0; i < pinObjects.length; i++) {
 
                 var currentPin = pinObjects[i];
@@ -171,10 +184,10 @@ if (pinObjects == null){
                 var type = currentPin.type;
                 var latlng = currentPin.latlng;
 
-        // Now we take the collected data from above and create a pin (var retrievedPins) to display them later
-                // In pinObjects there are not as many data saved as we need to display them (I think)
-                // new google.maps.Marker --> is like a own class defined by google
-                //to save the marker on map (only marker!)
+            // Now we take the collected data from above and create a pin (the red marker) on the map for every object in pinObjects
+            // In pinObjects there are not as many data saved as we need to display them (I think)
+            // new google.maps.Marker --> is like a own class defined by google
+            
                 retrievedPins[i] = new google.maps.Marker({
                     position: latlng,
                     map: map,
@@ -184,21 +197,20 @@ if (pinObjects == null){
                     
                 });
 
-            // for (var j = 0; j < retrievedPins.length; j++) {
-              //  allMarkers.push(retrievedPins[i]);
                 //for info window
+                //TODO: better explaination in comment here?
                 retrievedPins[i].setMap(map);
-                // var name = pins[i].name;
-                // var comment = pins[i].comment;
-                // var type = pins[i].type;
 
                 // construct info about every retrieved marker
                 //updateInfoWindow is defined below
                 updateInfoWindow(retrievedPins[i], name, comment, type);
-                changeInfoWindow(retrievedPins[i], name, comment, type);
-
-            // }  
-            }
+                
+                //Add an event listener to every retrievedPin, if someone click on pin function changeInfoWindow is called with values from the clicked pin
+                //changeInfoWindow is defined below 
+                google.maps.event.addListener(retrievedPins[i], 'click', function() {
+                    changeInfoWindow(this, this.title, this.comment, this.type);
+                    });
+                }
         }
 
 
@@ -209,6 +221,7 @@ if (pinObjects == null){
             var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
 
             //updating info window
+            // this variable infowindow is only local 
             var infowindow = new google.maps.InfoWindow({
                 content: contentString
             });
@@ -224,16 +237,15 @@ if (pinObjects == null){
 
         }
 
-        //function to make changes in pin
-
+        //function to make changes in the infowindow of the pin
         function changeInfoWindow(pin, name, comment, type) {
 
         //setting contenString variable to define pin pop up info window (e.g. Titel, Comment, Type)
         // it is filled out with the variables name, comment, type
-        var contentString = "<div id='form'><table>" +
-        "<tr><td>Name:</td><td><input type='text'  id='name' value = '" + name + "'/> </td></tr>" +
-        "<tr><td>Comment:</td><td><input type='text' id='comment' value = '" + comment + "' /></td></tr><tr>" +
-        "<td>Type:</td><td><select id='type' value = '" + type + "'>" +
+        var contentString = "<div id='formEdit'><table>" +
+        "<tr><td>Name:</td><td><input type='text'  id='nameEdit' value = '"+name+"'/> </td></tr>" +
+        "<tr><td>Comment:</td><td><input type='text' id='commentEdit' value = '"+comment+"' /></td></tr><tr>" +
+        "<td>Type:</td><td><select id='typeEdit' value = '"+type+"'>" +
             "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
             "<option value='Restaurant'>Restaurant</option>" +
             "<option value='Bar'>Bar</option>" +
@@ -245,39 +257,37 @@ if (pinObjects == null){
             "<option value='Hotel'>Hotel</option>" +
             "<option value='Other'>Other</option>" +
             "</select> </td></tr>" +
-            "<tr><td></td><td><input type='button' id='save' value='Save' onclick='savePin()' /></td></tr></table></div><div id='message' style='visibility: hidden;  '><b>Location saved!</b></div>";
+            "<tr><td></td><td><input type='button' id='saveEdit' value='Save'/></td></tr></table></div><div id='messageEdit' style='visibility: hidden;  '><b>Changes saved!</b></div>";
 
             // connect infowindow with the set contenString
-            infowindow = new google.maps.InfoWindow({
+            // this variable infowindow is only local 
+            var infowindow = new google.maps.InfoWindow({
                 content: contentString
             });
 
-            // mouseover and mouseout event listeners
+            // click event listeners on pin --> so infowindow opens
             pin.addListener('click', function() {
                 infowindow.open(map, this);
             });
 
             }
 
-
-
-
+        //function to delete all Pins    
         // Bind the button from HTML to a variable for later use
         var deletePins = document.getElementById("deletePins");
-        // delete pinObjects from localStorage
-        //IMPORTANT: do not delete whole localStorage, otherwise everything (user data, vacation data will be deleted as well)
+
         deletePins.onclick = function () {
             //Opens up a pop up window do ask the following.. 
             var con = confirm("Do you really want to remove all pins? If you have made other changes in the vacation and you have not clicked \"Save Changes\" the changes will be lost!")
             // If user clicks "OK" all pins are delted, if he clicks "Cancel" nothing happens
             if (con === true){
                 //removes the item pinObjects from localStorage
-                localStorage.removeItem("pinObjects");
-                // If we want to delete all pins, also currentVac.pins need to be set to empty array
+                // localStorage.removeItem("pinObjects");
+                // If we want to delete all pins, currentVac.pins need to be set to empty array
                 currentVac.pins = [];
                 //store updated currentVac in local storage
-                store(currentVac, "currentVac");
-                currentVac = getStorage("currentVac");
+                // store(currentVac, "currentVac");
+                // currentVac = getStorage("currentVac");
                 //TODO: Is there another solution than reloading whole page? Problem: If user changes descirption and title before clicking delete all entries, the changes will not be saved
                 //But page needs to be refreshed otherwise pins would stay on there
                 location.reload();

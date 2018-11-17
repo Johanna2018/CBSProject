@@ -14,7 +14,7 @@ var pinObjects = [];
 
         // delete pinObjects from localStorage, just in case if there are any stored and to make it more clear what is in local Storage
         // we will set the pinObjects array to an empty array later 
-        localStorage.removeItem("pinObjects");
+        // localStorage.removeItem("pinObjects");
 
         // set start location variable --> location where map opens at first
         var MapPosition = {
@@ -99,7 +99,7 @@ var pinObjects = [];
             pinObjects.push(new Pin(name, comment, type, latlng));
 
             //store pinObjects in localStorage with store function
-            store(pinObjects, 'pinObjects')
+            // store(pinObjects, 'pinObjects')
 
             // display info window and "LOCATION SAVED" for 1 second, then dismiss
             setTimeout(function() {
@@ -282,9 +282,9 @@ document.getElementById("vacDescription").value = "";
 document.getElementById("publish").checked = false;
 document.getElementById("tags").value = "";
 
-// delete pinObjects from localStorage for later
-    localStorage.removeItem("pinObjects");
-    location.reload();
+// // delete pinObjects from localStorage for later
+//     localStorage.removeItem("pinObjects");
+//     location.reload();
 
 //alert and redirecting to myVacations page
 alert("Awesome! Your vacation is saved! You can review and edit it under My Vacations!")
