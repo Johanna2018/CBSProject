@@ -1,5 +1,7 @@
+//inialize global variables, so they can be used in different parts of this JS
 var map;
-var pin;
+//all variables with marker --> have to do with the "pin"/the displaying on the map
+var marker;
 var infowindow;
 //creating allMarkers as an empty array for later use
 var allMarkers = [];
@@ -51,21 +53,21 @@ var pinObjects = [];
                 content: contentString
             });
 
-            //assign a click listener to the map with the addListener() callback function that creates pin when the user clicks the map
+            //assign a click listener to the map with the addListener() callback function that creates marker when the user clicks the map
             google.maps.event.addListener(map, 'click', function(event) {
-                pin = new google.maps.Marker({
+                marker = new google.maps.Marker({
                     position: event.latLng,
                     map: map
                 });
 
-                // displays an info window when the user created pin
-                infowindow.open(map, pin);
+                // displays an info window when the user created marker
+                infowindow.open(map, marker);
 
                 // set current marker variable to `normal´ marker variable 
-                recentMarker = pin;
+                recentMarker = marker;
 
                 // now, the marker variable will be pushed into the empty allMarkers Array (we will need this later on)
-                allMarkers.push(pin);
+                allMarkers.push(marker);
 
             });
 
@@ -90,9 +92,9 @@ var pinObjects = [];
             var name = document.getElementById('name').value;
             var comment = document.getElementById('comment').value;
             var type = document.getElementById('type').value;
-            var latlng = pin.getPosition();
+            var latlng = marker.getPosition();
 
-            // construct info about current pin
+            // construct info about current marker
             updateInfoWindow(recentMarker, name, comment, type);
 
             // instead of comments below --> we do it shorter
@@ -126,7 +128,7 @@ var pinObjects = [];
         }
 
         // update info window of the passed marker with its respecting data
-        function updateInfoWindow(pin, name, comment, type) {
+        function updateInfoWindow(marker, name, comment, type) {
 
             // Now we have to rebuild an infowindow (name, comment, type)
             var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
@@ -137,11 +139,11 @@ var pinObjects = [];
             });
 
             // mouseover and mouseout event listeners
-            pin.addListener('mouseover', function() {
+            marker.addListener('mouseover', function() {
                 infowindow.open(map, this);
             });
 
-            pin.addListener('mouseout', function() {
+            marker.addListener('mouseout', function() {
                 infowindow.close();
             });
 
@@ -157,8 +159,9 @@ var pinObjects = [];
             // If user clicks "OK" all pins are delted, if he clicks "Cancel" nothing happens
             if (con === true){
                 //removes the item pinObjects from localStorage
-                localStorage.removeItem("pinObjects");
+                // localStorage.removeItem("pinObjects");
                 //Page needs to be refreshed otherwise pins would stay on there
+                pinObjects = [];
                 location.reload();
                 return true;
             }else{

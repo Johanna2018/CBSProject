@@ -1,13 +1,15 @@
 //inialize global variables, so they can be used in different parts of this JS
 var map;
-var pin;
+//all variables with marker --> have to do with the "pin"/the displaying on the map
+var marker;
 var infowindow;
 var infowindowEdit;
 var recentMarker;
+var editedMarker;
 // var changedPin;
 
 //create as an empty array for later use
-var retrievedPins = [];
+var retrievedMarkers = [];
 
 //get the currently choosen vacation in currentVac variable from local storage with the keyName (always string)
 var currentVac = getStorage("currentVac");
@@ -50,21 +52,21 @@ var currentVac = getStorage("currentVac");
                 content: contentString
             });
 
-            //assign a click listener to the map with the addListener() callback function that creates pin when the user clicks the map
+            //assign a click listener to the map with the addListener() callback function that creates marker when the user clicks the map
             google.maps.event.addListener(map, 'click', function(event) {
-                pin = new google.maps.Marker({
+                marker = new google.maps.Marker({
                     position: event.latLng,
                     map: map
                 });
 
-                // displays an info window when the user created pin
-                infowindow.open(map, pin);
+                // displays an info window when the user created marker
+                infowindow.open(map, marker);
 
                 // set current marker variable to `normal´ marker variable 
-                recentMarker = pin;
+                recentMarker = marker;
 
                 // now, the marker variable will be pushed into the empty allMarkers Array (we will need this later on)
-                retrievedPins.push(pin);
+                retrievedMarkers.push(marker);
 
         });
     }
@@ -96,8 +98,11 @@ if (pinObjects == null){
             var name = document.getElementById('nameCreate').value;
             var comment = document.getElementById('commentCreate').value;
             var type = document.getElementById('typeCreate').value;
-            var latlng = pin.getPosition();
+            var latlng = marker.getPosition();
             var id = getNextId(pinObjects);
+
+            //push the new Pin in the pinObjects array, new Pin makes it part of the Pin class
+            pinObjects.push(new Pin(id, name, comment, type, latlng));
 
             // construct infowindow about new pin
             updateInfoWindow(recentMarker, name, comment, type);
@@ -107,9 +112,6 @@ if (pinObjects == null){
                 // alert(this.title);
                 changeInfoWindow(recentMarker, name, comment, type);
                 });
-
-            //push the new Pin in the pinObjects array, new Pin makes it part of the Pin class
-            pinObjects.push(new Pin(id, name, comment, type, latlng));
 
             //store pinObjects in localStorage with store function
             // store(pinObjects, 'pinObjects')
@@ -160,7 +162,7 @@ if (pinObjects == null){
     //    var latlng = selectedPin.latlng;
 
         //4. we rebuild the pin on the map
-       editedPin = new google.maps.Marker({
+       editedMarker = new google.maps.Marker({
         position: latlng,
         map: map,
         title: name,
@@ -171,12 +173,12 @@ if (pinObjects == null){
     });
         
     //5. we construct the infowindow for the rebuilded pin
-    updateInfoWindow(editedPin, name, comment, type);
+    updateInfoWindow(editedMarker, name, comment, type);
 
     //6. we consrtuct the editable infowindow for the rebuilded pin
-    google.maps.event.addListener(editedPin, 'click', function() {
+    google.maps.event.addListener(editedMarker, 'click', function() {
         // alert(this.title);
-        changeInfoWindow(editedPin, name, comment, type);
+        changeInfoWindow(editedMarker, name, comment, type);
         });
 
     //7. we reset and close the infowindow
@@ -193,7 +195,7 @@ if (pinObjects == null){
 
         // Now, we need a variable to display the pins 
         // We cannot use pinObjects, because in pinObjects not all data (from google API) are saved
-        // We rebuild the pins on the map with the retrievedPins
+        // We rebuild the pins on the map with the retrievedMarker
         // callback function to retrieve pins
         // start() --> it has to have this name --> Has to do with google I think
         function start() {
@@ -241,7 +243,7 @@ if (pinObjects == null){
             // In pinObjects there are not as many data saved as we need to display them (I think)
             // new google.maps.Marker --> is like a own class defined by google
             
-                retrievedPins[i] = new google.maps.Marker({
+                retrievedMarkers[i] = new google.maps.Marker({
                     position: latlng,
                     map: map,
                     title: name,
@@ -253,15 +255,15 @@ if (pinObjects == null){
 
                 //for info window
                 //TODO: better explaination in comment here?
-                retrievedPins[i].setMap(map);
+                retrievedMarkers[i].setMap(map);
 
                 // construct info about every retrieved marker
                 //updateInfoWindow is defined below
-                updateInfoWindow(retrievedPins[i], name, comment, type);
+                updateInfoWindow(retrievedMarkers[i], name, comment, type);
                 
                 //Add an event listener to every retrievedPin, if someone click on pin function changeInfoWindow is called with values from the clicked pin
                 //changeInfoWindow is defined below 
-                google.maps.event.addListener(retrievedPins[i], 'click', function() {
+                google.maps.event.addListener(retrievedMarkers[i], 'click', function() {
                     changeInfoWindow(this, this.title, this.comment, this.type);
                     });
                 }
@@ -269,7 +271,7 @@ if (pinObjects == null){
 
 
         // update info window of the passed marker with its respecting data
-        function updateInfoWindow(pin, name, comment, type) {
+        function updateInfoWindow(marker, name, comment, type) {
 
             // Now we have to rebuild an infowindow (name, comment, type)
             var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
@@ -281,22 +283,22 @@ if (pinObjects == null){
             });
 
             // mouseover and mouseout event listeners
-            pin.addListener('mouseover', function() {
+            marker.addListener('mouseover', function() {
                 infowindow.open(map, this);
             });
 
-            pin.addListener('mouseout', function() {
+            marker.addListener('mouseout', function() {
                 infowindow.close();
             });
 
         }
 
         //function to make changes in the infowindow of the pin
-        function changeInfoWindow(pin, name, comment, type) {
+        function changeInfoWindow(marker, name, comment, type) {
 
         //setting contenString variable to define pin pop up info window (e.g. Titel, Comment, Type)
         // it is filled out with the variables name, comment, type
-        var contentString = "<div id='formEdit' data-object='" + pin.id + "'><table>" +
+        var contentString = "<div id='formEdit' data-object='" + marker.id + "'><table>" +
         "<tr><td>Name:</td><td><input type='text'  id='nameEdit' value = '"+name+"'/> </td></tr>" +
         "<tr><td>Comment:</td><td><input type='text' id='commentEdit' value = '"+comment+"' /></td></tr><tr>" +
         "<td>Type:</td><td><select id='typeEdit' value = '"+type+"'>" +
@@ -319,8 +321,8 @@ if (pinObjects == null){
                 content: contentString
             });
 
-            // click event listeners on pin --> so infowindow opens
-            pin.addListener('click', function(element) {
+            // click event listeners on marker --> so infowindow opens
+            marker.addListener('click', function() {
                 infowindowEdit.open(map, this);
             });
 
@@ -342,10 +344,14 @@ if (pinObjects == null){
             if (con === true){
                 //removes the item pinObjects from localStorage
                 // localStorage.removeItem("pinObjects");
+                // If we want to delete all pins, pinObjects need to be set to empty array
+                pinObjects = [];
                 // If we want to delete all pins, currentVac.pins need to be set to empty array
                 currentVac.pins = [];
+                // If we want to delete all pins, retrievedMarkers need to be set to empty array
+                retrievedMarkers = [];
                 //store updated currentVac in local storage
-                // store(currentVac, "currentVac");
+                store(currentVac, "currentVac");
                 // currentVac = getStorage("currentVac");
                 //TODO: Is there another solution than reloading whole page? Problem: If user changes descirption and title before clicking delete all entries, the changes will not be saved
                 //But page needs to be refreshed otherwise pins would stay on there
@@ -385,8 +391,8 @@ if (pinObjects == null){
             // }
 
              // Below the function checks ALL the markers to show/hide them
-             for (var i = 0; i < retrievedPins.length; i++) {
-                google.maps.event.trigger(retrievedPins[i], event);
+             for (var i = 0; i < retrievedMarkers.length; i++) {
+                google.maps.event.trigger(retrievedMarkers[i], event);
             
             }
 
