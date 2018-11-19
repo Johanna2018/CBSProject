@@ -59,14 +59,17 @@ var currentVac = getStorage("currentVac");
                     map: map
                 });
 
+
+                //TODO: check retrievedMarkers
+
                 // displays an info window when the user created marker
                 infowindow.open(map, marker);
 
                 // set current marker variable to `normal´ marker variable 
                 recentMarker = marker;
 
-                // now, the marker variable will be pushed into the empty allMarkers Array (we will need this later on)
-                retrievedMarkers.push(marker);
+                // // now, the marker variable will be pushed into the empty allMarkers Array (we will need this later on)
+                // retrievedMarkers.push(marker);
             
 
         });
@@ -101,6 +104,10 @@ if (pinObjects == null){
             var type = document.getElementById('typeCreate').value;
             var latlng = marker.getPosition();
             var id = getNextId(pinObjects);
+            recentMarker.id = id;
+            
+             // now, the marker variable will be pushed into the empty allMarkers Array (we will need this later on)
+             retrievedMarkers.push(marker);
 
             //push the new Pin in the pinObjects array, new Pin makes it part of the Pin class
             pinObjects.push(new Pin(id, name, comment, type, latlng));
@@ -151,6 +158,7 @@ if (pinObjects == null){
        //3. update changes in pinObjects array
         // Loop over array to find the object with the same id 
         for(i = 0; i < pinObjects.length; i++){
+            console.log(pinObjects[i], id);
         if(pinObjects[i].id == id){
             pinObjects[i].name = name;
             pinObjects[i].comment = comment;
@@ -322,10 +330,14 @@ if (pinObjects == null){
                 content: contentString
             });
 
-            // click event listeners on marker --> so infowindow opens
-            marker.addListener('click', function() {
-                infowindowEdit.open(map, this);
-            });
+            // infowindow opens
+                infowindowEdit.open(map, marker);
+           
+
+            // // click event listeners on marker --> so infowindow opens
+            // marker.addListener('click', function() {
+            //     infowindowEdit.open(map, this);
+            // });
 
             // changedPin = pin;
 
@@ -488,6 +500,10 @@ saveChanges.onclick = function(){
 
     return true;
 }
+
+
+
+
 // Bind the button from HTML to a variable for later use
 var deleteVac = document.getElementById("deleteVac");
 //create a function to save to home, when button is clicked
@@ -497,6 +513,7 @@ deleteVac.onclick = function (){
     if (con === true){
     for(i = 0; i < currentUser.vacations.length; i++){
         if(currentVac.id === currentUser.vacations[i].id){
+            
             delete currentUser.vacations[i];
             store(currentUser, "currentUser");
         }
