@@ -67,6 +67,7 @@ var currentVac = getStorage("currentVac");
 
                 // now, the marker variable will be pushed into the empty allMarkers Array (we will need this later on)
                 retrievedMarkers.push(marker);
+            
 
         });
     }
@@ -330,6 +331,17 @@ if (pinObjects == null){
 
             }
 
+            // //add event listener to all Markers on the map
+            // google.maps.event.addListener(marker, 'click', function () {
+            //     changeInfoWindow(this, name, comment, type);
+            //     infowindowEdit.open(map, this);
+            //  });
+
+
+
+
+
+
             //data-object='" + JSON.stringify(pin) + "'
             //JSON.parse(element.target.dataset.object);
 
@@ -476,4 +488,71 @@ saveChanges.onclick = function(){
 
     return true;
 }
+// Bind the button from HTML to a variable for later use
+var deleteVac = document.getElementById("deleteVac");
+//create a function to save to home, when button is clicked
+deleteVac.onclick = function (){
+    var con = confirm("Do you really want to remove all pins? If you have made other changes in the vacation and you have not clicked \"Save Changes\" the changes will be lost!")
+    // If user clicks "OK" all pins are delted, if he clicks "Cancel" nothing happens
+    if (con === true){
+    for(i = 0; i < currentUser.vacations.length; i++){
+        if(currentVac.id === currentUser.vacations[i].id){
+            delete currentUser.vacations[i];
+            store(currentUser, "currentUser");
+        }
+    }
+
+        //update changes of currentVac in allVac array
+         // Loop over allVac array to find the object with the same id and set it to currentVac
+    for(i = 0; i < allVac.length; i++){
+    if(currentVac.id === allVac[i].id){
+            delete allVac[i];
+            store(allVac, "allVac");
+       }
+     }
+            //update changes of currentUser in users array
+             // Loop over users array to find the object with the same id and set it to currentUser
+    for(i = 0; i < users.length; i++){
+    if(currentUser.id === users[i].id){
+            users[i] = currentUser;
+            store(users, "users");
+        }
+    } 
+    currentVac = undefined;
+    localStorage.removeItem("currentVac");
+    window.location = "myVacations.html"; 
+}}
     
+// Bind the button from HTML to a variable for later use    
+var home = document.getElementById("home");
+//make a function to save to home, when button is clicked
+home.onclick = function(){
+    //redirecting to log out page
+    window.location = "homePage.html"; 
+    //Return true to jump out of the function, since we now have all we need.
+    return true;
+}
+
+// Bind the button from HTML to a variable for later use    
+var myVac = document.getElementById("myVac");
+//make a function to save to home, when button is clicked
+myVac.onclick = function(){
+    //redirecting to log out page
+    window.location = "myVacations.html"; 
+    //Return true to jump out of the function, since we now have all we need.
+    return true;
+}
+
+// Bind the button from HTML to a variable for later use    
+var logout = document.getElementById("logout");
+//make a function to save to logout, when button is clicked
+logout.onclick = function(){
+    //set variable isLoggedIn to false
+    currentUser.isLoggedIn = false;
+    
+    //redirecting to log out page
+    window.location = "logout.html"; 
+  
+    //Return true to jump out of the function, since we now have all we need.
+    return true;
+}

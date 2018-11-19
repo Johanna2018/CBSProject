@@ -234,6 +234,9 @@ saveVac.onclick = function(){
     
     var pins = pinObjects;
 
+    // A vacation has no ratings when it is created, therefore ratings has to 
+    var ratings = [];
+
     //Getting center location of displyed window --> opens the map on the same location
     //.getCenter() --> function from Google API
     var center = map.getCenter();
@@ -242,7 +245,7 @@ saveVac.onclick = function(){
     var zoom = map.getZoom();
         
     // push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
-    var currentVac = new Vacation(id, title, description, pins, isSelected, isPublished, tags, center, zoom);
+    var currentVac = new Vacation(id, title, description, pins, isSelected, isPublished, tags, ratings, center, zoom);
 
     //push newVacation into vacations array in currentUser Object 
     currentUser.vacations.push(currentVac);
