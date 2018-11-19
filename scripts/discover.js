@@ -16,7 +16,7 @@ var vacationsFromLocalStorage = getStorage('allVac');
 // this is done because we want to be able to use the functionality from the class (the calculation of the average), if we didn't do it, that function would be
 // undefined
 var allVacations = vacationsFromLocalStorage.map(function(vacation) {
-    return new Vacation(vacation.id, vacation.title, vacation.description, vacation.pins, vacation.isSelected, vacation.isPublished, vacation.tags, vacation.ratings);
+    return new Vacation(vacation.id, vacation.title, vacation.description, vacation.pins, vacation.isSelected, vacation.isPublished, vacation.tags, vacation.ratings, vacation.center, vacation.zoom);
 });
 
 console.log('allVacations', allVacations);
@@ -193,12 +193,63 @@ function initVacationElementEvents(vacationElement) {
 
         //the following line says basically: if vacationToDisplay is not undefined and if the length of pins of that vacaion is > 0, then initialize map, with that particular vacation's pins
         if (vacationToDisplay && vacationToDisplay.pins.length) {
+            
+            
+            var mapTitle = document.getElementById('titleDisplayed');
+            mapTitle.innerHTML = "<h5>Title</h5> " + vacationToDisplay.title;
+            
             initMap(vacationToDisplay.pins);
+            
+            //function that will initialize a map, passing it a parameters of pins, which will be pins of the particular map that matches our criteria, was moved to this scope in order to get the particular zoom and centre
+            function initMap(pins) {
+                // Set start location variable --> location where map opens at first
+                var MapPosition = {
+                    lat: vacationToDisplay.center.lat,
+                    lng: vacationToDisplay.center.lng
+                };
+            
+                // Fill map variable with initialized map and set start location and zoom level
+                //this basically says fill the map element in the html with a map
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: MapPosition,
+                    zoom: vacationToDisplay.zoom
+                });
+            
+                //then we loop over the pins of the particular map and "set"/"create" new pins on this map accordingly
+                for (var i = 0; i < pins.length; i++) {
+                    var pin = pins[i];
+                    var marker = new google.maps.Marker({
+                        position: pin.latlng,
+                        map: map,
+                        title: pin.name,
+                        comment: pin.comment,
+                        type: pin.type
+                    });
+            
+                    updateInfoWindow(map, marker, pin.name, pin.comment, pin.type);
+                }
+            
+                //---------------------------------------------------------------------------------------------------
+                //The following part starts on the rating part
+                //we call the variable mapElement, because we are tying it to the map, it only appears when a map appears
+                var mapElement = document.getElementById('rating');
+                var newElement = document.createElement('div');
+                newElement.innerHTML = '<h5>Please rate this map</h5> <div><input type ="radio" name="rating" value="1">1 <input type ="radio" name="rating" value="2">2 <input type ="radio" name="rating" value="3">3 <input type ="radio" name="rating" value="4">4 <input type="radio" name="rating" value="5">5 <input class="rate-button" type="submit" value="Rate"></div>';
+                
+                mapElement.appendChild(newElement);
+                addRatingEvent();
+            }
+
+            var mapDescription = document.getElementById('description');
+            mapDescription.innerHTML = "<h5>Description</h5> " + vacationToDisplay.description;
+            
         } else {
             //otherwise, if there was a map from the previous result, delete it, don't display any map if there are no pins
             deleteMap();
             console.error('The map with id:' + vacationToDisplay.id + ' doesn\'t have any pins');
+
         }
+    
     });
 }
 
@@ -220,45 +271,7 @@ function deleteMap() {
     mapElement.innerHTML = '';
     map.innerHTML = '';
 }
-//function that will initialize a map, passing it a parameters of pins, which will be pins of the particular map that matches our criteria
-function initMap(pins) {
-    // Set start location variable --> location where map opens at first
-    var MapPosition = {
-        lat: 25.048921,
-        lng: 9.553599
-    };
 
-    // Fill map variable with initialized map and set start location and zoom level
-    //this basically says fill the map element in the html with a map
-    var map = new google.maps.Map(document.getElementById('map'), {
-        center: MapPosition,
-        zoom: 2
-    });
-
-    //then we loop over the pins of the particular map and "set"/"create" new pins on this map accordingly
-    for (var i = 0; i < pins.length; i++) {
-        var pin = pins[i];
-        var marker = new google.maps.Marker({
-            position: pin.latlng,
-            map: map,
-            title: pin.name,
-            comment: pin.comment,
-            type: pin.type
-        });
-
-        updateInfoWindow(map, marker, pin.name, pin.comment, pin.type);
-    }
-
-    //---------------------------------------------------------------------------------------------------
-    //The following part starts on the rating part
-    //we call the variable mapElement, because we are tying it to the map, it only appears when a map appears
-    var mapElement = document.getElementById('rating');
-    var newElement = document.createElement('div');
-    newElement.innerHTML = '<h5>Please rate this map</h5> <div><input type ="radio" name="rating" value="1">1 <input type ="radio" name="rating" value="2">2 <input type ="radio" name="rating" value="3">3 <input type ="radio" name="rating" value="4">4 <input type="radio" name="rating" value="5">5 <input class="rate-button" type="submit" value="Rate"></div>';
-    
-    mapElement.appendChild(newElement);
-    addRatingEvent();
-}
 
 
 // TODO: will need a function which will calculate the average rating from the values in the array, don't know where yet (only at the end by the filter, just before the filter?)

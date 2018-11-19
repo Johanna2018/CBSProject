@@ -38,7 +38,7 @@ saveChanges.onclick = function(){
     //radios is an array because radio buttons have all the same name
     var radios = document.getElementsByName("gender-choice");
     //loop over the radio buttons because we need to get the value from the radio button that is checked 
-    for (var i = 0, length = radios.length; i < length; i++){
+    for (var i = 0; i < radios.length; i++){
         if (radios[i].checked){
     // assign value from checked radio button to gender
     currentUser.gender = radios[i].value;

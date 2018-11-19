@@ -1,7 +1,7 @@
 
 class Vacation {
     // Constructor allows us to create new objects in this class (with these properties)
-    constructor(id, title, description, pins, isSelected, isPublished, tags, ratings) {
+    constructor(id, title, description, pins, isSelected, isPublished, tags, ratings, center, zoom) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -10,7 +10,10 @@ class Vacation {
         this.isPublished = isPublished;
         this.tags = tags;
         this.index = null;
+        //TO DO: maybe || [] can be deleted
         this.ratings = ratings || [];
+        this.center = center;
+        this.zoom = zoom;
     };
 
     // The reason this function is in this script is that later on in the discover when we call the vacations as objects,
