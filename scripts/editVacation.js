@@ -508,37 +508,70 @@ saveChanges.onclick = function(){
 var deleteVac = document.getElementById("deleteVac");
 //create a function to save to home, when button is clicked
 deleteVac.onclick = function (){
-    var con = confirm("Do you really want to remove all pins? If you have made other changes in the vacation and you have not clicked \"Save Changes\" the changes will be lost!")
-    // If user clicks "OK" all pins are delted, if he clicks "Cancel" nothing happens
+    var con = confirm("Do you really want to delete this vacation? If you click \"OK\" there is no way back!")
+    // If user clicks "OK" vacation is delted, if he clicks "Cancel" nothing happens
     if (con === true){
+
+    //We need to delete the vacation on all different places where we saved it
+    //1. in currentUser.vacations
+    //Loop over currentUser.vacations array 
     for(i = 0; i < currentUser.vacations.length; i++){
+    //Find the index of the object in the currentUser.vacations array with the same id as the currentVac
         if(currentVac.id === currentUser.vacations[i].id){
-            
-            delete currentUser.vacations[i];
-            store(currentUser, "currentUser");
+        //assign this vacation to a local variable
+            var vac = currentUser.vacations[i];
         }
     }
-
-        //update changes of currentVac in allVac array
-         // Loop over allVac array to find the object with the same id and set it to currentVac
+    //Find the index of this vacation in the currentUser.vacations array and assign it to a local variable
+    var index = currentUser.vacations.indexOf(vac);
+    
+    //Delete the vacation with the splice method
+    //index is our variable we just defined, so at position of index 1 element will be removed (index, 1)
+        currentUser.vacations.splice(index, 1);
+        // console.log(currentUser.vacations);
+    
+            // store in currentUser in localStorage
+            store(currentUser, "currentUser");
+        }
+    
+    //2. In the allVac array
+    //Loop over allVac array 
     for(i = 0; i < allVac.length; i++){
-    if(currentVac.id === allVac[i].id){
-            delete allVac[i];
-            store(allVac, "allVac");
-       }
-     }
-            //update changes of currentUser in users array
-             // Loop over users array to find the object with the same id and set it to currentUser
-    for(i = 0; i < users.length; i++){
-    if(currentUser.id === users[i].id){
+        //Find the index of the object in the allVac array with the same id as the currentVac
+        if(currentVac.id === allVac[i].id){
+        //assign this vacation to a local variable
+        var vac = allVac[i];
+            }
+        }
+            //Find the index of this vacation in the allVac array and assign it to a local variable
+            var index = currentUser.vacations.indexOf(vac);
+            // var index = findIndex(vac);
+            
+            //Delete the vacation with the splice method.
+            //index is our variable we just defined, so at position of index 1 element will be removed (index, 1)
+                allVac.splice(index, 1);
+                // console.log(allVac);
+            
+                    // store in allVac in localStorage
+                    store(allVac, "allVac");
+        
+        //3. The changes of currentUser have to be updated in the users array
+        
+        // Loop over users array to find the object with the same id and set it to currentUser
+        for(i = 0; i < users.length; i++){
+        if(currentUser.id === users[i].id){
             users[i] = currentUser;
+            // console.log(users);
+            //Store users array in localStorage
             store(users, "users");
         }
-    } 
-    currentVac = undefined;
-    localStorage.removeItem("currentVac");
-    window.location = "myVacations.html"; 
-}}
+        } 
+        currentVac = undefined;
+        console.log(currentVac);
+        localStorage.removeItem("currentVac");
+        //redirect to myVacations.html
+        window.location = "myVacations.html"; 
+}
     
 // Bind the button from HTML to a variable for later use    
 var home = document.getElementById("home");
