@@ -10,8 +10,8 @@ class Vacation {
         this.isPublished = isPublished;
         this.tags = tags;
         this.index = null;
-        //TO DO: maybe || [] can be deleted
-        this.ratings = ratings || [];
+        // || [] has been deleted, because it was defined in createVacation
+        this.ratings = ratings;
         this.center = center;
         this.zoom = zoom;
     };

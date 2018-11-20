@@ -15,7 +15,7 @@ var vacationsFromLocalStorage = getStorage('allVac');
 // takes the vacationsFromLocalStorage and overwrites it to become Vacation objects with the same properties 
 // this is done because we want to be able to use the functionality from the class (the calculation of the average), if we didn't do it, that function would be
 // undefined
-var allVacations = vacationsFromLocalStorage.map(function(vacation) {
+var allVacations = vacationsFromLocalStorage.map(function (vacation) {
     return new Vacation(vacation.id, vacation.title, vacation.description, vacation.pins, vacation.isSelected, vacation.isPublished, vacation.tags, vacation.ratings, vacation.center, vacation.zoom);
 });
 
@@ -109,7 +109,7 @@ function displayElements(shouldResetRadiosAndResetFilterValue) {
             //we declare a variable with a value of an html element, we make it a paragraph 'p'(this can be any html element, for example h1)
             var resultEl = document.createElement('p')
 
-           
+
 
             //now we define what should the innerHTML of our resultEl be populated with, which value - in this case it should be filled with the title of the object in a searchResult array and get the average rating
             resultEl.innerHTML = vacation.title + ' ==== (' + vacation.getAverageRatings() + '*)';
@@ -135,7 +135,7 @@ function displayElements(shouldResetRadiosAndResetFilterValue) {
 //The following part determins the two lines of possibilities
 //if searchButton is clicked, set shouldResetRadios to true and execute displayElements(shouldResetRadios) function from just before)
 var searchButton = document.getElementById('search');
-searchButton.addEventListener('click', function() {
+searchButton.addEventListener('click', function () {
     var shouldResetRadios = true;
     displayElements(shouldResetRadios);
 });
@@ -145,7 +145,7 @@ var filterButton = document.getElementById('filter');
 filterButton.addEventListener('click', function () {
     //we declare a variable pointing at each radio button, to have it as an array, which we will use in the next step
     var filterRadios = document.getElementsByName('filterChoice');
-   
+
 
     //Get the value from the radio selected
     for (var i = 0; i < filterRadios.length; i++) {
@@ -164,7 +164,7 @@ filterButton.addEventListener('click', function () {
 //function that determines how to reset the filter buttons
 function resetFilterRadioButtons() {
     var filterRadios = document.getElementsByName('filterChoice');
-   
+
     for (var i = 0; i < filterRadios.length; i++) {
         filterRadios[i].checked = false;
     }
@@ -177,6 +177,7 @@ function resetFilterRadioButtons() {
 //Q not sure about this following 3 lines?
 function initVacationElementEvents(vacationElement) {
     vacationElement.addEventListener('click', function (event) {
+       //the following resets the map everytime the search result is clicked (in case there's map without pins which won't display, so the previous one doesn't stay on the display)
         deleteMap();
 
         // with declaring the selectedVacationId variable, we assign it a value of that id, which we managed to retrieve earlier in the line: resultEl.setAttribute ('id, vacation.id), we retrieved it from JS, into the html
@@ -186,20 +187,24 @@ function initVacationElementEvents(vacationElement) {
         selectedVacationId = event.target.id;
         // now we declare a vacationToDisplay variable and we assign it a value of that vacation from our publishedVacations array, which fits the criteria (id)
         //find function is similar to the filter function, but what it does is that it loops over an array and stops once it found that one result - makes sense in this case, because we will only point at one vacation with a unique
-        
+
         // do I get this right? - set the value of this variable with the find function, and we pass it two arguments - first, from which vacation to take the data and second, where to look for in which array
         var vacationToDisplay = findVacationById(selectedVacationId, publishedVacations);
         //after this function is run, the particular vacation with particular id becomes vacationToDisplay, which we now use:
 
         //the following line says basically: if vacationToDisplay is not undefined and if the length of pins of that vacaion is > 0, then initialize map, with that particular vacation's pins
         if (vacationToDisplay && vacationToDisplay.pins.length) {
-            
-            
+
+
             var mapTitle = document.getElementById('titleDisplayed');
             mapTitle.innerHTML = "<h5>Title</h5> " + vacationToDisplay.title;
-            
+
+
             initMap(vacationToDisplay.pins);
-            
+           
+            // TO DO TOGGLE
+           // document.getElementById("toggle").style.display = "inline";
+
             //function that will initialize a map, passing it a parameters of pins, which will be pins of the particular map that matches our criteria, was moved to this scope in order to get the particular zoom and centre
             function initMap(pins) {
                 // Set start location variable --> location where map opens at first
@@ -207,14 +212,14 @@ function initVacationElementEvents(vacationElement) {
                     lat: vacationToDisplay.center.lat,
                     lng: vacationToDisplay.center.lng
                 };
-            
+
                 // Fill map variable with initialized map and set start location and zoom level
                 //this basically says fill the map element in the html with a map
                 var map = new google.maps.Map(document.getElementById('map'), {
                     center: MapPosition,
                     zoom: vacationToDisplay.zoom
                 });
-            
+
                 //then we loop over the pins of the particular map and "set"/"create" new pins on this map accordingly
                 for (var i = 0; i < pins.length; i++) {
                     var pin = pins[i];
@@ -225,33 +230,57 @@ function initVacationElementEvents(vacationElement) {
                         comment: pin.comment,
                         type: pin.type
                     });
-            
+
                     updateInfoWindow(map, marker, pin.name, pin.comment, pin.type);
                 }
-            
+
                 //---------------------------------------------------------------------------------------------------
                 //The following part starts on the rating part
                 //we call the variable mapElement, because we are tying it to the map, it only appears when a map appears
                 var mapElement = document.getElementById('rating');
                 var newElement = document.createElement('div');
                 newElement.innerHTML = '<h5>Please rate this map</h5> <div><input type ="radio" name="rating" value="1">1 <input type ="radio" name="rating" value="2">2 <input type ="radio" name="rating" value="3">3 <input type ="radio" name="rating" value="4">4 <input type="radio" name="rating" value="5">5 <input class="rate-button" type="submit" value="Rate"></div>';
-                
+
                 mapElement.appendChild(newElement);
                 addRatingEvent();
             }
 
+            //TODO TOGGLE
+            // var entriesHidden = true;
+            // var toggle = document.getElementById("toggle");
+            // toggle.onclick = function () {
+
+            //     //set event as an empty string, to use it later
+            //     var event = "";
+
+            //     // If entries are not shown, we will have the event mouseover to show all the markers.
+            //     if (entriesHidden)
+            //         event = "mouseover";
+            //     // If entries are shown, we will have the event mouseout to hide all markers.
+            //     else
+            //         event = "mouseout";
+
+            //     for (var i = 0; i < vacationToDisplay.pins.length; i++) {
+            //         google.maps.event.trigger(vacationToDisplay.pins[i], event);
+
+            //     }
+
+            // }
+
             var mapDescription = document.getElementById('description');
             mapDescription.innerHTML = "<h5>Description</h5> " + vacationToDisplay.description;
-            
+
         } else {
             //otherwise, if there was a map from the previous result, delete it, don't display any map if there are no pins
             deleteMap();
             console.error('The map with id:' + vacationToDisplay.id + ' doesn\'t have any pins');
 
         }
-    
+
     });
 }
+
+
 
 //function that finds the vacation by ID in order to be used multiple places, vacationList in this case is the array we pass it when currently working with it, either publishedVacation or AllVacations
 function findVacationById(vacationId, vacationList) {
@@ -264,7 +293,7 @@ function findVacationById(vacationId, vacationList) {
     });
 }
 
-//The function that will delete the map
+//The function that will delete the map, resp set the inner html to blank so nothing displays
 function deleteMap() {
     var map = document.getElementById('map');
     var mapElement = document.getElementById('rating');
@@ -285,7 +314,7 @@ function addRatingEvent() {
     var ratingValue = 0;
     var rateButton = document.getElementsByClassName('rate-button')[0]; //class is not unique, so the function returns an array, therefore we need to tell it which index in this array we want to use, we only have one, so 0 in our case
     rateButton.addEventListener('click', function () {
-        
+
         var radios = document.getElementsByName("rating");
         //Q. we literally just loop over the radios below the map?
         for (var i = 0; i < radios.length; i++) {
@@ -299,10 +328,10 @@ function addRatingEvent() {
         if (ratingValue > 0) {
             //what this function takes as an argument is simply the ID of the vacation we're working with right now and the array in which want to search for it
             var vacation = findVacationById(selectedVacationId, allVacations);
-            var parsedRatingValue = parseInt(ratingValue, 10); 
+            var parsedRatingValue = parseInt(ratingValue, 10);
             // There is a shorter way to execute the conversion to a number, by adding "+" in front of the value of the string // (in this case ratingValue)  parseInt('44', 10) --> 44 ; vs +'44' ---> 44
             //push the parsed value (now number) to the vacation.ratings array
-            vacation.ratings.push(parsedRatingValue); 
+            vacation.ratings.push(parsedRatingValue);
             //overwrite in the local storage
             store(allVacations, 'allVac');
 

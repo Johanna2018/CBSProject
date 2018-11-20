@@ -50,10 +50,15 @@ function initVacationElementEvents(vacationElement) {
         //the following line says basically: if vacationToDisplay is not undefined and if the length of pins of that vacaion is > 0, then initialize map, with that particular vacation's pins
         if (vacationToDisplay && vacationToDisplay.pins.length) {
             initMap(vacationToDisplay.pins);
+              //TODO I need to somehow store a vacation under the currentVac, but it doesn't work
+            store(vacationToDisplay,"currentVac");
+
         } else {
             //otherwise, if there was a map from the previous result, delete it, don't display any map if there are no pins
             deleteMap();
             console.error('The map with id:' + vacationToDisplay.id + ' doesn\'t have any pins');
+            
+          
         }
     });
 }
@@ -155,6 +160,19 @@ logout.onclick = function () {
 
     //redirecting to log out page
     window.location = "logout.html";
+
+    //Return true to jump out of the function, since we now have all we need.
+    return true;
+}
+
+//TODO make the edit button only appear with the map
+
+// Bind the button from HTML to a variable for later use    
+var editVacation= document.getElementById("editVacation");
+//make a function to save to logout, when button is clicked
+editVacation.onclick = function () {
+    //redirecting to edit page
+    window.location = "editVacation.html";
 
     //Return true to jump out of the function, since we now have all we need.
     return true;
