@@ -184,10 +184,10 @@ if (pinObjects == null){
     //5. we construct the infowindow for the rebuilded pin
     updateInfoWindow(editedMarker, name, comment, type);
 
-    //6. we consrtuct the editable infowindow for the rebuilded pin
+    //6. we construct the editable infowindow for the rebuilded pin
     google.maps.event.addListener(editedMarker, 'click', function() {
         // alert(this.title);
-        changeInfoWindow(editedMarker, name, comment, type);
+        changeInfoWindow(this, name, comment, type);
         });
 
     //7. we reset and close the infowindow
