@@ -187,6 +187,7 @@ if (pinObjects == null){
     //6. we construct the editable infowindow for the rebuilded pin
     google.maps.event.addListener(editedMarker, 'click', function() {
         // alert(this.title);
+        //"this" is here important --> so the right infowindow will open up and not the one of the former editedMarker
         changeInfoWindow(this, name, comment, type);
         });
 
@@ -331,6 +332,7 @@ if (pinObjects == null){
             });
 
             // infowindow opens
+            // here it is important that we use marker and not this!
                 infowindowEdit.open(map, marker);
            
 
