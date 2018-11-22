@@ -184,10 +184,11 @@ if (pinObjects == null){
     //5. we construct the infowindow for the rebuilded pin
     updateInfoWindow(editedMarker, name, comment, type);
 
-    //6. we consrtuct the editable infowindow for the rebuilded pin
+    //6. we construct the editable infowindow for the rebuilded pin
     google.maps.event.addListener(editedMarker, 'click', function() {
         // alert(this.title);
-        changeInfoWindow(editedMarker, name, comment, type);
+        //"this" is here important --> so the right infowindow will open up and not the one of the former editedMarker
+        changeInfoWindow(this, name, comment, type);
         });
 
     //7. we reset and close the infowindow
@@ -331,6 +332,7 @@ if (pinObjects == null){
             });
 
             // infowindow opens
+            // here it is important that we use marker and not this!
                 infowindowEdit.open(map, marker);
            
 
@@ -446,9 +448,13 @@ var saveChanges = document.getElementById("saveChanges");
 //make a function to save the changes made in the vacation, when button is clicked
 saveChanges.onclick = function(){
     //upadte the properties of the currentVac with input
+    currentVac.title = document.getElementById("vacTitle").value;
+    if (currentVac.title == ""){
+        alert("Please type in a title!");
+    }else{
     currentVac.center = map.getCenter();
     currentVac.zoom = map.getZoom();
-    currentVac.title = document.getElementById("vacTitle").value;
+    
     currentVac.description = document.getElementById("vacDescription").value;
     currentVac.tags = document.getElementById("tags").value;
  if (document.getElementById("publish").checked == true){
@@ -456,6 +462,8 @@ saveChanges.onclick = function(){
     }else{
     currentVac.isPublished = false;
 }
+
+
     // update currentVac.pins by assign pinObjects to it
     currentVac.pins = pinObjects;
     
@@ -499,6 +507,7 @@ saveChanges.onclick = function(){
     window.location = "myVacations.html"; 
 
     return true;
+}
 }
 
 
