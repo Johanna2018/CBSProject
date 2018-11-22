@@ -448,9 +448,13 @@ var saveChanges = document.getElementById("saveChanges");
 //make a function to save the changes made in the vacation, when button is clicked
 saveChanges.onclick = function(){
     //upadte the properties of the currentVac with input
+    currentVac.title = document.getElementById("vacTitle").value;
+    if (currentVac.title == ""){
+        alert("Please type in a title!");
+    }else{
     currentVac.center = map.getCenter();
     currentVac.zoom = map.getZoom();
-    currentVac.title = document.getElementById("vacTitle").value;
+    
     currentVac.description = document.getElementById("vacDescription").value;
     currentVac.tags = document.getElementById("tags").value;
  if (document.getElementById("publish").checked == true){
@@ -458,6 +462,8 @@ saveChanges.onclick = function(){
     }else{
     currentVac.isPublished = false;
 }
+
+
     // update currentVac.pins by assign pinObjects to it
     currentVac.pins = pinObjects;
     
@@ -501,6 +507,7 @@ saveChanges.onclick = function(){
     window.location = "myVacations.html"; 
 
     return true;
+}
 }
 
 

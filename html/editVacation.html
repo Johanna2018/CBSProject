@@ -31,16 +31,17 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKWDH2tfpzh33fGeXac1fOuTOBGgD-Jsg&callback=start"></script>
 
     <h1>Edit Vacation</h1>
-
+<form>
     <div>
         <label for="vacTitle">Title: </label>
-        <input id="vacTitle" placeholder="to be filled from js" type="text">
+        <input id="vacTitle" placeholder="Type in a title" type="text" required>
     </div>
 
     <div>
         <label for="vacDescription">Description: </label>
-        <textarea cols= "30" rows="10" id="vacDescription" placeholder="to be filled from js"></textarea>
+        <textarea cols= "30" rows="10" id="vacDescription" placeholder="Type in a description" required></textarea>
     </div>
+</form>
 
     <button id ="deletePins" style="background-color: crimson; color: white; font-size: 15px; font-family: verdana;">Delete all entries</button>
     <button id="toggle" style="display: none; background-color: cornflowerblue; color: white; font-size: 15px; font-family: verdana;">Toggle all entries</button>
@@ -75,7 +76,7 @@
 
     <div>
         <label for="tags">Tags </label>
-        <input id="tags" placeholder="to be filled from js" type="text">
+        <input id="tags" placeholder="Type in some tags" type="text">
         <div>
             <span id="tagSpan">One tag can only be one word. Please seperate the tags with an #</span>
         </div>

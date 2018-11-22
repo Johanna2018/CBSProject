@@ -33,10 +33,10 @@ if (users == null){
   //Define users as an empty array, because you cannot push into an variable which is null
   var users = [];}
   // Fill it up with a few users to show log-in functionality, so we don´t need to register new user every time
-  users.push(new User(1,"Johanna", "jojo", "Female", "jo@cbs.dk", "1234", "Blabla", false, [1,2,3]));
-  users.push(new User(2,"Peter Pan", "milkway", "Male", "456@cbs.dk", "password", "Lorem ipsum dolor sit amet", false, [1,2,3]));
-  users.push(new User(3,"Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty", "Lorem ipsum dolor sit amet", false, [1,2,3]));
-  users.push(new User(4,"Tina", "tete", "Female", "tete@cbs.dk", "1111", "Lorem ipsum dolor sit amet", false, [1,2,3]));
+  users.push(new User(1,"Johanna", "jojo", "Female", "jo@cbs.dk", "1234", "Blabla", false,));
+  users.push(new User(2,"Peter Pan", "milkway", "Male", "456@cbs.dk", "password", "Lorem ipsum dolor sit amet", false));
+  users.push(new User(3,"Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty", "Lorem ipsum dolor sit amet", false));
+  users.push(new User(4,"Tina", "tete", "Female", "tete@cbs.dk", "1111", "Lorem ipsum dolor sit amet", false));
   
 //store updated users array in local storage, store(y, keyname) 
 //keyName --> make sure keyName is always String, need to remember for later use, y --> array
