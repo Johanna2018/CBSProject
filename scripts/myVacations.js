@@ -49,16 +49,52 @@ function initVacationElementEvents(vacationElement) {
 
         //the following line says basically: if vacationToDisplay is not undefined and if the length of pins of that vacaion is > 0, then initialize map, with that particular vacation's pins
         if (vacationToDisplay && vacationToDisplay.pins.length) {
-            initMap(vacationToDisplay.pins);
-              //TODO I need to somehow store a vacation under the currentVac, but it doesn't work
-            store(vacationToDisplay,"currentVac");
 
+            initMap(vacationToDisplay.pins);
+            
+            store(vacationToDisplay, "currentVac");
+            function initMap(pins) {
+                // Set start location variable --> location where map opens at first
+                var MapPosition = {
+                    lat: vacationToDisplay.center.lat,
+                    lng: vacationToDisplay.center.lng
+                };
+
+                // Fill map variable with initialized map and set start location and zoom level
+                //this basically says fill the map element in the html with a map
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: MapPosition,
+                    zoom: vacationToDisplay.zoom
+                });
+                // We're calling it a mapElement, because it only appears together with the map
+                var mapElement = document.getElementById('editVacation');
+                var newElement = document.createElement('button');
+                newElement.innerHTML = '<div input type ="button"> Edit this vacation </div>';
+
+                mapElement.appendChild(newElement);
+                
+
+                //then we loop over the pins of the particular map and "set"/"create" new pins on this map accordingly
+                for (var i = 0; i < pins.length; i++) {
+                    var pin = pins[i];
+                    var marker = new google.maps.Marker({
+                        position: pin.latlng,
+                        map: map,
+                        title: pin.name,
+                        comment: pin.comment,
+                        type: pin.type
+                    });
+
+                    updateInfoWindow(map, marker, pin.name, pin.comment, pin.type);
+                }
+            }
+           
         } else {
             //otherwise, if there was a map from the previous result, delete it, don't display any map if there are no pins
             deleteMap();
             console.error('The map with id:' + vacationToDisplay.id + ' doesn\'t have any pins');
-            
-          
+
+
         }
     });
 }
@@ -80,34 +116,7 @@ function deleteMap() {
 }
 
 //function that will initialize a map, passing it a parameters of pins, which will be pins of the particular map that matches our criteria
-function initMap(pins) {
-    // Set start location variable --> location where map opens at first
-    var MapPosition = {
-        lat: 25.048921,
-        lng: 9.553599
-    };
 
-    // Fill map variable with initialized map and set start location and zoom level
-    //this basically says fill the map element in the html with a map
-    var map = new google.maps.Map(document.getElementById('map'), {
-        center: MapPosition,
-        zoom: 2
-    });
-
-    //then we loop over the pins of the particular map and "set"/"create" new pins on this map accordingly
-    for (var i = 0; i < pins.length; i++) {
-        var pin = pins[i];
-        var marker = new google.maps.Marker({
-            position: pin.latlng,
-            map: map,
-            title: pin.name,
-            comment: pin.comment,
-            type: pin.type
-        });
-
-        updateInfoWindow(map, marker, pin.name, pin.comment, pin.type);
-    }
-}
 
 function updateInfoWindow(map, pin, name, comment, type) {
 
@@ -168,7 +177,7 @@ logout.onclick = function () {
 //TODO make the edit button only appear with the map
 
 // Bind the button from HTML to a variable for later use    
-var editVacation= document.getElementById("editVacation");
+var editVacation = document.getElementById("editVacation");
 //make a function to save to logout, when button is clicked
 editVacation.onclick = function () {
     //redirecting to edit page

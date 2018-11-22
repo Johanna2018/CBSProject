@@ -15,14 +15,14 @@ var currentVac = getStorage("currentVac");
 
         // set start location variable --> location where map opens at first
         var MapPosition = {
-                lat: 25.048921,
-                lng: 9.553599
+                lat: currentVac.center.lat,
+                lng: currentVac.center.lng
             };
 
             // fill map variable with initialized map and set start location and zoom level
             map = new google.maps.Map(document.getElementById('map'), {
                 center: MapPosition,
-                zoom: 2
+                zoom: currentVac.zoom
             });
         }
         
