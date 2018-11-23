@@ -12,7 +12,6 @@ class User {
       this.password = password;
       this.description = description;
       this.isLoggedIn = isLoggedIn;
-      this.index = null;
       this.vacations = vacations;
     }
   }
