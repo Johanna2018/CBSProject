@@ -312,7 +312,8 @@ if (pinObjects == null){
         "<tr><td>Name:</td><td><input type='text'  id='nameEdit' value = '"+name+"'/> </td></tr>" +
         "<tr><td>Comment:</td><td><input type='text' id='commentEdit' value = '"+comment+"' /></td></tr><tr>" +
         "<td>Type:</td><td><select id='typeEdit' value = '"+type+"'>" +
-            "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
+        // TODO: the right categoray should be selected"<td>Type:</td><td><select id='typeEdit' onchange = 'run()' >" +
+            "<option value='Viewpoint'>Viewpoint</option>" +
             "<option value='Restaurant'>Restaurant</option>" +
             "<option value='Bar'>Bar</option>" +
             "<option value='Shopping'>Shopping</option>" +
