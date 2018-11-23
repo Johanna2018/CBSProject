@@ -75,9 +75,10 @@ function initVacationElementEvents(vacationElement) {
                 
 
                 //then we loop over the pins of the particular map and "set"/"create" new pins on this map accordingly
+                var markers = [];
                 for (var i = 0; i < pins.length; i++) {
                     var pin = pins[i];
-                    var marker = new google.maps.Marker({
+                    markers[i] = new google.maps.Marker({
                         position: pin.latlng,
                         map: map,
                         title: pin.name,
@@ -85,8 +86,29 @@ function initVacationElementEvents(vacationElement) {
                         type: pin.type
                     });
 
-                    updateInfoWindow(map, marker, pin.name, pin.comment, pin.type);
+                    updateInfoWindow(map, markers[i], pin.name, pin.comment, pin.type);
                 }
+                
+                document.getElementById("toggle").style.display = "inline";
+                var entriesHidden = true;
+                var toggle = document.getElementById("toggle");
+                toggle.onclick = function () {
+
+                    //set event as an empty string, to use it later
+                    var event = "";
+
+                    // If entries are not shown, we will have the event mouseover to show all the markers.
+                    if (entriesHidden)
+                        event = "mouseover";
+                    // If entries are shown, we will have the event mouseout to hide all markers.
+                    else
+                        event = "mouseout";
+
+                    for (var i = 0; i < markers.length; i++) {
+                        google.maps.event.trigger(markers[i], event);
+                    }
+                }
+
             }
            
         } else {
