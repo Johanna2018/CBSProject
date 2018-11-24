@@ -288,7 +288,8 @@ function changeInfoWindow(marker, name, comment, type) {
     // it is filled out with the variables name, comment, type
         "<tr><td>Name:</td><td><input type='text'  id='nameEdit' value = '" + name + "'/> </td></tr>" +
         "<tr><td>Comment:</td><td><input type='text' id='commentEdit' value = '" + comment + "' /></td></tr><tr>" +
-        "<td>Type:</td><td><select id='typeEdit' value = '" + type + "'>" +
+        // "<td>Type:</td><td><select id='typeEdit' value = '" + type + "'>" +
+        "<td>Type:</td><td><select id='typeEdit'>" +
         // TODO: the right categoray should be selected"<td>Type:</td><td><select id='typeEdit' onchange = 'run()' >" +
         "<option value='Viewpoint'>Viewpoint</option>" +
         "<option value='Restaurant'>Restaurant</option>" +
@@ -302,6 +303,8 @@ function changeInfoWindow(marker, name, comment, type) {
         "<option value='Other'>Other</option>" +
         "</select> </td></tr>" +
         "<tr><td></td><td><input type='button' id='editPin' value='Save' onclick='editPin()'/></td></tr></table></div><div id='messageEdit' style='visibility: hidden;  '><b>Changes saved!</b></div>";
+
+    // document.getElementById('typeEdit').value = type;
 
     // connect infowindow with the set contenString
     // this variable infowindow is only local 

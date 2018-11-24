@@ -70,9 +70,7 @@ store(users, "users");
       // Since the user has tried three times, we let the user know that he's been banned
       resultSpan.innerText = "You've entered the wrong email address and password three times. You are not allowed to log in anymore!";
   
-      // Disable the two input fields and the button in order for the user to not make any trouble
-      inputEmail.disabled = true;
-      inputPassword.disabled = true;
+      // Disable button in order for the user to not make any trouble
       login.disabled = true;
   
       // Return false to stop us from doing anything further.

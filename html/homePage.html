@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Home Page</title>
 </head>
 <!-- The head contains metadata, such as important keywords, link to css and js files -->
+
 <body>
-  <h1>Welcome to My Vacation Map</h1> 
- 
+  <h1>Welcome to My Vacation Map</h1>
+
 
   <section>
-  <button id="profile">My Profile</button> <br>
-  <button id="myVac">My Vacations</button> <br>
-  <button id="discover">Discover</button> <br>
-  <button type="button" id="logout">Log-out</button>
-</section>
+    <button id="profile">My Profile</button> <br>
+    <button id="myVac">My Vacations</button> <br>
+    <button id="discover">Discover</button> <br>
+    <button type="button" id="logout">Log-out</button>
+  </section>
 
- 
-<script type="text/javascript" src="../scripts/util.js"></script>
-<script type="text/javascript" src="../scripts/homePage.js"></script>
+  <!-- Links to javascript files -->
+  <script type="text/javascript" src="../scripts/util.js"></script>
+  <!-- This script must be down here because it calls buttons and input fields from HTML, if it would be in the beginning, the HTML would not be loaded then -->
+  <script type="text/javascript" src="../scripts/homePage.js"></script>
 
 
 </body>
+
 </html>

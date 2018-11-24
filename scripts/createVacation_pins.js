@@ -207,19 +207,24 @@ saveVac.onclick = function () {
 
     // generated ID with getNextId function (in util.js defined)
     var id = getNextId(allVac);
-
+    //create new variable pins and assign it pinObjects, for later use
+    var pins = pinObjects;
     // Bind the input fields and get the value
     var title = document.getElementById("vacTitle").value;
+    //If there is no title typed in or no pins on the map, alert a message, so the user always has to put in a title + pin
+    if (title == "" || pins.length == 0) {
+        alert("To save your vacation needs a title and at least 1 pin!");
+    } else {
     var description = document.getElementById("vacDescription").value;
     var isSelected = false;
+    //get input from tag input in HTML, split() method splits the input after whatever you put in the quotation marks
+    //makes automatically an array out of it
+    var tags = document.getElementById("tags").value.split(",");
     var isPublished = false;
     // check if the check box is clicked, if yes --> var isPublished is true
     if (document.getElementById("publish").checked == true) {
         var isPublished = true;
     }
-    //get input from tag input in HTML, split() method splits the input after whatever you put in the quotation marks
-    //makes automatically an array out of it
-    var tags = document.getElementById("tags").value.split(",");
 
     //create new variable pins and assign it pinObjects, for later use
     var pins = pinObjects;
@@ -275,6 +280,7 @@ saveVac.onclick = function () {
     window.location = "myVacations.html";
 
     return true;
+}
 }
 
 // Bind the button from HTML to a variable for later use    

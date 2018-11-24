@@ -43,27 +43,7 @@
     </div>
     <div id="map" height="460px" width="100%"></div>
     <div>
-    
-        <!-- This is for the pins -->
-      <!-- <table>
-      <tr><td>Name:</td> <td><input type="text" id="pinName"/> </td></tr>
-      <tr><td>Comment:</td> <td><input type="text2 id="pinComment"/> </td> </tr>
-      <tr><td>Type:</td> <td><select id="pinType">
-                 <option value="viewpoint" SELECTED>Viewpoint</option>
-                 <option value="restaurant">Restaurant</option>
-                 <option value="bar">Bar</option>
-                 <option value="shopping mall">Shop</option>
-                 <option value="cafe">Café</option>
-                 <option value="museum">Museum</option>
-                 <option value="sight">Sight</option>
-                 <option value="other">Other</option>
-                 </select> </td></tr>
-                 <tr><td></td><td><button id="pinSave" onclick="saveData()">Save</button></td></tr>
-                 Need to change the function here in cancel
-                 <tr><td></td><td><button id="pinCancel" onclick="saveData()">Cancel</button></td></tr>
-                 
-      </table> -->
-    
+
     <div>
         <label for="publish">Published: </label>
         <span id="publish" type="text"></span>
@@ -89,7 +69,8 @@
     <div>
         <button type="button" id="logout">Log-out</button>
     </div>
-
+    
+<!-- This script must be down here because it calls buttons and input fields from HTML, if it would be in the beginning, the HTML would not be loaded then -->
     <script type="text/javascript" src="../scripts/displayVacation.js"></script>
 </body>
 </html>

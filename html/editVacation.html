@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,86 +23,73 @@
         }
 
     </style>
-    <script type="text/javascript" src="../scripts/util.js"></script>
-    <script type="text/javascript" src="../scripts/vacationsClass.js"></script>
-    <script type="text/javascript" src="../scripts/pinClass.js"></script>
-    
+
 </head>
+
 <body>
+    <!-- script to load the Google Maps API -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKWDH2tfpzh33fGeXac1fOuTOBGgD-Jsg&callback=start"></script>
 
     <h1>Edit Vacation</h1>
-<form>
-    <div>
-        <label for="vacTitle">Title: </label>
-        <input id="vacTitle" placeholder="Type in a title" type="text" required>
-    </div>
+    <form>
+        <div>
+            <label for="vacTitle">Title: </label>
+            <input id="vacTitle" placeholder="Type in a title" type="text" required>
+        </div>
 
-    <div>
-        <label for="vacDescription">Description: </label>
-        <textarea cols= "30" rows="10" id="vacDescription" placeholder="Type in a description" required></textarea>
-    </div>
-</form>
+        <div>
+            <label for="vacDescription">Description: </label>
+            <textarea cols="30" rows="10" id="vacDescription" placeholder="Type in a description" required></textarea>
+        </div>
+    </form>
 
-    <button id ="deletePins" style="background-color: crimson; color: white; font-size: 15px; font-family: verdana;">Delete all entries</button>
-    <button id="toggle" style="display: none; background-color: cornflowerblue; color: white; font-size: 15px; font-family: verdana;">Toggle all entries</button>
-    
+    <button id="deletePins" style="background-color: crimson; color: white; font-size: 15px; font-family: verdana;">Delete
+        all entries</button>
+    <button id="toggle" style="display: none; background-color: cornflowerblue; color: white; font-size: 15px; font-family: verdana;">Toggle
+        all entries</button>
+
     <div id="map" height="460px" width="100%"></div>
     <div>
-    
-        <!-- This is for the pins -->
-      <!-- <table>
-      <tr><td>Name:</td> <td><input type="text" id="pinName"/> </td></tr>
-      <tr><td>Comment:</td> <td><input type="text2 id="pinComment"/> </td> </tr>
-      <tr><td>Type:</td> <td><select id="pinType">
-                 <option value="viewpoint" SELECTED>Viewpoint</option>
-                 <option value="restaurant">Restaurant</option>
-                 <option value="bar">Bar</option>
-                 <option value="shopping mall">Shop</option>
-                 <option value="cafe">Café</option>
-                 <option value="museum">Museum</option>
-                 <option value="sight">Sight</option>
-                 <option value="other">Other</option>
-                 </select> </td></tr>
-                 <tr><td></td><td><button id="pinSave" onclick="saveData()">Save</button></td></tr>
-                 Need to change the function here in cancel
-                 <tr><td></td><td><button id="pinCancel" onclick="saveData()">Cancel</button></td></tr>
-                 
-      </table> -->
-    
-    <div>
-        <label for="publish">Publish your map </label>
-        <input id="publish" type="checkbox">
-    </div>
 
-    <div>
-        <label for="tags">Tags </label>
-        <input id="tags" placeholder="Type in some tags" type="text">
         <div>
-            <span id="tagSpan">One tag can only be one word. Please seperate the tags with an #</span>
+            <label for="publish">Publish your map </label>
+            <input id="publish" type="checkbox">
         </div>
-    </div>  
 
-    <div>
-        <button type="button" id="saveChanges">Save</button>
-    </div>
+        <div>
+            <label for="tags">Tags </label>
+            <input id="tags" placeholder="Type in some tags" type="text">
+            <div>
+                <span id="tagSpan">One tag can only be one word. Please seperate the tags with an #</span>
+            </div>
+        </div>
 
-    <div>
-        <button type="button" id="deleteVac">Delete</button>
-    </div>
+        <div>
+            <button type="button" id="saveChanges">Save</button>
+        </div>
 
-    <div>
-        <button type="button" id="home">Home</button>
-    </div>
-        
-    <div>
-        <button type="button" id="myVac">My Vacations</button>
-    </div>
-        
-    <div>
-        <button type="button" id="logout">Log-out</button>
-    </div>
+        <div>
+            <button type="button" id="deleteVac">Delete</button>
+        </div>
 
-    <script type="text/javascript" src="../scripts/editVacation.js"></script>
+        <div>
+            <button type="button" id="home">Home</button>
+        </div>
+
+        <div>
+            <button type="button" id="myVac">My Vacations</button>
+        </div>
+
+        <div>
+            <button type="button" id="logout">Log-out</button>
+        </div>
+
+        <!-- Links to javascript files -->
+        <script type="text/javascript" src="../scripts/util.js"></script>
+        <script type="text/javascript" src="../scripts/vacationsClass.js"></script>
+        <script type="text/javascript" src="../scripts/pinClass.js"></script>
+        <!-- This script must be down here because it calls buttons and input fields from HTML, if it would be in the beginning, the HTML would not be loaded then -->
+        <script type="text/javascript" src="../scripts/editVacation.js"></script>
 </body>
+
 </html>
