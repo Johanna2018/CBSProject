@@ -9,7 +9,15 @@ var allMarkers = [];
 var recentMarker;
 // creating pinObjects as an empty array for later use
 var pinObjects = [];
+// var MapPosition = {
+//             lat: 25.048921, 
+//             lng: 9.553599
+//         };
+// var zoom = 2
 
+
+// //initialize Map
+// initMap(MapPosition, zoom);
 
 
 // initialize the Map
@@ -65,9 +73,6 @@ function initMap() {
         // set current marker variable to `normal´ marker variable 
         recentMarker = marker;
 
-        // now, the marker will be pushed into the empty allMarkers Array (we will need this later on)
-        allMarkers.push(marker);
-
     });
 
 }
@@ -93,6 +98,9 @@ function savePin() {
 //ID is generate by function defined in util.js
     var id = getNextId(pinObjects);
 
+    // now, the marker will be pushed into the empty allMarkers Array (we will need this later on)
+    allMarkers.push(marker);
+
     // construct info about recentMarker
     updateInfoWindow(recentMarker, name, comment, type);
 
@@ -112,6 +120,8 @@ function savePin() {
 
     //DATA IS SAVED and INFO WINDOW IS CLOSED
 }
+
+// savePin(allMarkers, pinObjects);
 
 // Function start is onclick in HTML --> initializing the map
 function start() {
@@ -165,26 +175,26 @@ var entriesHidden = true;
 // Bind the button from HTML to a variable for later use
 var toggle = document.getElementById("toggle");
 
-// With the toggle function we show all the markers with a click on the button
-toggle.onclick = function () {
+// // With the toggle function we show all the markers with a click on the button
+// toggle.onclick = function () {
 
-    //set event as an empty string
-    var event = "";
+//     //set event as an empty string
+//     var event = "";
 
-    // If entries are not shown, we will have the event mouseover to show all the markers.
-    if (entriesHidden)
-        event = "mouseover";
-    // If entries are shown, we will have the event mouseout to hide all markers.
-    else
-        event = "mouseout";
+//     // If entries are not shown, we will have the event mouseover to show all the markers.
+//     if (entriesHidden)
+//         event = "mouseover";
+//     // If entries are shown, we will have the event mouseout to hide all markers.
+//     else
+//         event = "mouseout";
 
-    // Below the function checks ALL the markers to show/hide them
-    for (var i = 0; i < allMarkers.length; i++) {
-        google.maps.event.trigger(allMarkers[i], event);
+//     // Below the function checks ALL the markers to show/hide them
+//     for (var i = 0; i < allMarkers.length; i++) {
+//         google.maps.event.trigger(allMarkers[i], event);
 
-    }
+//     }
 
-}
+// }
 
 //get the data of users, currentUser and allVac from localStorage and assign it to variables (global)
 //function getStorage() is defined in util.js

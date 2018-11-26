@@ -27,7 +27,6 @@
     <!-- script to load the Google Maps API -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKWDH2tfpzh33fGeXac1fOuTOBGgD-Jsg&callback=start"></script>
 
-
     <h1 style="text-align: center; margin-top: 15px; margin-bottom: 0px;">Create Your Vacation!</h1>
     <div>
         <label for="vacTitle">Title: </label>
@@ -40,7 +39,7 @@
     </div>
     <button id="deletePins" style="display: none; background-color: crimson; color: white; font-size: 15px; font-family: verdana;">Delete
         all entries</button>
-    <button id="toggle" style="display: none; background-color: cornflowerblue; color: white; font-size: 15px; font-family: verdana;">Toggle
+    <button id="toggle" onclick='toggle(allMarkers)'style="display: none; background-color: cornflowerblue; color: white; font-size: 15px; font-family: verdana;">Toggle
         all entries</button>
 
     <div id="map" height="460px" width="100%"></div>
@@ -79,6 +78,7 @@
     <script type="text/javascript" src="../scripts/vacationsClass.js"></script>
     <!-- This script must be down here because it calls buttons and input fields from HTML, if it would be in the beginning, the HTML would not be loaded then -->
     <script type="text/javascript" src="../scripts/createVacation_pins.js"></script>
+    <!-- <script type="text/javascript" src="../scripts/util.js"></script> -->
 
 </body>
 
