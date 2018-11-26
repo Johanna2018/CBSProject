@@ -170,33 +170,6 @@ deletePins.onclick = function () {
     }
 }
 
-// //set a variable entriesHidden to true --> to use it later for if statement
-// var entriesHidden = true;
-
-// // Bind the button from HTML to a variable for later use
-// var toggle = document.getElementById("toggle");
-
-// // With the toggle function we show all the markers with a click on the button
-// toggle.onclick = function () {
-
-//     //set event as an empty string
-//     var event = "";
-
-//     // If entries are not shown, we will have the event mouseover to show all the markers.
-//     if (entriesHidden)
-//         event = "mouseover";
-//     // If entries are shown, we will have the event mouseout to hide all markers.
-//     else
-//         event = "mouseout";
-
-//     // Below the function checks ALL the markers to show/hide them
-//     for (var i = 0; i < allMarkers.length; i++) {
-//         google.maps.event.trigger(allMarkers[i], event);
-
-//     }
-
-// }
-
 //get the data of users, currentUser and allVac from localStorage and assign it to variables (global)
 //function getStorage() is defined in util.js
 //users --> array of all existing users
@@ -292,38 +265,4 @@ saveVac.onclick = function () {
 
     return true;
 }
-}
-
-// Bind the button from HTML to a variable for later use    
-var home = document.getElementById("home");
-//create onclick function on button, which redirects to homePage
-home.onclick = function () {
-    //redirecting to log out page
-    window.location = "homePage.html";
-    //Return true to jump out of the function, since we now have all we need
-    return true;
-}
-
-// Bind the button from HTML to a variable for later use    
-var myVac = document.getElementById("myVac");
-//create onclick function on button, which redirects to myVacations
-myVac.onclick = function () {
-    //redirecting to log out page
-    window.location = "myVacations.html";
-    //Return true to jump out of the function, since we now have all we need
-    return true;
-}
-
-// Bind the button from HTML to a variable for later use    
-var logout = document.getElementById("logout");
-//create onclick function on button, which redirects to logout page
-logout.onclick = function () {
-    //set variable isLoggedIn to false
-    currentUser.isLoggedIn = false;
-
-    //redirecting to log out page
-    window.location = "logout.html";
-
-    //Return true to jump out of the function, since we now have all we need
-    return true;
 }

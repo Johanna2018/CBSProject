@@ -95,10 +95,11 @@ function getNextId(arr){
 
 // }
 
-// 
 
-// With the toggle function we show all the markers with a click on the button
+// Function for toggle button
+// With the toggle function we show all the markers 
 function toggle (arrMarkers) {
+    //set a variable entriesHidden to true --> to use it later for if statement
     var entriesHidden = true;
 
     //set event as an empty string
@@ -106,8 +107,9 @@ function toggle (arrMarkers) {
 
     // If entries are not shown, we will have the event mouseover to show all the markers.
     if (entriesHidden)
+    //We use "mouseover" --> to simulate that a mouse is over all of the markers to show all the infowindows
         event = "mouseover";
-    // If entries are shown, we will have the event mouseout to hide all markers.
+    // If entries are shown, we will have the event mouseout to hide all markers again
     else
         event = "mouseout";
 
@@ -117,4 +119,55 @@ function toggle (arrMarkers) {
 
     }
 
+}
+
+//Function for Home button
+//Redirects user to homePage.html
+function home () {
+    //redirecting to log out page
+    window.location = "homePage.html";
+    //Return true to jump out of the function, since we now have all we need.
+    return true;
+}
+
+//Function for My Vacations button
+//Redirects user to myVacations.html    
+function myVac () {
+    //redirecting to log out page
+    window.location = "myVacations.html";
+    //Return true to jump out of the function, since we now have all we need
+    return true;
+}
+
+//Function for Logout button
+//Redirects user to logout.html   
+function logout () {
+    //set variable isLoggedIn to false
+    currentUser.isLoggedIn = false;
+
+    //redirecting to log out page
+    window.location = "logout.html";
+
+    //Return true to jump out of the function, since we now have all we need
+    return true;
+}
+
+//Function for Profile button
+//Redirects user to profile.html  
+function profile () {
+    //redirecting to profile page
+    window.location = "profile.html";
+
+    //Return true to jump out of the function, since we now have all we need
+    return true;
+}
+
+//Function for Discover button
+//Redirects user to discover.html
+ function discover () {
+    //redirecting to profile page
+    window.location = "discover.html";
+
+    //Return true to jump out of the function, since we now have all we need
+    return true;
 }

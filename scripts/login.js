@@ -2,16 +2,7 @@
 //assging it to users variable  
 //getStorage does the same as: var users = JSON.parse(localStorage.getItem("users"));
 var users = getStorage("users");
-  
-// if the localStorgae is empty, because we came directly to login (without registration), we define users as an empty array, because you cannot push into an variable which is null
-if (users == null){
-  var users = [];}
-  // Fill it up with a few users to show log-in functionality, so we don´t need to register new user every time
-  users.push(new User(1,"Johanna", "jojo", "Female", "jo@cbs.dk", "1234", "Blabla", false,));
-  users.push(new User(2,"Peter Pan", "milkway", "Male", "456@cbs.dk", "password", "Lorem ipsum dolor sit amet", false));
-  users.push(new User(3,"Henrik Thorn", "thorn", "Male", "123@cbs.dk", "qwerty", "Lorem ipsum dolor sit amet", false));
-  users.push(new User(4,"Tina", "tete", "Female", "tete@cbs.dk", "1111", "Lorem ipsum dolor sit amet", false));
-  
+
 //store updated users array in local storage with store(y, keyname) function, (defined in util.js)
 //keyName --> make sure keyName is always String, need to remember for later use, y --> array
 store(users, "users");
