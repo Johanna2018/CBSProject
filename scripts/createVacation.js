@@ -1,158 +1,267 @@
-// Initialize an empty array
-// var vacations = [
-//     {Title: "Title", 
-//     Description: "description", 
-//     Pins: [], 
-//     isSelected: false},
-//     {Title: "XX", 
-//     Description: "XX", 
-//     Pins: [], 
-//     isSelected: false},
-//     {Title: "YY", 
-//     Description: "YY", 
-//     Pins: [], 
-//     isSelected: false}
-// ];
+//inialize global variables, so they can be used in different parts of this JS
 
+var map;
+//all variables with marker --> have to do with the displaying of th "pin" on the map
+var marker;
+var infowindow;
+//creating allMarkers as an empty array for later use
+var allMarkers = [];
+var recentMarker;
+// creating pinObjects as an empty array for later use
+var pinObjects = [];
+//MapPosition and zoom is needed to initialize the map, it will open up the world map with this values
+var MapPosition = {
+            lat: 25.048921, 
+            lng: 9.553599
+        };
+var zoom = 2
+
+
+// // initialize the Map
+// function initMap() {
+
+//     // set start location variable --> location where map opens at first
+//     var MapPosition = {
+//         lat: 25.048921,
+//         lng: 9.553599
+//     };
+
+//     // fill map variable with initialized map and set start location and zoom level
+//     map = new google.maps.Map(document.getElementById('map'), {
+//         center: MapPosition,
+//         zoom: 2
+//     });
+
+//     //setting contentString variable to define pin pop up info window (e.g. Titel, Comment, Type)
+//     var contentString = "<div id='form'><table>" +
+//         "<tr><td>Name:</td><td><input type='text'  id='name' /> </td></tr>" +
+//         "<tr><td>Comment:</td><td><input type='text' id='comment' /></td></tr><tr>" +
+//         "<td>Type:</td><td><select id='type'>" +
+//         "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
+//         "<option value='Restaurant'>Restaurant</option>" +
+//         "<option value='Bar'>Bar</option>" +
+//         "<option value='Shopping'>Shopping</option>" +
+//         "<option value='Cafe'>Cafe</option>" +
+//         "<option value='Night club'>Night club</option>" +
+//         "<option value='Supermarket'>Supermarket</option>" +
+//         "<option value='Museum'>Museum</option>" +
+//         "<option value='Hotel'>Hotel</option>" +
+//         "<option value='Other'>Other</option>" +
+//         "</select> </td></tr>" +
+//         "<tr><td></td><td><input type='button' id='save' value='Save' onclick='savePin()' /></td></tr></table></div><div id='message' style='visibility: hidden;  '><b>Location saved!</b></div>";
+
+//     // connect infowindow (defined global) with the set contenString
+//     //new google.maps.InfoWindow --> is like a own class defined by Google Maps API
+//     infowindow = new google.maps.InfoWindow({
+//         content: contentString
+//     });
+
+//     //assign a click listener to the map with the addListener() callback function that creates marker when the user clicks the map
+//     google.maps.event.addListener(map, 'click', function (event) {
+//         // new google.maps.Marker --> is like a own class defined by Google Maps API
+//         marker = new google.maps.Marker({
+//             position: event.latLng,
+//             map: map
+//         });
+
+//         // displays an info window when the user created marker
+//         infowindow.open(map, marker);
+
+//         // set current marker variable to `normal´ marker variable 
+//         recentMarker = marker;
+
+//     });
+
+// }
+
+
+//Now we safe the data of the marker in a pin object
+
+//onlcik function --> onclick set on element in HTML 
+function savePin() {
+
+    //Make message field visible
+    document.getElementById('message').style.visibility = "visible";
+    //Make the toggle and the delete button visible
+    document.getElementById("toggle").style.display = "inline";
+    document.getElementById("deletePins").style.display = "inline";
+
+    //Saves the name, comment, location type, and pin coordinates entered by the user in the info window form
+    var name = document.getElementById('name').value;
+    var comment = document.getElementById('comment').value;
+    var type = document.getElementById('type').value;
+    //get the position (latitude and longtiude) with getPosition method from Google Maps API
+    var latlng = marker.getPosition();
+    //ID is generate by function defined in util.js
+    var id = getNextId(pinObjects);
+
+    // now, the marker will be pushed into the empty allMarkers Array (we will need this later on)
+    allMarkers.push(marker);
+
+    // construct info about recentMarker
+    updateInfoWindow(recentMarker, name, comment, type);
+
+    //push the new pin in the pinObjects array, new Pin makes it part of the Pin class
+    pinObjects.push(new Pin(id, name, comment, type, latlng));
+
+    // display info window and "LOCATION SAVED" for 1 second, then dismiss
+    setTimeout(function () {
+        // reset info window for next pin
+        document.getElementById('message').style.visibility = "hidden";
+        document.getElementById('name').value = "";
+        document.getElementById('comment').value = "";
+        document.getElementById('type').value = "viewpoint";
+        infowindow.close();
+
+    }, 1000);
+
+    //DATA IS SAVED and INFO WINDOW IS CLOSED
+}
+
+// savePin(allMarkers, pinObjects);
+
+// Function start is onclick in HTML --> initializing the map
+function start() {
+    //initMap is defined in util.js
+    initMap(MapPosition, zoom);
+    // initMap();
+}
+
+// // update info window of the passed marker with its respecting data
+// function updateInfoWindow(marker, name, comment, type) {
+
+//     // Now we have to rebuild an infowindow (name, comment, type)
+//     var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
+
+//     //updating info window, here we define the variable infowindow local!
+//     var infowindow = new google.maps.InfoWindow({
+//         content: contentString
+//     });
+
+//     // mouseover and mouseout event listeners
+//     marker.addListener('mouseover', function () {
+//         infowindow.open(map, this);
+//     });
+
+//     marker.addListener('mouseout', function () {
+//         infowindow.close();
+//     });
+
+// }
+
+// Bind the button from HTML to a variable for later use
+var deletePins = document.getElementById("deletePins");
+
+// Create a onclick function on variable (button)
+// Delete function is different here then in editVacations
+deletePins.onclick = function () {
+    //Opens up a pop up window do ask the following.. 
+    var con = confirm("Do you really want to remove all pins? There is no way back if you click \"OK\"! All other changes will be lost, too!")
+    // If user clicks "OK" all pins are delted, if he clicks "Cancel" nothing happens
+    if (con === true) {
+        //pinObjects is set to an empty array and by that all pins are overwritten
+        pinObjects = [];
+        //Page needs to be refreshed otherwise pins would stay on there
+        location.reload();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//get the data of users, currentUser and allVac from localStorage and assign it to variables (global)
+//function getStorage() is defined in util.js
+//users --> array of all existing users
 var users = getStorage("users");
 var currentUser = getStorage("currentUser");
-
-// var publishedVac = getStorage("publishedVac");
-// Henrik said it is smarter to have an array with all vacations and find the published ones with a loop (isPubished)
+//allVac array of all existing vacations
 var allVac = getStorage("allVac");
-  
-// // if the localStorgae is empty, because we came directly to login (without registration), we need to fill the users array with hardcoded users
-// if (publishedVac === null){
-//   //Define users as an empty arrayfor later --> to store published vacations in localStorage, because you cannot push into an variable which is null
-//   var publishedVac = [];}
 
-// if the localStorgae is empty, because we came directly to login (without registration), we need to fill the users array with hardcoded users
-if (allVac === null){
-    //Define users as an empty array for later --> to store all vacations in localStorage, because you cannot push into an variable which is null
-    var allVac = [];}
+// if the localStorage of allVac is empty we define it as a new variable as empty array, because you cannot push into an variable which is null
+if (allVac === null) {
+    var allVac = [];
+}
 
-// Bind the button to a variable for later use
+// Bind the button from HTML to a variable for later use
 var saveVac = document.getElementById("saveVac");
 
-// Bind the onClick-function to our own function --> could also use an Event listener
-saveVac.onclick = function(){
-
-// Put it in util 
-//  function getNextId(){
-//     // TODO: Make this work!!!
-//     // Generate an ID with function
-//     var max = 0;
-//     // Loop over array 
-//     // Make sure when calling this function that the array filled with data from localStorage
-//     for(i = 0; i < allVac.length; i++){
-//         // Find the biggest id and add one
-//             if(allVac[i].id >= max){
-//                 max = allVac[i].id + 1;
-//             }
-        
-//     }
-//     return max;
-// }
+// Create onclick function on variable (button)
+saveVac.onclick = function () {
 
     // generated ID with getNextId function (in util.js defined)
     var id = getNextId(allVac);
-    
-
+    //create new variable pins and assign it pinObjects, for later use
+    var pins = pinObjects;
     // Bind the input fields and get the value
     var title = document.getElementById("vacTitle").value;
+    //If there is no title typed in or no pins on the map, alert a message, so the user always has to put in a title + pin
+    if (title == "" || pins.length == 0) {
+        alert("To save your vacation needs a title and at least 1 pin!");
+    } else {
     var description = document.getElementById("vacDescription").value;
-   //TODO: what is mapPosition and zoom? How can I get it?
-    // var mapPosition = "";
-    // var zoom = "";
-    // var pins = [];
     var isSelected = false;
-    if (document.getElementById("publish").checked == true){
-        var isPublished = true;
-    }
-    //get input from tag input in HTML, .split splits the input after whatever you put in here ("")
+    //get input from tag input in HTML, split() method splits the input after whatever you put in the quotation marks
     //makes automatically an array out of it
     var tags = document.getElementById("tags").value.split(",");
-    
-    
-   
-        
-// push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
-//TODO: put mapPosition and zoom and pins in here 
-var currentVac = new Vacation(id, title, description, isSelected, isPublished, tags);
+    var isPublished = false;
+    // check if the check box is clicked, if yes --> var isPublished is true
+    if (document.getElementById("publish").checked == true) {
+        var isPublished = true;
+    }
 
-//push newVacation into vacations array in currentUser Object 
-currentUser.vacations.push(currentVac);
-allVac.push(currentVac);
+    //create new variable pins and assign it pinObjects, for later use
+    var pins = pinObjects;
 
+    // A vacation has no ratings when it is created, therefore ratings has to be an empty array
+    var ratings = [];
 
-//update changes of currentVac in currentUser.vacations array
-// currentUser.vacations.id[currentVac.id] = currentVac;
+    //Getting center location of displyed window, need it for later so the map opens on the same location as user saved it
+    //getCenter() is a method from Google Maps API
+    var center = map.getCenter();
 
-//TODO: this will be needed when we want to edit vacations
-// currentUser.vacations[currentVac.index] = currentVac
-  
-//     // Bind user to a variable for easy use
-//     var user = users[i];
-//  //set property of user object to i, so it can be used to find the current user later in users array
-//  user.index = i;
+    //Getting zoom level --> map will open at same zoom level again
+    var zoom = map.getZoom();
 
-// store new vacation in local storage, store(y, keyname) 
-// keyName --> make sure keyName is always String, need to remember for later use, y --> variable 
-store(currentVac, "currentVac");
+    // push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
+    var currentVac = new Vacation(id, title, description, pins, isSelected, isPublished, tags, ratings, center, zoom);
 
-// //we store the publishedVac array in the local storage
-// // store new vacation in local storage, store(y, keyname) 
-// // keyName --> make sure keyName is always String, need to remember for later use, y --> array 
-// store(publishedVac, "publishedVac");
+    //push the just created vacation into vacations array in currentUser object and the allVac array
+    currentUser.vacations.push(currentVac);
+    allVac.push(currentVac);
 
-//we store the allVac array in the local storage
-// store new vacation in local storage, store(y, keyname) 
-// keyName --> make sure keyName is always String, need to remember for later use, y --> array 
-store(allVac, "allVac");
+    // update changes of currentUser also in the users array
+    // Loop over users array to find the object with the same id and set it to currentUser
+    for (i = 0; i < users.length; i++) {
+        if (currentUser.id === users[i].id) {
+            users[i] = currentUser;
+        }
+    }
 
-//store updated currentUser object in local storage, make sure keyName is always String! 
-//keyName --> you need it to recall it later!
-store(currentUser, "currentUser");
+    // store new vacation in local storage, function store(y, keyname) defined in util.js
+    store(currentVac, "currentVac");
 
-//update changes of user in users array
-users[currentUser.index] = currentUser;
+    //we store the allVac array in the localStorage, function store(y, keyname) defined in util.js
+    store(allVac, "allVac");
 
-//store updated users array in local storage, make sure keyName is always String!
-//keyName --> you need it to recall it later!
-store(users, "users");
+    //store updated currentUser object in localStorage, function store(y, keyname) defined in util.js
+    store(currentUser, "currentUser");
 
-}
+    //store updated users array in localStorage, function store(y, keyname) defined in util.js
+    //keyName --> you need it to recall it later!
+    store(users, "users");
 
-// Bind the button from HTML to a variable for later use    
-var home = document.getElementById("home");
-//make a function to save to home, when button is clicked
-home.onclick = function(){
-    //redirecting to log out page
-    window.location = "homePage.html"; 
-    //Return true to jump out of the function, since we now have all we need.
+    //Now all fields need to be reseted
+    // clear the input fields for later
+    document.getElementById("vacTitle").value = "";
+    document.getElementById("vacDescription").value = "";
+    document.getElementById("publish").checked = false;
+    document.getElementById("tags").value = "";
+
+    //alert a message and redirecting to myVacations page
+    alert("Awesome! Your vacation is saved! You can review and edit it under My Vacations!")
+
+    window.location = "myVacations.html";
+
     return true;
 }
-
-// Bind the button from HTML to a variable for later use    
-var myVac = document.getElementById("myVac");
-//make a function to save to home, when button is clicked
-myVac.onclick = function(){
-    //redirecting to log out page
-    window.location = "myVacations.html"; 
-    //Return true to jump out of the function, since we now have all we need.
-    return true;
-}
-
-// Bind the button from HTML to a variable for later use    
-var logout = document.getElementById("logout");
-//make a function to save to logout, when button is clicked
-logout.onclick = function(){
-    //set variable isLoggedIn to false
-    currentUser.isLoggedIn = false;
-    
-    //redirecting to log out page
-    window.location = "logout.html"; 
-  
-    //Return true to jump out of the function, since we now have all we need.
-    return true;
 }
