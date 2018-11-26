@@ -39,13 +39,7 @@ function getNextId(arr){
 //function to initialize the map on different parts of the program (e.g. editVacation, createVacation)
 // initialize the Map
 function initMap(position, zoom) {
-    // alert("hi");
-
-    // // set start location variable --> location where map opens at first
-    // var MapPosition = {
-    //     lat: lat,
-    //     lng: lng
-    // };
+    
 
     // fill map variable with initialized map and set start location and zoom level
     map = new google.maps.Map(document.getElementById('map'), {
@@ -94,6 +88,39 @@ function initMap(position, zoom) {
     });
 
 }
+
+//Function that initializes map and re-creates markers of a particular vacation
+function retrieveMapPositionAndPins(vacation){
+    var MapPosition = {
+        lat: vacation.center.lat,
+        lng: vacation.center.lng
+    };
+
+    // Fill map variable with initialized map and set start location and zoom level
+    //this basically says fill the map element in the html with a map
+    var map = new google.maps.Map(document.getElementById('map'), {
+        center: MapPosition,
+        zoom: vacation.zoom
+    });
+    // We're calling it a mapElement, because it only appears together with the map
+
+
+    //then we loop over the pins of the particular map and "set"/"create" new pins on this map accordingly
+    markers = [];
+    for (var i = 0; i < vacation.pins.length; i++) {
+        var marker = vacation.pins[i];
+        markers[i] = new google.maps.Marker({
+            position: marker.latlng,
+            map: map,
+            title: marker.name,
+            comment: marker.comment,
+            type: marker.type
+        });
+
+        updateInfoWindow(markers[i], marker.name, marker.comment, marker.type);
+    }
+}
+
 // function to update info window of the passed marker with its respecting data
 function updateInfoWindow(marker, name, comment, type) {
 

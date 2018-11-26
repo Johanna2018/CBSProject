@@ -50,102 +50,55 @@ function initVacationElementEvents(vacationElement) {
         var vacationToDisplay = findVacationById(selectedVacationId, userVacations);
         //after this function is run, the vacationWeAreLookingFor becomes the (vacation) and that becomes vacationToDisplay, which we now use:
 
-        //the following line says basically: if vacationToDisplay is not undefined and if the length of pins of that vacaion is > 0, then initialize map, with that particular vacation's pins
-        if (vacationToDisplay && vacationToDisplay.pins.length) {
 
-            var mapTitle = document.getElementById('titleDisplayed');
-            mapTitle.innerHTML = "<h5>Title</h5> " + vacationToDisplay.title;
-            
+        var mapTitle = document.getElementById('titleDisplayed');
+        mapTitle.innerHTML = "<h5>Title</h5> " + vacationToDisplay.title;
 
-            
-            initMap(vacationToDisplay.pins);
-            
-            store(vacationToDisplay, "currentVac");
-            function initMap(pins) {
-                // Set start location variable --> location where map opens at first
-                var MapPosition = {
-                    lat: vacationToDisplay.center.lat,
-                    lng: vacationToDisplay.center.lng
-                };
+        var mapDescription = document.getElementById('description');
+        mapDescription.innerHTML = "<h5>Description</h5> " + vacationToDisplay.description
 
-                // Fill map variable with initialized map and set start location and zoom level
-                //this basically says fill the map element in the html with a map
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    center: MapPosition,
-                    zoom: vacationToDisplay.zoom
-                });
-                // We're calling it a mapElement, because it only appears together with the map
-              
+       displayVacAndElements(vacationToDisplay.pins);
 
-                var mapElement = document.getElementById('editVacation');
-                var newElement = document.createElement('button');
-                newElement.innerHTML = '<div input type ="button"> Edit this vacation </div>';
+        store(vacationToDisplay, "currentVac");
 
-                mapElement.appendChild(newElement);
-                
-
-                //then we loop over the pins of the particular map and "set"/"create" new pins on this map accordingly
-                markers = [];
-                for (var i = 0; i < pins.length; i++) {
-                    var pin = pins[i];
-                    markers[i] = new google.maps.Marker({
-                        position: pin.latlng,
-                        map: map,
-                        title: pin.name,
-                        comment: pin.comment,
-                        type: pin.type
-                    });
-
-                    updateInfoWindow(map, markers[i], pin.name, pin.comment, pin.type);
-                }
-                
-                document.getElementById("toggle").style.display = "inline";   
-            }
+        function displayVacAndElements() {
            
-            var mapDescription = document.getElementById('description');
-            mapDescription.innerHTML = "<h5>Description</h5> " + vacationToDisplay.description
 
-        } else {
-            //otherwise, if there was a map from the previous result, delete it, don't display any map if there are no pins
-            deleteMap();
-            console.error('The map with id:' + vacationToDisplay.id + ' doesn\'t have any pins');
+            retrieveMapPositionAndPins(vacationToDisplay);
 
+            document.getElementById("toggle").style.display = "inline";
+           
+            var editElement = document.getElementById('editVacation');
+            var publishElement = document.getElementById("publish");
+            var tagsElement = document.getElementById("tags");
+            
+            var newElementEdit = document.createElement('button');
+           
+            newElementEdit.innerHTML = '<div input type ="button"> Edit this vacation </div>';
+            editElement.appendChild(newElementEdit);
 
+            if (vacationToDisplay.isPublished === true) {
+                publishElement.innerHTML = "<h5>Published: </h5>"+"Yes";
+            } else {
+                publishElement.innerHTML = "<h5>Published: </h5>"+"No";
+            }
+            tagsElement.innerHTML= "<h5>Tags: </h5>" +vacationToDisplay.tags;
+              
         }
     });
 }
 
 
-function deleteEditButton(){
+function deleteEditButton() {
     var mapElement = document.getElementById('editVacation');
     var newElement = document.createElement('button');
     mapElement.innerHTML = '';
-    newElement.innerHTML = '';  
+    newElement.innerHTML = '';
 }
 
+// Bind spans from HTML to variables --> later we need it to manipulate the span elements in HTML later
 
-//function that will initialize a map, passing it a parameters of pins, which will be pins of the particular map that matches our criteria
 
-
-function updateInfoWindow(map, pin, name, comment, type) {
-
-    // We have to rebuild an infowindow (name, comment, type) - elements and the values
-    var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
-
-    // updating info window
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
-
-    // mouseover and mouseout event listeners to show the info window on a hover
-    pin.addListener('mouseover', function () {
-        infowindow.open(map, this);
-    });
-
-    pin.addListener('mouseout', function () {
-        infowindow.close();
-    });
-}
 
 // Bind the button from HTML to a variable for later use    
 var createVac = document.getElementById("createVac");

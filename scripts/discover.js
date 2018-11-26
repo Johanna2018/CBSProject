@@ -62,13 +62,15 @@ function displayElements(shouldResetRadiosAndResetFilterValue) {
 
     //For loop which will iterate over our array of published vacations
     for (var i = 0; i < publishedVacations.length; i++) {
-        //declare a variable which will point to the particular vacation in our array, which will later be checked for complying with our conditions
+        //declare a variable which will point to the particular vacation in our array, 
+        //which will later be checked for complying with our conditions
         var publishedVacation = publishedVacations[i];
 
-        // Now we need to check whether the search term entered on the website matches either one of our titles, or any of our tags
-        //indexOf - what it does, is basically checks if our searchTerm has an index in our publishedVacation.tags array (therefore, if it exists in that array)
+        // Now we need to check whether the search term entered on the website matches either one of our titles, 
+        //or any of our tags // indexOf - what it does, is basically checks if our searchTerm has an index in our 
+        //publishedVacation.tags array (therefore, if it exists in that array)
         if (searchTerm === publishedVacation.title.toLowerCase() || publishedVacation.tags.indexOf(searchTerm) >= 0) {
-            //immediately after that, if the match was found, we push the matching publishedVacation into an array searchResults, which we declared earlier as an empty array
+            //push the matching publishedVacation into an array searchResults
             searchResult.push(publishedVacation);
         }
     }
@@ -100,7 +102,8 @@ function displayElements(shouldResetRadiosAndResetFilterValue) {
             var vacation = searchResult[i];
 
             // 3. Create a new HTML element
-            //we declare a variable with a value of an html element, we make it a paragraph 'p'(this can be any html element, for example h1)
+            //we declare a variable with a value of an html element, we make it a paragraph 
+            //'p'(this can be any html element, for example h1)
             var resultEl = document.createElement('p')
 
             // 3.1 Add innerHTML content to that element
@@ -166,7 +169,7 @@ function resetFilterRadioButtons() {
 function initVacationElementEvents(vacationElement) {
     vacationElement.addEventListener('click', function (event) {
         //the following resets the map everytime the search result is clicked (in case there's map without pins which won't display, so the previous one doesn't stay on the display)
-        //TODO : Didn't we implement that it is not possible to save a map without pins??
+        
         deleteMap();
 
         // with declaring the selectedVacationId variable, we assign it a value of the id of our target, which we set as an attribute earlier 
@@ -179,48 +182,25 @@ function initVacationElementEvents(vacationElement) {
         var vacationToDisplay = findVacationById(selectedVacationId, publishedVacations);
         //after this function is run, the particular vacation with particular id becomes vacationToDisplay, which we now use:
 
-        //the following line says basically: if vacationToDisplay is defined and if the length of pins of that vacaion is > 0, then initialize map, with that particular vacation's pins
-        if (vacationToDisplay && vacationToDisplay.pins.length) {
             
             var mapTitle = document.getElementById('titleDisplayed');
             mapTitle.innerHTML = "<h5>Title</h5> " + vacationToDisplay.title;
 
-            initMap(vacationToDisplay.pins);
+            var mapDescription = document.getElementById('description');
+            mapDescription.innerHTML = "<h5>Description</h5> " + vacationToDisplay.description;
+
+            var tagsElement = document.getElementById("tags");
+            tagsElement.innerHTML= "<h5>Tags: </h5>" +vacationToDisplay.tags;
+           
+            displayVacAndRating(vacationToDisplay.pins);
 
             
             //function that will initialize a map, passing it a parameters of pins, which will be pins of the particular map that matches our criteria
-            function initMap(pins) {
+            function displayVacAndRating() {
                 // Set start location variable --> location where map opens
-                var MapPosition = {
-                    lat: vacationToDisplay.center.lat,
-                    lng: vacationToDisplay.center.lng
-                };
-
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    center: MapPosition,
-                    zoom: vacationToDisplay.zoom
-                });
-
-                //then we loop over the pins of the particular map and "set"/"create" new markers on this map accordingly
-                //we store the markers to be displayed for later use in the toggle function
-                markers = [];
-                for (var i = 0; i < pins.length; i++) {
-                    var pin = pins[i];
-
-                    markers[i] = new google.maps.Marker({
-                        position: pin.latlng,
-                        map: map,
-                        title: pin.name,
-                        comment: pin.comment,
-                        type: pin.type
-                    });
-
-                 
-                    updateInfoWindow(map, markers[i], pin.name, pin.comment, pin.type);
-                }
-
-                document.getElementById("toggle").style.display = "inline";
+                retrieveMapPositionAndPins(vacationToDisplay);
                 
+    
                 //Now we create an element which will enable us to rate the map
                 //we call the variable mapElement, because we are tying it to the map, it only appears when a map appears
                 var mapElement = document.getElementById('rating');
@@ -229,18 +209,11 @@ function initVacationElementEvents(vacationElement) {
 
                 mapElement.appendChild(newElement);
                 addRatingEvent();
+
+               
             }
 
-            var mapDescription = document.getElementById('description');
-            mapDescription.innerHTML = "<h5>Description</h5> " + vacationToDisplay.description;
-
-
-        } else {
-            //otherwise, if there was a map from the previous result, delete it, don't display any map if there are no pins
-            deleteMap();
-            console.error('The map with id:' + vacationToDisplay.id + ' doesn\'t have any pins');
-
-        }
+            document.getElementById("toggle").style.display = "inline";
 
     });
 }
@@ -285,29 +258,5 @@ function addRatingEvent() {
     })
 }
 
-// Implement some sort of message in case the user has already rated such as:
-// else {
-//     alert("You have already rated this vacation");
-// }
 
-//The following section just displays the info windows for particular pins
-function updateInfoWindow(map, pin, name, comment, type) {
-
-    // We have to rebuild an infowindow (name, comment, type) - elements and the values
-    var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
-
-    // updating info window
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
-
-    // mouseover and mouseout event listeners to show the info window on a hover
-    pin.addListener('mouseover', function () {
-        infowindow.open(map, this);
-    });
-
-    pin.addListener('mouseout', function () {
-        infowindow.close();
-    });
-}
 
