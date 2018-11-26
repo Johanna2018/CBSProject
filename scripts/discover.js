@@ -23,6 +23,7 @@ var allVacations = vacationsFromLocalStorage.map(function (vacation) {
 //declare some of the variables that need to be used in the global scope
 var selectedVacationId;
 var filterValue;
+var markers;
 
 // Now we declare a published vacation variable and then with the help of filter function 
 //we filter through allVacations,return all of those that have the boolean published set to true and form an array of objects out of it
@@ -186,7 +187,7 @@ function initVacationElementEvents(vacationElement) {
 
             initMap(vacationToDisplay.pins);
 
-
+            
             //function that will initialize a map, passing it a parameters of pins, which will be pins of the particular map that matches our criteria
             function initMap(pins) {
                 // Set start location variable --> location where map opens
@@ -202,7 +203,7 @@ function initVacationElementEvents(vacationElement) {
 
                 //then we loop over the pins of the particular map and "set"/"create" new markers on this map accordingly
                 //we store the markers to be displayed for later use in the toggle function
-                var markers = [];
+                markers = [];
                 for (var i = 0; i < pins.length; i++) {
                     var pin = pins[i];
 
@@ -219,25 +220,7 @@ function initVacationElementEvents(vacationElement) {
                 }
 
                 document.getElementById("toggle").style.display = "inline";
-                var entriesHidden = true;
-                var toggle = document.getElementById("toggle");
-                toggle.onclick = function () {
-
-                    //set event as an empty string, to use it later
-                    var event = "";
-
-                    // If entries are not shown, we will have the event mouseover to show all the markers.
-                    if (entriesHidden)
-                        event = "mouseover";
-                    // If entries are shown, we will have the event mouseout to hide all markers.
-                    else
-                        event = "mouseout";
-
-                    for (var i = 0; i < markers.length; i++) {
-                        google.maps.event.trigger(markers[i], event);
-                    }
-                }
-
+                
                 //Now we create an element which will enable us to rate the map
                 //we call the variable mapElement, because we are tying it to the map, it only appears when a map appears
                 var mapElement = document.getElementById('rating');
