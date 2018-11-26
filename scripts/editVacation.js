@@ -321,6 +321,7 @@ function changeInfoWindow(marker, name, comment, type) {
 var deletePins = document.getElementById("deletePins");
 
 //create onclick function on button to delete all Pins
+// Delete function is different here then in createVacations
 deletePins.onclick = function () {
     //confirm opens up a pop up window do ask the following: 
     var con = confirm("Do you really want to remove all pins? If you have made other changes in the vacation and you have not clicked \"Save Changes\" the changes will be lost!")
@@ -345,29 +346,29 @@ deletePins.onclick = function () {
 //set a variable entriesHidden to true --> to use it later for if statement
 var entriesHidden = true;
 
-// Bind the button from HTML to a variable for later use
-var toggle = document.getElementById("toggle");
+// // Bind the button from HTML to a variable for later use
+// var toggle = document.getElementById("toggle");
 
-// Create onclick function on button to show all the infowindows of all markers 
-toggle.onclick = function () {
+// // Create onclick function on button to show all the infowindows of all markers 
+// toggle.onclick = function () {
 
-    //set event as an empty string
-    var event = "";
+//     //set event as an empty string
+//     var event = "";
 
-    // If entries are not shown, we will have the event mouseover to show all the markers.
-    if (entriesHidden)
-        event = "mouseover";
-    // If entries are shown, we will have the event mouseout to hide all markers.
-    else
-        event = "mouseout";
+//     // If entries are not shown, we will have the event mouseover to show all the markers.
+//     if (entriesHidden)
+//         event = "mouseover";
+//     // If entries are shown, we will have the event mouseout to hide all markers.
+//     else
+//         event = "mouseout";
 
-    // Below the function checks ALL the markers to show/hide them
-    for (var i = 0; i < retrievedMarkers.length; i++) {
-        google.maps.event.trigger(retrievedMarkers[i], event);
+//     // Below the function checks ALL the markers to show/hide them
+//     for (var i = 0; i < retrievedMarkers.length; i++) {
+//         google.maps.event.trigger(retrievedMarkers[i], event);
 
-    }
+//     }
 
-}
+// }
 
 //function getStorage() is defined in util.js
 //get the all vacations array from local storage with the keyName (always string), to update data later

@@ -99,6 +99,7 @@ function getNextId(arr){
 
 // With the toggle function we show all the markers with a click on the button
 function toggle (arrMarkers) {
+    var entriesHidden = true;
 
     //set event as an empty string
     var event = "";

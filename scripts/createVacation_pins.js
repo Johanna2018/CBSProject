@@ -154,6 +154,7 @@ function updateInfoWindow(marker, name, comment, type) {
 var deletePins = document.getElementById("deletePins");
 
 // Create a onclick function on variable (button)
+// Delete function is different here then in editVacations
 deletePins.onclick = function () {
     //Opens up a pop up window do ask the following.. 
     var con = confirm("Do you really want to remove all pins? There is no way back if you click \"OK\"! All other changes will be lost, too!")
@@ -169,11 +170,11 @@ deletePins.onclick = function () {
     }
 }
 
-//set a variable entriesHidden to true --> to use it later for if statement
-var entriesHidden = true;
+// //set a variable entriesHidden to true --> to use it later for if statement
+// var entriesHidden = true;
 
-// Bind the button from HTML to a variable for later use
-var toggle = document.getElementById("toggle");
+// // Bind the button from HTML to a variable for later use
+// var toggle = document.getElementById("toggle");
 
 // // With the toggle function we show all the markers with a click on the button
 // toggle.onclick = function () {
