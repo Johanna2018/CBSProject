@@ -50,6 +50,9 @@ function initVacationElementEvents(vacationElement) {
         //the following line says basically: if vacationToDisplay is not undefined and if the length of pins of that vacaion is > 0, then initialize map, with that particular vacation's pins
         if (vacationToDisplay && vacationToDisplay.pins.length) {
 
+            var mapTitle = document.getElementById('titleDisplayed');
+            mapTitle.innerHTML = "<h5>Title</h5> " + vacationToDisplay.title;
+            
             initMap(vacationToDisplay.pins);
             
             store(vacationToDisplay, "currentVac");
@@ -111,6 +114,9 @@ function initVacationElementEvents(vacationElement) {
 
             }
            
+            var mapDescription = document.getElementById('description');
+            mapDescription.innerHTML = "<h5>Description</h5> " + vacationToDisplay.description
+
         } else {
             //otherwise, if there was a map from the previous result, delete it, don't display any map if there are no pins
             deleteMap();
@@ -196,7 +202,7 @@ logout.onclick = function () {
     return true;
 }
 
-//TODO make the edit button only appear with the map
+
 
 // Bind the button from HTML to a variable for later use    
 var editVacation = document.getElementById("editVacation");
