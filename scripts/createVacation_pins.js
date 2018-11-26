@@ -9,73 +9,70 @@ var allMarkers = [];
 var recentMarker;
 // creating pinObjects as an empty array for later use
 var pinObjects = [];
-// var MapPosition = {
-//             lat: 25.048921, 
-//             lng: 9.553599
-//         };
-// var zoom = 2
+//MapPosition and zoom is needed to initialize the map, it will open up the world map with this values
+var MapPosition = {
+            lat: 25.048921, 
+            lng: 9.553599
+        };
+var zoom = 2
 
 
-// //initialize Map
-// initMap(MapPosition, zoom);
+// // initialize the Map
+// function initMap() {
 
+//     // set start location variable --> location where map opens at first
+//     var MapPosition = {
+//         lat: 25.048921,
+//         lng: 9.553599
+//     };
 
-// initialize the Map
-function initMap() {
+//     // fill map variable with initialized map and set start location and zoom level
+//     map = new google.maps.Map(document.getElementById('map'), {
+//         center: MapPosition,
+//         zoom: 2
+//     });
 
-    // set start location variable --> location where map opens at first
-    var MapPosition = {
-        lat: 25.048921,
-        lng: 9.553599
-    };
+//     //setting contentString variable to define pin pop up info window (e.g. Titel, Comment, Type)
+//     var contentString = "<div id='form'><table>" +
+//         "<tr><td>Name:</td><td><input type='text'  id='name' /> </td></tr>" +
+//         "<tr><td>Comment:</td><td><input type='text' id='comment' /></td></tr><tr>" +
+//         "<td>Type:</td><td><select id='type'>" +
+//         "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
+//         "<option value='Restaurant'>Restaurant</option>" +
+//         "<option value='Bar'>Bar</option>" +
+//         "<option value='Shopping'>Shopping</option>" +
+//         "<option value='Cafe'>Cafe</option>" +
+//         "<option value='Night club'>Night club</option>" +
+//         "<option value='Supermarket'>Supermarket</option>" +
+//         "<option value='Museum'>Museum</option>" +
+//         "<option value='Hotel'>Hotel</option>" +
+//         "<option value='Other'>Other</option>" +
+//         "</select> </td></tr>" +
+//         "<tr><td></td><td><input type='button' id='save' value='Save' onclick='savePin()' /></td></tr></table></div><div id='message' style='visibility: hidden;  '><b>Location saved!</b></div>";
 
-    // fill map variable with initialized map and set start location and zoom level
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: MapPosition,
-        zoom: 2
-    });
+//     // connect infowindow (defined global) with the set contenString
+//     //new google.maps.InfoWindow --> is like a own class defined by Google Maps API
+//     infowindow = new google.maps.InfoWindow({
+//         content: contentString
+//     });
 
-    //setting contentString variable to define pin pop up info window (e.g. Titel, Comment, Type)
-    var contentString = "<div id='form'><table>" +
-        "<tr><td>Name:</td><td><input type='text'  id='name' /> </td></tr>" +
-        "<tr><td>Comment:</td><td><input type='text' id='comment' /></td></tr><tr>" +
-        "<td>Type:</td><td><select id='type'>" +
-        "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
-        "<option value='Restaurant'>Restaurant</option>" +
-        "<option value='Bar'>Bar</option>" +
-        "<option value='Shopping'>Shopping</option>" +
-        "<option value='Cafe'>Cafe</option>" +
-        "<option value='Night club'>Night club</option>" +
-        "<option value='Supermarket'>Supermarket</option>" +
-        "<option value='Museum'>Museum</option>" +
-        "<option value='Hotel'>Hotel</option>" +
-        "<option value='Other'>Other</option>" +
-        "</select> </td></tr>" +
-        "<tr><td></td><td><input type='button' id='save' value='Save' onclick='savePin()' /></td></tr></table></div><div id='message' style='visibility: hidden;  '><b>Location saved!</b></div>";
+//     //assign a click listener to the map with the addListener() callback function that creates marker when the user clicks the map
+//     google.maps.event.addListener(map, 'click', function (event) {
+//         // new google.maps.Marker --> is like a own class defined by Google Maps API
+//         marker = new google.maps.Marker({
+//             position: event.latLng,
+//             map: map
+//         });
 
-    // connect infowindow (defined global) with the set contenString
-    //new google.maps.InfoWindow --> is like a own class defined by Google Maps API
-    infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
+//         // displays an info window when the user created marker
+//         infowindow.open(map, marker);
 
-    //assign a click listener to the map with the addListener() callback function that creates marker when the user clicks the map
-    google.maps.event.addListener(map, 'click', function (event) {
-        // new google.maps.Marker --> is like a own class defined by Google Maps API
-        marker = new google.maps.Marker({
-            position: event.latLng,
-            map: map
-        });
+//         // set current marker variable to `normal´ marker variable 
+//         recentMarker = marker;
 
-        // displays an info window when the user created marker
-        infowindow.open(map, marker);
+//     });
 
-        // set current marker variable to `normal´ marker variable 
-        recentMarker = marker;
-
-    });
-
-}
+// }
 
 
 //Now we safe the data of the marker in a pin object
@@ -95,7 +92,7 @@ function savePin() {
     var type = document.getElementById('type').value;
     //get the position (latitude and longtiude) with getPosition method from Google Maps API
     var latlng = marker.getPosition();
-//ID is generate by function defined in util.js
+    //ID is generate by function defined in util.js
     var id = getNextId(pinObjects);
 
     // now, the marker will be pushed into the empty allMarkers Array (we will need this later on)
@@ -125,30 +122,32 @@ function savePin() {
 
 // Function start is onclick in HTML --> initializing the map
 function start() {
-    initMap();
+    //initMap is defined in util.js
+    initMap(MapPosition, zoom);
+    // initMap();
 }
 
-// update info window of the passed marker with its respecting data
-function updateInfoWindow(marker, name, comment, type) {
+// // update info window of the passed marker with its respecting data
+// function updateInfoWindow(marker, name, comment, type) {
 
-    // Now we have to rebuild an infowindow (name, comment, type)
-    var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
+//     // Now we have to rebuild an infowindow (name, comment, type)
+//     var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
 
-    //updating info window, here we define the variable infowindow local!
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
+//     //updating info window, here we define the variable infowindow local!
+//     var infowindow = new google.maps.InfoWindow({
+//         content: contentString
+//     });
 
-    // mouseover and mouseout event listeners
-    marker.addListener('mouseover', function () {
-        infowindow.open(map, this);
-    });
+//     // mouseover and mouseout event listeners
+//     marker.addListener('mouseover', function () {
+//         infowindow.open(map, this);
+//     });
 
-    marker.addListener('mouseout', function () {
-        infowindow.close();
-    });
+//     marker.addListener('mouseout', function () {
+//         infowindow.close();
+//     });
 
-}
+// }
 
 // Bind the button from HTML to a variable for later use
 var deletePins = document.getElementById("deletePins");

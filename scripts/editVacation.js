@@ -15,62 +15,71 @@ var retrievedMarkers = [];
 //get the currently choosen vacation in currentVac variable from local storage with the keyName (always string)
 var currentVac = getStorage("currentVac");
 
-// initialize the Map
-function initMap() {
+//MapPosition and zoom is needed to initialize the map, it will open up the map with values of currentVac, so map opens up on the right position
+var MapPosition = {
+    lat: currentVac.center.lat, 
+    lng: currentVac.center.lng
+};
+var zoom = currentVac.zoom;
 
-    // set start location (where map opens) to stored values of currentVac, so map opens up on the right position
-    var MapPosition = {
-        lat: currentVac.center.lat,
-        lng: currentVac.center.lng
-    };
+console.log(MapPosition, zoom);
 
-    // fill map variable with initialized map and set start location and zoom level to stored values of currentVac
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: MapPosition,
-        zoom: currentVac.zoom
-    });
+// // initialize the Map
+// function initMap() {
 
-    //setting contenString variable to define pin pop up info window (e.g. Titel, Comment, Type)
-    var contentString = "<div id='formCreate'><table>" +
-        "<tr><td>Name:</td><td><input type='text'  id='nameCreate' /> </td></tr>" +
-        "<tr><td>Comment:</td><td><input type='text' id='commentCreate' /></td></tr><tr>" +
-        "<td>Type:</td><td><select id='typeCreate'>" +
-        "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
-        "<option value='Restaurant'>Restaurant</option>" +
-        "<option value='Bar'>Bar</option>" +
-        "<option value='Shopping'>Shopping</option>" +
-        "<option value='Cafe'>Cafe</option>" +
-        "<option value='Night club'>Night club</option>" +
-        "<option value='Supermarket'>Supermarket</option>" +
-        "<option value='Museum'>Museum</option>" +
-        "<option value='Hotel'>Hotel</option>" +
-        "<option value='Other'>Other</option>" +
-        "</select> </td></tr>" +
-        "<tr><td></td><td><input type='button' id='saveCreate' value='Save' onclick='savePin()' /></td></tr></table></div><div id='messageCreate' style='visibility: hidden;  '><b>Location saved!</b></div>";
+//     // set start location (where map opens) to stored values of currentVac, so map opens up on the right position
+//     var MapPosition = {
+//         lat: currentVac.center.lat,
+//         lng: currentVac.center.lng
+//     };
 
-    // connect infowindow (defined global) with the set contenString
-    //new google.maps.InfoWindow --> is like a own class defined by Google Maps API
-    infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
+//     // fill map variable with initialized map and set start location and zoom level to stored values of currentVac
+//     map = new google.maps.Map(document.getElementById('map'), {
+//         center: MapPosition,
+//         zoom: currentVac.zoom
+//     });
 
-    //assign a click listener to the map with the addListener() callback function that creates marker when the user clicks the map
-    google.maps.event.addListener(map, 'click', function (event) {
-        // new google.maps.Marker --> is like a own class defined by Google Maps API
-        marker = new google.maps.Marker({
-            position: event.latLng,
-            map: map
-        });
+//     //setting contenString variable to define pin pop up info window (e.g. Titel, Comment, Type)
+//     var contentString = "<div id='formCreate'><table>" +
+//         "<tr><td>Name:</td><td><input type='text'  id='nameCreate' /> </td></tr>" +
+//         "<tr><td>Comment:</td><td><input type='text' id='commentCreate' /></td></tr><tr>" +
+//         "<td>Type:</td><td><select id='typeCreate'>" +
+//         "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
+//         "<option value='Restaurant'>Restaurant</option>" +
+//         "<option value='Bar'>Bar</option>" +
+//         "<option value='Shopping'>Shopping</option>" +
+//         "<option value='Cafe'>Cafe</option>" +
+//         "<option value='Night club'>Night club</option>" +
+//         "<option value='Supermarket'>Supermarket</option>" +
+//         "<option value='Museum'>Museum</option>" +
+//         "<option value='Hotel'>Hotel</option>" +
+//         "<option value='Other'>Other</option>" +
+//         "</select> </td></tr>" +
+//         "<tr><td></td><td><input type='button' id='saveCreate' value='Save' onclick='savePin()' /></td></tr></table></div><div id='messageCreate' style='visibility: hidden;  '><b>Location saved!</b></div>";
 
-        // displays an info window when the user created marker
-        infowindow.open(map, marker);
+//     // connect infowindow (defined global) with the set contenString
+//     //new google.maps.InfoWindow --> is like a own class defined by Google Maps API
+//     infowindow = new google.maps.InfoWindow({
+//         content: contentString
+//     });
 
-        // set current marker variable to `normal´ marker variable 
-        recentMarker = marker;
+//     //assign a click listener to the map with the addListener() callback function that creates marker when the user clicks the map
+//     google.maps.event.addListener(map, 'click', function (event) {
+//         // new google.maps.Marker --> is like a own class defined by Google Maps API
+//         marker = new google.maps.Marker({
+//             position: event.latLng,
+//             map: map
+//         });
+
+//         // displays an info window when the user created marker
+//         infowindow.open(map, marker);
+
+//         // set current marker variable to `normal´ marker variable 
+//         recentMarker = marker;
 
 
-    });
-}
+//     });
+// }
 
 // Assign pinObjects the pins from currentVac
 // New pins can be added later and in the end the whole array can be saved again in currentVac.pins and currentUser.vacations.pins etc.
@@ -86,15 +95,15 @@ if (pinObjects == null) {
 function savePin() {
 
     //Make message field visible
-    document.getElementById('messageCreate').style.visibility = "visible";
+    document.getElementById('message').style.visibility = "visible";
     //Make the toggle and the delete button visible
     document.getElementById("toggle").style.display = "inline";
     document.getElementById("deletePins").style.display = "inline";
 
     //Saves the name, comment, location type and pin coordinates entered by the user in the info window form
-    var name = document.getElementById('nameCreate').value;
-    var comment = document.getElementById('commentCreate').value;
-    var type = document.getElementById('typeCreate').value;
+    var name = document.getElementById('name').value;
+    var comment = document.getElementById('comment').value;
+    var type = document.getElementById('type').value;
     //get the position (latitude and longtiude) with getPosition method from Google Maps API
     var latlng = marker.getPosition();
     //ID is generate by function defined in util.js
@@ -120,10 +129,10 @@ function savePin() {
     // display info window and "LOCATION SAVED" for 1 second, then dismiss
     setTimeout(function () {
         // reset info window for next pin
-        document.getElementById('messageCreate').style.visibility = "hidden";
-        document.getElementById('nameCreate').value = "";
-        document.getElementById('commentCreate').value = "";
-        document.getElementById('typeCreate').value = "viewpoint";
+        document.getElementById('message').style.visibility = "hidden";
+        document.getElementById('name').value = "";
+        document.getElementById('comment').value = "";
+        document.getElementById('type').value = "viewpoint";
         infowindow.close();
 
     }, 1000);
@@ -195,11 +204,11 @@ function editPin() {
 // Function start is onclick in HTML --> for initializing the map
 function start() {
 
-    // if no pins are saved, initialize empty map
-    if (pinObjects == null || pinObjects.length == 0) {
-        initMap();
-        return;
-    }
+    // // if no pins are saved, initialize empty map
+    // if (pinObjects == null || pinObjects.length == 0) {
+    //     initMap();
+    //     return;
+    // }
 
     // display toggle and deletePins buttons
     document.getElementById("toggle").style.display = "inline";
@@ -212,7 +221,7 @@ function start() {
         showPins(pinObjects);
     }, 0);
 
-    initMap();
+    initMap(MapPosition, zoom);
 }
 
 // display pins as markers on the map
@@ -256,28 +265,28 @@ function showPins(pinObjects) {
     }
 }
 
-// function to update info window of the passed marker with its respecting data
-function updateInfoWindow(marker, name, comment, type) {
+// // function to update info window of the passed marker with its respecting data
+// function updateInfoWindow(marker, name, comment, type) {
 
-    // Now we have to rebuild an infowindow, it is filled out with the variables name, comment, type
-    var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
+//     // Now we have to rebuild an infowindow, it is filled out with the variables name, comment, type
+//     var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
 
-    //updating info window
-    // this variable infowindow is only local 
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
+//     //updating info window
+//     // this variable infowindow is only local 
+//     var infowindow = new google.maps.InfoWindow({
+//         content: contentString
+//     });
 
-    // mouseover and mouseout event listeners
-    marker.addListener('mouseover', function () {
-        infowindow.open(map, this);
-    });
+//     // mouseover and mouseout event listeners
+//     marker.addListener('mouseover', function () {
+//         infowindow.open(map, this);
+//     });
 
-    marker.addListener('mouseout', function () {
-        infowindow.close();
-    });
+//     marker.addListener('mouseout', function () {
+//         infowindow.close();
+//     });
 
-}
+// }
 
 //function to make changes in the infowindow of the pin
 function changeInfoWindow(marker, name, comment, type) {
@@ -304,7 +313,26 @@ function changeInfoWindow(marker, name, comment, type) {
         "</select> </td></tr>" +
         "<tr><td></td><td><input type='button' id='editPin' value='Save' onclick='editPin()'/></td></tr></table></div><div id='messageEdit' style='visibility: hidden;  '><b>Changes saved!</b></div>";
 
-    // document.getElementById('typeEdit').value = type;
+        // var contentString = "<div id='formEdit' data-object='" + marker.id + "'><table>" +
+        // // it is filled out with the variables name, comment, type
+        //     "<tr><td>Name:</td><td><input type='text'  id='nameEdit' value = '" + name + "'/> </td></tr>" +
+        //     "<tr><td>Comment:</td><td><input type='text' id='commentEdit' value = '" + comment + "' /></td></tr><tr>" +
+        //     // "<td>Type:</td><td><select id='typeEdit' value = '" + type + "'>" +
+        //     "<td>Type:</td><td><select id='typeEdit'>" +
+        //     // TODO: the right categoray should be selected"<td>Type:</td><td><select id='typeEdit' onchange = 'run()' >" +
+        //     "<option " + type == 'Viewpoint' ? 'selected' : '' + " value='Viewpoint'>Viewpoint</option>" +
+        //     "<option " + type == 'Restaurant' ? 'selected' : '' + " value='Restaurant'>Restaurant</option>" +
+        //     "<option " + type == 'Bar' ? 'selected' : '' + " value='Bar'>Bar</option>" +
+        //     "<option " + type == 'Shopping' ? 'selected' : '' + " value='Shopping'>Shopping</option>" +
+        //     "<option " + type == 'Cafe' ? 'selected' : '' + " value='Cafe'>Cafe</option>" +
+        //     "<option " + type == 'Night' ? 'selected' : '' + " value='Night club'>Night club</option>" +
+        //     "<option " + type == 'Supermarket' ? 'selected' : '' + " value='Supermarket'>Supermarket</option>" +
+        //     "<option " + type == 'Museum' ? 'selected' : '' + " value='Museum'>Museum</option>" +
+        //     "<option " + type == 'Hotel' ? 'selected' : '' + " value='Hotel'>Hotel</option>" +
+        //     "<option " + type == 'Other' ? 'selected' : '' + " value='Other'>Other</option>" +
+        //     "</select> </td></tr>" +
+        //     "<tr><td></td><td><input type='button' id='editPin' value='Save' onclick='editPin()'/></td></tr></table></div><div id='messageEdit' style='visibility: hidden;  '><b>Changes saved!</b></div>";
+    
 
     // connect infowindow with the set contenString
     // this variable infowindow is only local 
