@@ -36,64 +36,86 @@ function getNextId(arr){
     return max;
 }
 
-// //function to initialize the map on different parts of the program (e.g. editVacation, createVacation)
-// // initialize the Map
-// function initMap(MapPosition, zoom) {
-//     // alert("hi");
+//function to initialize the map on different parts of the program (e.g. editVacation, createVacation)
+// initialize the Map
+function initMap(position, zoom) {
+    // alert("hi");
 
-//     // // set start location variable --> location where map opens at first
-//     // var MapPosition = {
-//     //     lat: lat,
-//     //     lng: lng
-//     // };
+    // // set start location variable --> location where map opens at first
+    // var MapPosition = {
+    //     lat: lat,
+    //     lng: lng
+    // };
 
-//     // fill map variable with initialized map and set start location and zoom level
-//     map = new google.maps.Map(document.getElementById('map'), {
-//         center: MapPosition,
-//         zoom: zoom
-//     });
+    // fill map variable with initialized map and set start location and zoom level
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: position,
+        zoom: zoom
+    });
 
-//     //setting contentString variable to define pin pop up info window (e.g. Titel, Comment, Type)
-//     var contentString = "<div id='form'><table>" +
-//         "<tr><td>Name:</td><td><input type='text'  id='name' /> </td></tr>" +
-//         "<tr><td>Comment:</td><td><input type='text' id='comment' /></td></tr><tr>" +
-//         "<td>Type:</td><td><select id='type'>" +
-//         "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
-//         "<option value='Restaurant'>Restaurant</option>" +
-//         "<option value='Bar'>Bar</option>" +
-//         "<option value='Shopping'>Shopping</option>" +
-//         "<option value='Cafe'>Cafe</option>" +
-//         "<option value='Night club'>Night club</option>" +
-//         "<option value='Supermarket'>Supermarket</option>" +
-//         "<option value='Museum'>Museum</option>" +
-//         "<option value='Hotel'>Hotel</option>" +
-//         "<option value='Other'>Other</option>" +
-//         "</select> </td></tr>" +
-//         "<tr><td></td><td><input type='button' id='save' value='Save' onclick='savePin()' /></td></tr></table></div><div id='message' style='visibility: hidden;  '><b>Location saved!</b></div>";
+    //setting contentString variable to define pin pop up info window (e.g. Titel, Comment, Type)
+    var contentString = "<div id='form'><table>" +
+        "<tr><td>Name:</td><td><input type='text'  id='name' /> </td></tr>" +
+        "<tr><td>Comment:</td><td><input type='text' id='comment' /></td></tr><tr>" +
+        "<td>Type:</td><td><select id='type'>" +
+        "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
+        "<option value='Restaurant'>Restaurant</option>" +
+        "<option value='Bar'>Bar</option>" +
+        "<option value='Shopping'>Shopping</option>" +
+        "<option value='Cafe'>Cafe</option>" +
+        "<option value='Night club'>Night club</option>" +
+        "<option value='Supermarket'>Supermarket</option>" +
+        "<option value='Museum'>Museum</option>" +
+        "<option value='Hotel'>Hotel</option>" +
+        "<option value='Other'>Other</option>" +
+        "</select> </td></tr>" +
+        "<tr><td></td><td><input type='button' id='save' onclick='savePin()' value='Save'/></td></tr></table></div><div id='message' style='visibility: hidden;  '><b>Location saved!</b></div>";
 
-//     // connect infowindow (defined global) with the set contenString
-//     //new google.maps.InfoWindow --> is like a own class defined by Google Maps API
-//     infowindow = new google.maps.InfoWindow({
-//         content: contentString
-//     });
+    // connect infowindow (defined global) with the set contenString
+    //new google.maps.InfoWindow --> is like a own class defined by Google Maps API
+    infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
 
-//     //assign a click listener to the map with the addListener() callback function that creates marker when the user clicks the map
-//     google.maps.event.addListener(map, 'click', function (event) {
-//         // new google.maps.Marker --> is like a own class defined by Google Maps API
-//         marker = new google.maps.Marker({
-//             position: event.latLng,
-//             map: map
-//         });
+    //assign a click listener to the map with the addListener() callback function that creates marker when the user clicks the map
+    google.maps.event.addListener(map, 'click', function (event) {
+        // new google.maps.Marker --> is like a own class defined by Google Maps API
+        marker = new google.maps.Marker({
+            position: event.latLng,
+            map: map
+        });
 
-//         // displays an info window when the user created marker
-//         infowindow.open(map, marker);
+        // displays an info window when the user created marker
+        infowindow.open(map, marker);
 
-//         // set current marker variable to `normal´ marker variable 
-//         recentMarker = marker;
+        // set current marker variable to `normal´ marker variable 
+        recentMarker = marker;
 
-//     });
+    });
 
-// }
+}
+// function to update info window of the passed marker with its respecting data
+function updateInfoWindow(marker, name, comment, type) {
+
+    // Now we have to rebuild an infowindow, it is filled out with the variables name, comment, type
+    var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
+
+    //updating info window
+    // this variable infowindow is only local 
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+
+    // mouseover and mouseout event listeners
+    marker.addListener('mouseover', function () {
+        infowindow.open(map, this);
+    });
+
+    marker.addListener('mouseout', function () {
+        infowindow.close();
+    });
+
+}
 
 
 // Function for toggle button
