@@ -247,30 +247,6 @@ function initVacationElementEvents(vacationElement) {
 
 
 
-//function that finds the vacation by ID in order to be used multiple places, vacationList in this case is the array we pass it when currently working with it, either publishedVacation or AllVacations
-function findVacationById(vacationId, vacationList) {
-    //Q what is the vacation parameter in this case? - filter, find, map are similar, because they use callbacks it could be broken down the same way
-    return vacationList.find(function (vacation) {
-        //What the next line esentially does, is following
-        // if vacation.id == vacationId
-        //     return vacation - and store the value of that particular vacation in the vacationToDisplay variable
-        return vacation.id == vacationId;
-    });
-}
-
-//The function that will delete the map, resp set the inner html to blank so nothing displays
-function deleteMap() {
-    var map = document.getElementById('map');
-    var mapElement = document.getElementById('rating');
-    mapElement.innerHTML = '';
-    map.innerHTML = '';
-}
-
-
-
-// TODO: will need a function which will calculate the average rating from the values in the array, don't know where yet (only at the end by the filter, just before the filter?)
-
-
 // ratingValue changed from an array to an empty string - will help only allow to rate once?
 // In the following function we are working with the allVacations array instead of publishedVacations array, because of how our Local Storage is strucutres, it is the allVacations that need to be updated eventually
 
@@ -335,26 +311,3 @@ function updateInfoWindow(map, pin, name, comment, type) {
     });
 }
 
-// Bind the button from HTML to a variable for later use    
-var home = document.getElementById("home");
-//make a function to save to home, when button is clicked
-home.onclick = function () {
-    //redirecting to log out page
-    window.location = "homePage.html";
-    //Return true to jump out of the function, since we now have all we need.
-    return true;
-}
-
-// Bind the button from HTML to a variable for later use    
-var logout = document.getElementById("logout");
-//make a function to save to logout, when button is clicked
-logout.onclick = function () {
-    //set variable isLoggedIn to false
-    currentUser.isLoggedIn = false;
-
-    //redirecting to log out page
-    window.location = "logout.html";
-
-    //Return true to jump out of the function, since we now have all we need.
-    return true;
-}

@@ -38,6 +38,8 @@ if (userVacations.length === 0) {
 //vacationElement is declared for the first time here
 function initVacationElementEvents(vacationElement) {
     vacationElement.addEventListener('click', function (event) {
+        //First delete the Edit button, so it doesn't stay displayed when clicking on various vacations
+        deleteEditButton();
         // with declaring the selectedVacationId variable, we assign it a value of that id, which we managed to retrieve earlier in the line: resultEl.setAttribute ('id, vacation.id), we retrieved it from JS, into the html
         // In this case the evet.target.id is the id that we have passed to our html element from the JS (from a property of our vacation in our published vacation array) 
         // We declare this variable for a better readibility, so we don't later compare to event.target.id
@@ -53,6 +55,8 @@ function initVacationElementEvents(vacationElement) {
 
             var mapTitle = document.getElementById('titleDisplayed');
             mapTitle.innerHTML = "<h5>Title</h5> " + vacationToDisplay.title;
+            
+
             
             initMap(vacationToDisplay.pins);
             
@@ -71,6 +75,8 @@ function initVacationElementEvents(vacationElement) {
                     zoom: vacationToDisplay.zoom
                 });
                 // We're calling it a mapElement, because it only appears together with the map
+              
+
                 var mapElement = document.getElementById('editVacation');
                 var newElement = document.createElement('button');
                 newElement.innerHTML = '<div input type ="button"> Edit this vacation </div>';
@@ -109,21 +115,14 @@ function initVacationElementEvents(vacationElement) {
     });
 }
 
-//function that finds the vacation by ID in order to be used multiple places, vacationList in this case is the array we pass it when currently working with it, either publishedVacation or AllVacations
-function findVacationById(vacationId, vacationList) {
-    return vacationList.find(function (vacation) {
-        //What the next line esentially does, is following
-        // if vacation.id == vacationId
-        //     return vacation - and store the value of that particular vacation in the vacationToDisplay variable
-        return vacation.id == vacationId;
-    });
+
+function deleteEditButton(){
+    var mapElement = document.getElementById('editVacation');
+    var newElement = document.createElement('button');
+    mapElement.innerHTML = '';
+    newElement.innerHTML = '';  
 }
 
-//The function that will delete the map
-function deleteMap() {
-    var map = document.getElementById('map');
-    map.innerHTML = '';
-}
 
 //function that will initialize a map, passing it a parameters of pins, which will be pins of the particular map that matches our criteria
 
@@ -154,31 +153,6 @@ var createVac = document.getElementById("createVac");
 createVac.onclick = function () {
     //redirecting to create vaction page
     window.location = "createVacations_pins.html";
-
-    //Return true to jump out of the function, since we now have all we need.
-    return true;
-}
-
-// Bind the button from HTML to a variable for later use    
-var home = document.getElementById("home");
-//make a function to save to home, when button is clicked
-home.onclick = function () {
-    //redirecting to home page page
-    window.location = "homePage.html";
-
-    //Return true to jump out of the function, since we now have all we need.
-    return true;
-}
-
-// Bind the button from HTML to a variable for later use    
-var logout = document.getElementById("logout");
-//make a function to save to logout, when button is clicked
-logout.onclick = function () {
-    //set variable isLoggedIn to false
-    currentUser.isLoggedIn = false;
-
-    //redirecting to log out page
-    window.location = "logout.html";
 
     //Return true to jump out of the function, since we now have all we need.
     return true;
