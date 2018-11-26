@@ -8,13 +8,13 @@
 
 var user = getStorage('currentUser');
 var userVacations = user.vacations || [];
-console.log(userVacations);
-//var userVacations = [{title: "Copenhagen", id:1, description: "awesome" },{title: "London", id:2, description: "wonderful" },{title: "Tel Aviv", id:3, description: "warm" } ];
+
 
 if (userVacations.length === 0) {
     //Display this as a text in html
     alert("You have not saved any vacations");
 } else {
+    
     document.getElementById('myVacationsList').innerHTML = ""
 
     for (i = 0; i < userVacations.length; i++) {
