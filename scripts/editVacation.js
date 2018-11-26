@@ -22,65 +22,6 @@ var MapPosition = {
 };
 var zoom = currentVac.zoom;
 
-console.log(MapPosition, zoom);
-
-// // initialize the Map
-// function initMap() {
-
-//     // set start location (where map opens) to stored values of currentVac, so map opens up on the right position
-//     var MapPosition = {
-//         lat: currentVac.center.lat,
-//         lng: currentVac.center.lng
-//     };
-
-//     // fill map variable with initialized map and set start location and zoom level to stored values of currentVac
-//     map = new google.maps.Map(document.getElementById('map'), {
-//         center: MapPosition,
-//         zoom: currentVac.zoom
-//     });
-
-//     //setting contenString variable to define pin pop up info window (e.g. Titel, Comment, Type)
-//     var contentString = "<div id='formCreate'><table>" +
-//         "<tr><td>Name:</td><td><input type='text'  id='nameCreate' /> </td></tr>" +
-//         "<tr><td>Comment:</td><td><input type='text' id='commentCreate' /></td></tr><tr>" +
-//         "<td>Type:</td><td><select id='typeCreate'>" +
-//         "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
-//         "<option value='Restaurant'>Restaurant</option>" +
-//         "<option value='Bar'>Bar</option>" +
-//         "<option value='Shopping'>Shopping</option>" +
-//         "<option value='Cafe'>Cafe</option>" +
-//         "<option value='Night club'>Night club</option>" +
-//         "<option value='Supermarket'>Supermarket</option>" +
-//         "<option value='Museum'>Museum</option>" +
-//         "<option value='Hotel'>Hotel</option>" +
-//         "<option value='Other'>Other</option>" +
-//         "</select> </td></tr>" +
-//         "<tr><td></td><td><input type='button' id='saveCreate' value='Save' onclick='savePin()' /></td></tr></table></div><div id='messageCreate' style='visibility: hidden;  '><b>Location saved!</b></div>";
-
-//     // connect infowindow (defined global) with the set contenString
-//     //new google.maps.InfoWindow --> is like a own class defined by Google Maps API
-//     infowindow = new google.maps.InfoWindow({
-//         content: contentString
-//     });
-
-//     //assign a click listener to the map with the addListener() callback function that creates marker when the user clicks the map
-//     google.maps.event.addListener(map, 'click', function (event) {
-//         // new google.maps.Marker --> is like a own class defined by Google Maps API
-//         marker = new google.maps.Marker({
-//             position: event.latLng,
-//             map: map
-//         });
-
-//         // displays an info window when the user created marker
-//         infowindow.open(map, marker);
-
-//         // set current marker variable to `normal´ marker variable 
-//         recentMarker = marker;
-
-
-//     });
-// }
-
 // Assign pinObjects the pins from currentVac
 // New pins can be added later and in the end the whole array can be saved again in currentVac.pins and currentUser.vacations.pins etc.
 var pinObjects = currentVac.pins;
@@ -136,7 +77,7 @@ function savePin() {
         infowindow.close();
 
     }, 1000);
-
+    
     //DATA IS SAVED and INFO WINDOW IS CLOSED
 }
 
@@ -176,7 +117,6 @@ function editPin() {
         comment: comment,
         type: type,
         id: id
-
     });
 
     //5. we construct the infowindow for the rebuilded marker
@@ -264,29 +204,6 @@ function showPins(pinObjects) {
         });
     }
 }
-
-// // function to update info window of the passed marker with its respecting data
-// function updateInfoWindow(marker, name, comment, type) {
-
-//     // Now we have to rebuild an infowindow, it is filled out with the variables name, comment, type
-//     var contentString = "<div id='form'><table><tr> <td>Name: </td><td><b>" + name + "</b></td> </tr><tr><td>Comment: </td> <td><b>" + comment + "</b></td> </tr> <tr><td>Type: </td><td><b>" + type + "</b></table></div>";
-
-//     //updating info window
-//     // this variable infowindow is only local 
-//     var infowindow = new google.maps.InfoWindow({
-//         content: contentString
-//     });
-
-//     // mouseover and mouseout event listeners
-//     marker.addListener('mouseover', function () {
-//         infowindow.open(map, this);
-//     });
-
-//     marker.addListener('mouseout', function () {
-//         infowindow.close();
-//     });
-
-// }
 
 //function to make changes in the infowindow of the pin
 function changeInfoWindow(marker, name, comment, type) {
@@ -446,62 +363,39 @@ deleteVac.onclick = function () {
     // If user clicks "OK" vacation is delted, if he clicks "Cancel" nothing happens
     if (con === true) {
 
+        //We create a general function, which we will call later
+        //arr --> array from which we want to delete the vacation
+        function deleting(arr) {
+            //Loop over array
+            for (i = 0; i < arr.length; i++) {
+                //Find the object in the array with the same id as the currentVac
+                if (currentVac.id === arr[i].id) {
+                    //assign this vacation to a local variable
+                    var vac = arr[i];
+                }
+            }
+            //Find the index of this vacation (vac) in the array and assign it to a local variable
+            var index = arr.indexOf(vac);
+
+            //Delete the vacation with the splice() method
+            //index is our variable we just defined, so at position of index one element will be removed (index, 1)
+            arr.splice(index, 1);
+        }
         //We need to delete the vacation on all different places where we saved it
         //1. Delete vacation in currentUser.vacations
-        //Loop over currentUser.vacations array 
-        for (i = 0; i < currentUser.vacations.length; i++) {
-            //Find the object in the currentUser.vacations array with the same id as the currentVac
-            if (currentVac.id === currentUser.vacations[i].id) {
-                //assign this vacation to a local variable
-                var vac = currentUser.vacations[i];
-            }
-        }
-        //Find the index of this vacation (vac) in the currentUser.vacations array and assign it to a local variable
-        var index = currentUser.vacations.indexOf(vac);
-
-        //Delete the vacation with the splice() method
-        //index is our variable we just defined, so at position of index one element will be removed (index, 1)
-        currentUser.vacations.splice(index, 1);
-
-        // we store currentUser in localStorage with store() function (defined in util.js)
+        deleting(currentUser.vacations);
         store(currentUser, "currentUser");
+        //2. Delete vacation in the allVac array
+        deleting(allVac);
+        store(allVac, "allVac");
+        //3. The changes of currentUser have to be updated in the users array(+ stored in localStorage), we do that with updateUser() function (defined in util.js)
+        updateUser();
+        //4. set currentVacation to undefined
+        currentVac = undefined;
+        //5. delete currentVac from localStorage
+        localStorage.removeItem("currentVac");
+        //redirect to myVacations.html
+        window.location = "myVacations.html";
     }
-
-    //2. Delete vacation in the allVac array
-    //Loop over allVac array 
-    for (i = 0; i < allVac.length; i++) {
-        //Find the object in the allVac array with the same id as the currentVac
-        if (currentVac.id === allVac[i].id) {
-            //assign this vacation to a local variable
-            var vac = allVac[i];
-        }
-    }
-    //Find the index of this vacation (vac) in the allVac array and assign it to a local variable
-    var index = currentUser.vacations.indexOf(vac);
-    // var index = findIndex(vac);
-
-    //Delete the vacation with the splice() method
-    //index is our variable we just defined, so at position of index one element will be removed (index, 1)
-    allVac.splice(index, 1);
-
-    // store in allVac in localStorage in localStorage with store() function (defined in util.js)
-    store(allVac, "allVac");
-
-    //3. The changes of currentUser have to be updated in the users array
-
-    // Loop over users array to find the object with the same id and set it to currentUser
-    for (i = 0; i < users.length; i++) {
-        if (currentUser.id === users[i].id) {
-            users[i] = currentUser;
-
-            //Store users array in localStorage with store() function (defined in util.js)
-            store(users, "users");
-        }
-    }
-    //4. set currentVacation to undefined
-    currentVac = undefined;
-    //5. delete currentVac from localStorage
-    localStorage.removeItem("currentVac");
-    //redirect to myVacations.html
-    window.location = "myVacations.html";
 }
+

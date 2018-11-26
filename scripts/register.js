@@ -36,7 +36,7 @@ register.onclick = function () {
     // check if they are all filled out and password equals repeated password
     if (name && username && email && gender && (password === repeatPassword)) {
 
-        // push the new registered user in the user array, newUser makes it part of the user class
+        // push the new registered user in the user array, new User makes it part of the User class
         users.push(new User(id, name, username, gender, email, password, description, isLoggedIn, vacations));
 
         //store updated users array in local storage with function store(y, keyname) (defined in util.js)
@@ -49,6 +49,6 @@ register.onclick = function () {
     }
     //if one of the fields is not filled out, we alert a message
     else {
-        alert("There is something wrong! Check again.");
+        alert("There is something wrong! Check again if all fields are filled out!");
     }
 }

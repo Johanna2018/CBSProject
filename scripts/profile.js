@@ -44,17 +44,9 @@ saveChanges.onclick = function () {
         }
     }
 
-    //update changes of user in users array
-    // Loop over users array to find the object with the same id and set it to currentUser
-    for (i = 0; i < users.length; i++) {
-        if (currentUser.id === users[i].id) {
-            users[i] = currentUser;
-        }
-    }
 
-    //store updated users array in local storage, make sure keyName is always String!
-    //keyName --> you need it to recall it later!
-    store(users, "users");
+    //update changes of currentUser in users array (+ stored in localStorage) with updateUser() function (defined in util.js)
+    updateUser();
 
     //store updated currentUser object in local storage, make sure keyName is always String! 
     //keyName --> you need it to recall it later!
