@@ -143,6 +143,24 @@ function toggle (arrMarkers) {
 
 }
 
+//function that finds the vacation by ID in order to be used multiple places, vacationList in this case is the array we pass it when currently working with it, either publishedVacation or AllVacations
+function findVacationById(vacationId, vacationList) {
+    return vacationList.find(function (vacation) {
+        //What the next line esentially does, is following
+        // if vacation.id == vacationId
+        //     return vacation - and store the value of that particular vacation in the vacationToDisplay variable
+        return vacation.id == vacationId;
+    });
+}
+
+//The function that will delete the map, resp set the inner html to blank so nothing displays
+function deleteMap() {
+    var map = document.getElementById('map');
+    var mapElement = document.getElementById('rating');
+    mapElement.innerHTML = '';
+    map.innerHTML = '';
+}
+
 //Function for Home button
 //Redirects user to homePage.html
 function home () {
@@ -193,3 +211,4 @@ function profile () {
     //Return true to jump out of the function, since we now have all we need
     return true;
 }
+
