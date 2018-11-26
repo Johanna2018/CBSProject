@@ -8,13 +8,14 @@
 
 var user = getStorage('currentUser');
 var userVacations = user.vacations || [];
+var markers;
 
 
 if (userVacations.length === 0) {
     //Display this as a text in html
     alert("You have not saved any vacations");
 } else {
-    
+
     document.getElementById('myVacationsList').innerHTML = ""
 
     for (i = 0; i < userVacations.length; i++) {
@@ -78,7 +79,7 @@ function initVacationElementEvents(vacationElement) {
                 
 
                 //then we loop over the pins of the particular map and "set"/"create" new pins on this map accordingly
-                var markers = [];
+                markers = [];
                 for (var i = 0; i < pins.length; i++) {
                     var pin = pins[i];
                     markers[i] = new google.maps.Marker({
@@ -92,26 +93,7 @@ function initVacationElementEvents(vacationElement) {
                     updateInfoWindow(map, markers[i], pin.name, pin.comment, pin.type);
                 }
                 
-                document.getElementById("toggle").style.display = "inline";
-                var entriesHidden = true;
-                var toggle = document.getElementById("toggle");
-                toggle.onclick = function () {
-
-                    //set event as an empty string, to use it later
-                    var event = "";
-
-                    // If entries are not shown, we will have the event mouseover to show all the markers.
-                    if (entriesHidden)
-                        event = "mouseover";
-                    // If entries are shown, we will have the event mouseout to hide all markers.
-                    else
-                        event = "mouseout";
-
-                    for (var i = 0; i < markers.length; i++) {
-                        google.maps.event.trigger(markers[i], event);
-                    }
-                }
-
+                document.getElementById("toggle").style.display = "inline";   
             }
            
             var mapDescription = document.getElementById('description');
@@ -201,7 +183,6 @@ logout.onclick = function () {
     //Return true to jump out of the function, since we now have all we need.
     return true;
 }
-
 
 
 // Bind the button from HTML to a variable for later use    
