@@ -17,6 +17,7 @@ function getStorage(keyName){
 }
 
 //function to generate the next ID in an array
+//arr --> array for which objects ID should be created
 function getNextId(arr){
     // set variable max to 0
     var max = 0;
@@ -33,4 +34,86 @@ function getNextId(arr){
     }
     //Return the max --> max is the generate ID
     return max;
+}
+
+// //function to initialize the map on different parts of the program (e.g. editVacation, createVacation)
+// // initialize the Map
+// function initMap(MapPosition, zoom) {
+//     // alert("hi");
+
+//     // // set start location variable --> location where map opens at first
+//     // var MapPosition = {
+//     //     lat: lat,
+//     //     lng: lng
+//     // };
+
+//     // fill map variable with initialized map and set start location and zoom level
+//     map = new google.maps.Map(document.getElementById('map'), {
+//         center: MapPosition,
+//         zoom: zoom
+//     });
+
+//     //setting contentString variable to define pin pop up info window (e.g. Titel, Comment, Type)
+//     var contentString = "<div id='form'><table>" +
+//         "<tr><td>Name:</td><td><input type='text'  id='name' /> </td></tr>" +
+//         "<tr><td>Comment:</td><td><input type='text' id='comment' /></td></tr><tr>" +
+//         "<td>Type:</td><td><select id='type'>" +
+//         "<option value='Viewpoint' SELECTED>Viewpoint</option>" +
+//         "<option value='Restaurant'>Restaurant</option>" +
+//         "<option value='Bar'>Bar</option>" +
+//         "<option value='Shopping'>Shopping</option>" +
+//         "<option value='Cafe'>Cafe</option>" +
+//         "<option value='Night club'>Night club</option>" +
+//         "<option value='Supermarket'>Supermarket</option>" +
+//         "<option value='Museum'>Museum</option>" +
+//         "<option value='Hotel'>Hotel</option>" +
+//         "<option value='Other'>Other</option>" +
+//         "</select> </td></tr>" +
+//         "<tr><td></td><td><input type='button' id='save' value='Save' onclick='savePin()' /></td></tr></table></div><div id='message' style='visibility: hidden;  '><b>Location saved!</b></div>";
+
+//     // connect infowindow (defined global) with the set contenString
+//     //new google.maps.InfoWindow --> is like a own class defined by Google Maps API
+//     infowindow = new google.maps.InfoWindow({
+//         content: contentString
+//     });
+
+//     //assign a click listener to the map with the addListener() callback function that creates marker when the user clicks the map
+//     google.maps.event.addListener(map, 'click', function (event) {
+//         // new google.maps.Marker --> is like a own class defined by Google Maps API
+//         marker = new google.maps.Marker({
+//             position: event.latLng,
+//             map: map
+//         });
+
+//         // displays an info window when the user created marker
+//         infowindow.open(map, marker);
+
+//         // set current marker variable to `normal´ marker variable 
+//         recentMarker = marker;
+
+//     });
+
+// }
+
+// 
+
+// With the toggle function we show all the markers with a click on the button
+function toggle (arrMarkers) {
+
+    //set event as an empty string
+    var event = "";
+
+    // If entries are not shown, we will have the event mouseover to show all the markers.
+    if (entriesHidden)
+        event = "mouseover";
+    // If entries are shown, we will have the event mouseout to hide all markers.
+    else
+        event = "mouseout";
+
+    // Below the function checks ALL the markers to show/hide them
+    for (var i = 0; i < arrMarkers.length; i++) {
+        google.maps.event.trigger(arrMarkers[i], event);
+
+    }
+
 }
