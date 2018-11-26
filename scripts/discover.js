@@ -18,7 +18,6 @@ var allVacations = vacationsFromLocalStorage.map(function (vacation) {
     return new Vacation(vacation.id, vacation.title, vacation.description, vacation.pins, vacation.isSelected, vacation.isPublished, vacation.tags, vacation.ratings, vacation.center, vacation.zoom);
 });
 
-console.log('allVacations', allVacations);
 
 
 //declare some of the variables that need to be used in the global scope
@@ -93,7 +92,7 @@ function displayElements(shouldResetRadiosAndResetFilterValue) {
         // 1. We need a place to display our results
         //we select the html part we reserved in html for the results and declare that it is currently empty, this helps empty it out with each new search
         document.getElementById('searchResult').innerHTML = ''
-
+      
         // 2. We need to loop over all searchResults 
         for (i = 0; i < searchResult.length; i++) {
             //we store the value of a particular vacation that is being pointed at in our searchResult array
@@ -161,6 +160,7 @@ function resetFilterRadioButtons() {
 
 //In this part, the resultEl becomes vacationElement, but it is essentially the same thing, and has the same value, it's just better to use a different name now,
 //because in the following function it is basically not a result element anymore, it will become a particular vacation element, recognized by an id
+
 
 function initVacationElementEvents(vacationElement) {
     vacationElement.addEventListener('click', function (event) {
