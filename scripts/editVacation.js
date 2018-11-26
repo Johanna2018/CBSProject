@@ -17,7 +17,7 @@ var currentVac = getStorage("currentVac");
 
 //MapPosition and zoom is needed to initialize the map, it will open up the map with values of currentVac, so map opens up on the right position
 var MapPosition = {
-    lat: currentVac.center.lat, 
+    lat: currentVac.center.lat,
     lng: currentVac.center.lng
 };
 var zoom = currentVac.zoom;
@@ -294,45 +294,26 @@ function changeInfoWindow(marker, name, comment, type) {
     //setting contenString variable to define pin pop up info window (e.g. Titel, Comment, Type)
     //data-object can carry data in the HTML, we want the carry the ID of the marker so we can recall it in the editPin() function
     var contentString = "<div id='formEdit' data-object='" + marker.id + "'><table>" +
-    // it is filled out with the variables name, comment, type
+        // it is filled out with the variables name & comment
         "<tr><td>Name:</td><td><input type='text'  id='nameEdit' value = '" + name + "'/> </td></tr>" +
         "<tr><td>Comment:</td><td><input type='text' id='commentEdit' value = '" + comment + "' /></td></tr><tr>" +
-        // "<td>Type:</td><td><select id='typeEdit' value = '" + type + "'>" +
         "<td>Type:</td><td><select id='typeEdit'>" +
-        // TODO: the right categoray should be selected"<td>Type:</td><td><select id='typeEdit' onchange = 'run()' >" +
-        "<option value='Viewpoint'>Viewpoint</option>" +
-        "<option value='Restaurant'>Restaurant</option>" +
-        "<option value='Bar'>Bar</option>" +
-        "<option value='Shopping'>Shopping</option>" +
-        "<option value='Cafe'>Cafe</option>" +
-        "<option value='Night club'>Night club</option>" +
-        "<option value='Supermarket'>Supermarket</option>" +
-        "<option value='Museum'>Museum</option>" +
-        "<option value='Hotel'>Hotel</option>" +
-        "<option value='Other'>Other</option>" +
+        // Here we use a ternary operator, which works similar to a if statement --> condition ? exprT : exprF
+        //If condition can be converted to true (it is truthy), the operator returns the value of exprT; otherwise (when condition is falsy) it returns the value of exprF; source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
+        //In this case: If type equals 'Viewpoint' this option should be selected, else empty string, so it is not selected
+        "<option " + (type == 'Viewpoint' ? 'selected' : '') + " value='Viewpoint'>Viewpoint</option>" +
+        "<option " + (type == 'Restaurant' ? 'selected' : '') + " value='Restaurant'>Restaurant</option>" +
+        "<option " + (type == 'Bar' ? 'selected' : '') + " value='Bar'>Bar</option>" +
+        "<option " + (type == 'Shopping' ? 'selected' : '') + " value='Shopping'>Shopping</option>" +
+        "<option " + (type == 'Cafe' ? 'selected' : '') + " value='Cafe'>Cafe</option>" +
+        "<option " + (type == 'Night' ? 'selected' : '') + " value='Night club'>Night club</option>" +
+        "<option " + (type == 'Supermarket' ? 'selected' : '') + " value='Supermarket'>Supermarket</option>" +
+        "<option " + (type == 'Museum' ? 'selected' : '') + " value='Museum'>Museum</option>" +
+        "<option " + (type == 'Hotel' ? 'selected' : '') + " value='Hotel'>Hotel</option>" +
+        "<option " + (type == 'Other' ? 'selected' : '') + " value='Other'>Other</option>" +
         "</select> </td></tr>" +
         "<tr><td></td><td><input type='button' id='editPin' value='Save' onclick='editPin()'/></td></tr></table></div><div id='messageEdit' style='visibility: hidden;  '><b>Changes saved!</b></div>";
 
-        // var contentString = "<div id='formEdit' data-object='" + marker.id + "'><table>" +
-        // // it is filled out with the variables name, comment, type
-        //     "<tr><td>Name:</td><td><input type='text'  id='nameEdit' value = '" + name + "'/> </td></tr>" +
-        //     "<tr><td>Comment:</td><td><input type='text' id='commentEdit' value = '" + comment + "' /></td></tr><tr>" +
-        //     // "<td>Type:</td><td><select id='typeEdit' value = '" + type + "'>" +
-        //     "<td>Type:</td><td><select id='typeEdit'>" +
-        //     // TODO: the right categoray should be selected"<td>Type:</td><td><select id='typeEdit' onchange = 'run()' >" +
-        //     "<option " + type == 'Viewpoint' ? 'selected' : '' + " value='Viewpoint'>Viewpoint</option>" +
-        //     "<option " + type == 'Restaurant' ? 'selected' : '' + " value='Restaurant'>Restaurant</option>" +
-        //     "<option " + type == 'Bar' ? 'selected' : '' + " value='Bar'>Bar</option>" +
-        //     "<option " + type == 'Shopping' ? 'selected' : '' + " value='Shopping'>Shopping</option>" +
-        //     "<option " + type == 'Cafe' ? 'selected' : '' + " value='Cafe'>Cafe</option>" +
-        //     "<option " + type == 'Night' ? 'selected' : '' + " value='Night club'>Night club</option>" +
-        //     "<option " + type == 'Supermarket' ? 'selected' : '' + " value='Supermarket'>Supermarket</option>" +
-        //     "<option " + type == 'Museum' ? 'selected' : '' + " value='Museum'>Museum</option>" +
-        //     "<option " + type == 'Hotel' ? 'selected' : '' + " value='Hotel'>Hotel</option>" +
-        //     "<option " + type == 'Other' ? 'selected' : '' + " value='Other'>Other</option>" +
-        //     "</select> </td></tr>" +
-        //     "<tr><td></td><td><input type='button' id='editPin' value='Save' onclick='editPin()'/></td></tr></table></div><div id='messageEdit' style='visibility: hidden;  '><b>Changes saved!</b></div>";
-    
 
     // connect infowindow with the set contenString
     // this variable infowindow is only local 
@@ -344,7 +325,7 @@ function changeInfoWindow(marker, name, comment, type) {
     // here it is important that we use marker and not this!
     infowindowEdit.open(map, marker);
 }
-    
+
 // Bind the button from HTML to a variable for later use
 var deletePins = document.getElementById("deletePins");
 
@@ -481,7 +462,7 @@ deleteVac.onclick = function () {
         //Delete the vacation with the splice() method
         //index is our variable we just defined, so at position of index one element will be removed (index, 1)
         currentUser.vacations.splice(index, 1);
-       
+
         // we store currentUser in localStorage with store() function (defined in util.js)
         store(currentUser, "currentUser");
     }
@@ -502,7 +483,7 @@ deleteVac.onclick = function () {
     //Delete the vacation with the splice() method
     //index is our variable we just defined, so at position of index one element will be removed (index, 1)
     allVac.splice(index, 1);
-   
+
     // store in allVac in localStorage in localStorage with store() function (defined in util.js)
     store(allVac, "allVac");
 
@@ -512,7 +493,7 @@ deleteVac.onclick = function () {
     for (i = 0; i < users.length; i++) {
         if (currentUser.id === users[i].id) {
             users[i] = currentUser;
-    
+
             //Store users array in localStorage with store() function (defined in util.js)
             store(users, "users");
         }
