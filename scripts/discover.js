@@ -1,3 +1,4 @@
+var currentUser = getStorage("currentUser");
 
 // Now we get all of the saved vacations from the local storage - it works that way that everything needs to be retrieved and then we can filter     
 var vacationsFromLocalStorage = getStorage('allVac');

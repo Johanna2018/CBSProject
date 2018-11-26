@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,15 +23,15 @@
         }
   
     </style>
-    <!-- <link rel="stylesheet" href="rating.css"> -->
 </head>
+
 <body>
+    <!-- script to load the Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKWDH2tfpzh33fGeXac1fOuTOBGgD-Jsg"></script>
     <h1>My Vacations</h1>
 
-   <p id="myVacationsList"></p>
-   
- 
-  
+    <p id="myVacationsList"></p>
+
     </div>
     <div>
         <button id="createVac">Create New Vacation</button>
@@ -51,13 +52,17 @@
     <p id = "description"></p>
 
     <div id="editVacation"></div>
+    <br>
+   
 
-
+    <!-- Links to javascript files -->
     <script type="text/javascript" src="../scripts/util.js"></script>
     <script type="text/javascript" src="../scripts/userClass.js"></script>
+    <!-- This script must be down here because it calls buttons and input fields from HTML, if it would be in the beginning, the HTML would not be loaded then -->
     <script type="text/javascript" src="../scripts/myVacations.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKWDH2tfpzh33fGeXac1fOuTOBGgD-Jsg"></script>
+
 
 
 </body>
+
 </html>

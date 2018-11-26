@@ -1,94 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Profile</title>
 </head>
+
 <body>
 
-<h1>My Profile</h1>
+    <h1>My Profile</h1>
 
-<div>
+    <div>
         <label for="wholeName"> <b>Name: </b> </label>
         <input type="text" name="wholeName" id="wholeName" placeholder="Type in your whole name" /> <br>
-       
+
         <label for="username"> <b> User Name:</b> </label>
         <input type="text" name="username" id="username" placeholder="Type in a username" />
-        <!-- What is the purpose of the name here? Do we need it?? -->
 
-</div>
+    </div>
 
-<label for = "gender"> <b>Gender:</b> </label>
-<!-- missing a name? -->
+    <label for="gender"> <b>Gender:</b> </label>
 
-<label for="radio-choice-1">Male</label>
-<input type="radio" name="gender-choice" id="genderMale" value="Male" />
+    <label for="radio-choice-1">Male</label>
+    <input type="radio" name="gender-choice" id="genderMale" value="Male" />
 
-<label for="radio-choice-2">Female</label>
-<input type="radio" name="gender-choice" id="genderFemale" value="Female" />
+    <label for="radio-choice-2">Female</label>
+    <input type="radio" name="gender-choice" id="genderFemale" value="Female" />
 
-<label for="radio-choice-3">Other</label>
-<input type="radio" name="gender-choice" id="genderOther" value="Other" />
+    <label for="radio-choice-3">Other</label>
+    <input type="radio" name="gender-choice" id="genderOther" value="Other" />
 
 
-<div>
-<label for="userDescription"> <b> Description/Bio </b>  </label>
-<textarea cols= "30" rows="10" name="user-description" id="user-description" placeholder="Few words about yourself"></textarea>
+    <div>
+        <label for="userDescription"> <b> Description/Bio </b> </label>
+        <textarea cols="30" rows="10" name="user-description" id="user-description" placeholder="Few words about yourself"></textarea>
 
-</div>
+    </div>
 
-<!-- <div>
-        <label for="userPhoto"> <b> Your profile photo </b> </label>
-        <input type="file" name="photo" id="photo" />
+    <div>
+        <button type="button" id="saveChanges">Save</button>
+    </div>
 
+    <div>
+        <button type="button" id="home">Home</button>
+    </div>
 
-</div> -->
+    <div>
+        <button type="button" id="myVac">My Vacations</button>
+    </div>
 
-<div>
-<button type="button" id="saveChanges">Save</button>
-</div>
+    <div>
+        <button type="button" id="logout">Log-out</button>
+    </div>
+    <!-- Links to javascript files -->
+    <script type="text/javascript" src="../scripts/util.js"></script>
+    <script type="text/javascript" src="../scripts/userClass.js"></script>
+    <!-- This script must be down here because it calls buttons and input fields from HTML, if it would be in the beginning, the HTML would not be loaded then -->
+    <script type="text/javascript" src="../scripts/profile.js"></script>
 
-<div>
-<span id = "changeResult"></span>
-</div>
-
-<!-- TODO: Delte this when we will not use it! -->
-<!-- <h2>Settings</h2>
-
-<label for = "password">Current password </label>
-<input type= "password" id ="password"  name="password" placeholder="to be filled from js"/> <br/>
-
-<label for = "newPassword">New password </label>
-<input type= "password" id ="newPassword" name="newPassword" placeholder="to be filled by user"/> <br/>
-
-<label for = "confirmNewPassword">Confirm new password </label>
-<input type= "password" id = "confirmNewPassword" name="confirmNewPassword" placeholder="to be filled by user"/>
-
-<div>
-<button type="button" id="savePassword">Save</button>
-</div>
-
-<div>
-<span id = "settingsResult"></span>
-</div> -->
-
-<div>
-<button type="button" id="home">Home</button>
-</div>
-
-<div>
-<button type="button" id="myVac">My Vacations</button>
-</div>
-
-<div>
-<button type="button" id="logout">Log-out</button>
-</div>
-
-<script type="text/javascript" src="../scripts/util.js"></script>
-<script type="text/javascript" src="../scripts/userClass.js"></script>
-<script type="text/javascript" src="../scripts/profile.js"></script>
-    
 </body>
+
 </html>

@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Log-in</title>
 </head>
+
 <body>
     <h1>My Vacation Map</h1>
-    <!-- <form action="/sign-in-url" method="post"> -->
-        <!-- could see if we can use this to redirect to next page -->
-        <h2>Log-in</h2>
-        <div>
-            <label for="email">E-Mail: </label>
-            <input id="email" type="text" >
-        </div>
-        <div>
-            <label for="passoword">Password: </label> 
-            <input id="password" type="password" >
-         </div>
-        <button id="login">Log-in</button>
+    <h2>Log-in</h2>
+    <div>
+        <label for="email">E-Mail: </label>
+        <input id="email" type="text">
+    </div>
+    <div>
+        <label for="passoword">Password: </label>
+        <input id="password" type="password">
+    </div>
+    <button id="login">Log-in</button>
 
-        <span id="loginResult"></span>
+    <span id="loginResult"></span>
 
-        <p>You do not have an account yet? Then <a href="register.html">register here!</a></p>
-        
-        <script type="text/javascript" src="../scripts/util.js"></script>
-        <script type="text/javascript" src="../scripts/userClass.js"></script>
-        <script type="text/javascript" src="../scripts/login.js"></script>  
-         
-        
+    <p>You do not have an account yet? Then <a href="register.html">register here!</a></p>
+
+    <!-- Links to javascript files -->
+    <script type="text/javascript" src="../scripts/util.js"></script>
+    <script type="text/javascript" src="../scripts/userClass.js"></script>
+    <!-- This script must be down here because it calls buttons and input fields from HTML, if it would be in the beginning, the HTML would not be loaded then -->
+    <script type="text/javascript" src="../scripts/login.js"></script>
 
     </form>
 </body>
+
 </html>

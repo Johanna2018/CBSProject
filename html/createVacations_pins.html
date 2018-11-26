@@ -24,8 +24,9 @@
 </head>
 
 <body>
+    <!-- script to load the Google Maps API -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKWDH2tfpzh33fGeXac1fOuTOBGgD-Jsg&callback=start"></script>
-    
+
 
     <h1 style="text-align: center; margin-top: 15px; margin-bottom: 0px;">Create Your Vacation!</h1>
     <div>
@@ -35,10 +36,12 @@
 
     <div>
         <label for="vacDescription">Description: </label>
-        <textarea cols= "30" rows="10" id="vacDescription" placeholder="Describe your Vacation"></textarea>
+        <textarea cols="30" rows="10" id="vacDescription" placeholder="Describe your Vacation"></textarea>
     </div>
-    <button id ="deletePins" style="display: none; background-color: crimson; color: white; font-size: 15px; font-family: verdana;">Delete all entries</button>
-    <button id="toggle" style="display: none; background-color: cornflowerblue; color: white; font-size: 15px; font-family: verdana;">Toggle all entries</button>
+    <button id="deletePins" style="display: none; background-color: crimson; color: white; font-size: 15px; font-family: verdana;">Delete
+        all entries</button>
+    <button id="toggle" style="display: none; background-color: cornflowerblue; color: white; font-size: 15px; font-family: verdana;">Toggle
+        all entries</button>
 
     <div id="map" height="460px" width="100%"></div>
     <div>
@@ -52,7 +55,7 @@
         <div>
             <span id="tagSpan">One tag can only be one word. Please seperate the tags with a comma, without spaces.</span>
         </div>
-    </div>  
+    </div>
 
     <div>
         <button type="button" id="saveVac">Save</button>
@@ -61,19 +64,20 @@
     <div>
         <button type="button" id="home">Home</button>
     </div>
-        
+
     <div>
         <button type="button" id="myVac">My Vacations</button>
     </div>
-        
+
     <div>
         <button type="button" id="logout">Log-out</button>
     </div>
-    
+
+    <!-- Links to javascript files -->
     <script type="text/javascript" src="../scripts/util.js"></script>
     <script type="text/javascript" src="../scripts/pinClass.js"></script>
     <script type="text/javascript" src="../scripts/vacationsClass.js"></script>
-    <!-- <script type="text/javascript" src="../scripts/pins.js"></script> -->
+    <!-- This script must be down here because it calls buttons and input fields from HTML, if it would be in the beginning, the HTML would not be loaded then -->
     <script type="text/javascript" src="../scripts/createVacation_pins.js"></script>
 
 </body>

@@ -1,61 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Registration</title>
+    
+</head>
+
+<body>
+    <h1>My Vacation Map</h1>
+    <h2>Registration</h2>
+    <div>
+        <label for="wholeName">Name: </label>
+        <input id="wholeName" placeholder="Type in your first- and lastname" type="text" required>
+    </div>
+    <div>
+        <label for="username">User Name: </label>
+        <input id="username" placeholder="Type in a username" type="text" required>
+    </div>
+    <div>
+        <!-- Label is useful because user can also click on "Male" and does not has to click precisely on the radio button -->
+        <label for="gender">Gender: </label>
+        <label for="genderMale" selected>Male</label>
+        <input type="radio" id="genderMale" name="gender-choice" value="Male">
+        <label for="genderFemale">Female</label>
+        <input type="radio" id="genderFemale" name="gender-choice" value="Female">
+        <label for="genderOther">Other</label>
+        <input type="radio" id="genderOther" name="gender-choice" value="Other">
+    </div>
+
+    <div>
+        <label for="userDescription"> <b> Description/Bio </b> </label>
+        <textarea cols="30" rows="10" name="user-description" id="user-description" placeholder="Few words about yourself"></textarea>
+
+    </div>
+
+    <div>
+        <label for="email">E-Mail: </label>
+        <input id="email" type="text" required>
+    </div>
+    <div>
+        <label for="password">Password: </label>
+        <input id="password" type="password" required>
+    </div>
+    <div>
+        <label for="repeatPassword">Repeat password: </label>
+        <input id="repeatPassword" type="password" required>
+    </div>
+    <button type="button" id="register">Register</button>
+
+    <div>
+        <span id="registerResult"></span>
+    </div>
+
+    <p>You have an account already? Then <a href="login.html">log-in here!</a></p>
+
+    <!-- Links to javascript files -->
     <script type="text/javascript" src="../scripts/util.js"></script>
     <script type="text/javascript" src="../scripts/userClass.js"></script>
-</head>
-<body>
-    <h1>My Vacation Map</h1>    
-    <h2>Registration</h2>
-        <div>
-            <label for="wholeName">Name: </label>
-            <input id="wholeName" placeholder="Type in your first- and lastname" type="text"required>
-        </div>
-        <div>
-            <label for="username">User Name: </label>
-            <input id="username" placeholder="Type in a username" type="text" required>
-        </div>
-        <div>
-            <!-- Label is useful because user can also click on "Male" and does not has to click precisely on the radio button -->
-            <label for="gender">Gender: </label>
-            <label for="genderMale" selected>Male</label>
-            <input type="radio" id="genderMale" name="gender-choice" value="Male">
-            <label for="genderFemale">Female</label>
-            <input type="radio" id="genderFemale" name="gender-choice" value="Female"> 
-            <label for="genderOther">Other</label>
-            <input type="radio" id="genderOther" name="gender-choice" value="Other"> 
-        </div>
-
-        <div>
-            <label for="userDescription"> <b> Description/Bio </b>  </label>
-            <textarea cols= "30" rows="10" name="user-description" id="user-description" placeholder="Few words about yourself"></textarea>
-            
-        </div>
-
-        <div>
-            <label for="email">E-Mail: </label>
-            <input id="email" type="text" required>
-        </div>
-        <div>
-            <label for="password">Password: </label>
-            <input id="password" type="password" required>
-        </div>
-        <div>
-            <label for="repeatPassword">Repeat password: </label>
-            <input id="repeatPassword" type="password" required>
-        </div>
-        <button type="button" id="register">Register</button>
-        
-        <div>
-        <span id="registerResult"></span>
-        </div>
-
-        <p>You have an account already? Then <a href="login.html">log-in here!</a></p>
-
-        <script type="text/javascript" src="../scripts/register.js"></script>
+    <!-- This script must be down here because it calls buttons and input fields from HTML, if it would be in the beginning, the HTML would not be loaded then -->
+    <script type="text/javascript" src="../scripts/register.js"></script>
 </body>
+
 </html>

@@ -1,9 +1,8 @@
-//get the currently logged in user object from local storage with the keyName (always string)
+//get the currently logged in user and users array from localStorage with getStorage() function (defined in util.js)
 var currentUser = getStorage("currentUser");
-//get the users array from local storage with the keyName (always string)
 var users = getStorage("users");
 
-//fill input fields with the user information
+//fill HTML input fields with the user information
 document.getElementById("wholeName").value = currentUser.name;
 document.getElementById("username").value = currentUser.username;
 document.getElementById("user-description").value = currentUser.description;
@@ -12,24 +11,22 @@ document.getElementById("user-description").value = currentUser.description;
 //radios is an array because radio buttons have all the same name
 var radios = document.getElementsByName("gender-choice");
 //loop over the radio button array
-for (var i = 0; i < radios.length; i++){
+for (var i = 0; i < radios.length; i++) {
     // if one of the buttons has the value which equals the gender
-   if (radios[i].value == currentUser.gender){
-    // check this button
-    radios[i].checked = true;
-    // only one radio can be logically checked, don't check the rest
-    break;
-   }
-  }
+    if (radios[i].value == currentUser.gender) {
+        // check this button
+        radios[i].checked = true;
+        // only one radio can be logically checked, don't check the rest
+        break;
+    }
+}
 
 
 // Bind the button from HTML to a variable for later use  
 var saveChanges = document.getElementById("saveChanges");
-// Bind the span for result text for later use
-var resultSpanChange = document.getElementById("changeResult");
 
 //make a function to save the changes of the profile information, when button is clicked
-saveChanges.onclick = function(){
+saveChanges.onclick = function () {
     //upadte the properties of the currentUser with input
     currentUser.name = document.getElementById("wholeName").value;
     currentUser.username = document.getElementById("username").value;
@@ -38,23 +35,23 @@ saveChanges.onclick = function(){
     //radios is an array because radio buttons have all the same name
     var radios = document.getElementsByName("gender-choice");
     //loop over the radio buttons because we need to get the value from the radio button that is checked 
-    for (var i = 0; i < radios.length; i++){
-        if (radios[i].checked){
-    // assign value from checked radio button to gender
-    currentUser.gender = radios[i].value;
-    // only one radio can be logically checked, don't check the rest
-    break;
-   }
-  }
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            // assign value from checked radio button to gender
+            currentUser.gender = radios[i].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
 
     //update changes of user in users array
     // Loop over users array to find the object with the same id and set it to currentUser
-    for(i = 0; i < users.length; i++){
-        if(currentUser.id === users[i].id){
+    for (i = 0; i < users.length; i++) {
+        if (currentUser.id === users[i].id) {
             users[i] = currentUser;
         }
-    } 
-    
+    }
+
     //store updated users array in local storage, make sure keyName is always String!
     //keyName --> you need it to recall it later!
     store(users, "users");
@@ -64,30 +61,18 @@ saveChanges.onclick = function(){
     store(currentUser, "currentUser");
 
     //Show message in result Span, to user can see that changes are saved.
-    resultSpanChange.innerText = "Your changes have been saved!";
+    alert("Your changes have been saved!");
 
     //Return true to jump out of the function, since we now have all we need.
     return true;
 }
 
-//TODO: Changing password
-// // Bind the button from HTML to a variable for later use  
-// var savePassword = document.getElementById("savePassword");
-// //make a function to save the changes of password, when button is clicked
-// savePassword.onclick = function(){
-//     var password = document.getElementById("password").value;
-//     var newPassword = document.getElementById("newPassword").value;
-//     var confirmNewPassword = document.getElementById("confirmNewPassword").value;
-
-//     if(currentUser.password === password && newPassword && newPassword === confirmNewPassword) {}}
-        
-
 // Bind the button from HTML to a variable for later use    
 var home = document.getElementById("home");
 //make a function to save to home, when button is clicked
-home.onclick = function(){
+home.onclick = function () {
     //redirecting to log out page
-    window.location = "homePage.html"; 
+    window.location = "homePage.html";
     //Return true to jump out of the function, since we now have all we need.
     return true;
 }
@@ -95,9 +80,9 @@ home.onclick = function(){
 // Bind the button from HTML to a variable for later use    
 var myVac = document.getElementById("myVac");
 //make a function to save to home, when button is clicked
-myVac.onclick = function(){
+myVac.onclick = function () {
     //redirecting to log out page
-    window.location = "myVacations.html"; 
+    window.location = "myVacations.html";
     //Return true to jump out of the function, since we now have all we need.
     return true;
 }
@@ -105,13 +90,13 @@ myVac.onclick = function(){
 // Bind the button from HTML to a variable for later use    
 var logout = document.getElementById("logout");
 //make a function to save to logout, when button is clicked
-logout.onclick = function(){
+logout.onclick = function () {
     //set variable isLoggedIn to false
     currentUser.isLoggedIn = false;
-    
+
     //redirecting to log out page
-    window.location = "logout.html"; 
-  
+    window.location = "logout.html";
+
     //Return true to jump out of the function, since we now have all we need.
     return true;
 }
