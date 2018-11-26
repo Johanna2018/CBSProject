@@ -239,3 +239,16 @@ function profile () {
     return true;
 }
 
+//Function to update currentUser data in users array
+   function updateUser(){ 
+// Loop over users array to find the object with the same id and set it to currentUser
+    for (i = 0; i < users.length; i++) {
+        if (currentUser.id === users[i].id) {
+            users[i] = currentUser;
+        }
+    }
+
+    //store updated users array in local storage, make sure keyName is always String!
+    //keyName --> you need it to recall it later!
+    store(users, "users");
+}
