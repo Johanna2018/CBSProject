@@ -1,5 +1,11 @@
-// Initialize an empty array
-var users = [];
+//use getStorage function to get users from local storage --> if someone registered
+//assging it to users variable  
+var users = getStorage("users");
+  
+// if the localStorgae is empty, because we came directly to login (without registration), we need to fill the users array with hardcoded users
+if (users == null){
+  //Define users as an empty array, because you cannot push into an variable which is null
+  var users = [];}
 
 // Bind the button to a variable for later use
 var register = document.getElementById("register");

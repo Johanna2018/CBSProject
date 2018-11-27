@@ -6,8 +6,8 @@
 
 //I've been trying to display current user's vacations, but there is something fishy about the local storage, will figure out what over the weekend
 
-var user = getStorage('currentUser');
-var userVacations = user.vacations || [];
+var currentUser = getStorage('currentUser');
+var userVacations = currentUser.vacations || [];
 var markers;
 
 
@@ -105,7 +105,7 @@ var createVac = document.getElementById("createVac");
 //make a function to save to createVac, when button is clicked
 createVac.onclick = function () {
     //redirecting to create vaction page
-    window.location = "createVacations_pins.html";
+    window.location = "createVacation.html";
 
     //Return true to jump out of the function, since we now have all we need.
     return true;
