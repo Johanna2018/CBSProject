@@ -29,6 +29,19 @@ register.onclick = function () {
             break;
         }
     }
+    //Validate E-Mail address
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email));
+    else {
+        alert("You have entered an invalid email address!")
+        return false;
+    }
+
+    //Validate Password
+    if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(password));
+    else {
+        alert("You have entered an invalid password! It should contain at least one digit, one lower case, one upper case and 8 characters.")
+        return false;
+    }
     //when user registers, he is not logged-in yet, therefore isLoggedIn is false
     var isLoggedIn = false;
     //empty array for vacations, because when registering, no vacations exist yet
@@ -36,7 +49,7 @@ register.onclick = function () {
     // check if they are all filled out and password equals repeated password
     if (name && username && email && gender && (password === repeatPassword)) {
 
-        // push the new registered user in the user array, new User makes it part of the User class
+        // push the new registered user in the user array, newUser makes it part of the user class
         users.push(new User(id, name, username, gender, email, password, description, isLoggedIn, vacations));
 
         //store updated users array in local storage with function store(y, keyname) (defined in util.js)
@@ -49,6 +62,6 @@ register.onclick = function () {
     }
     //if one of the fields is not filled out, we alert a message
     else {
-        alert("There is something wrong! Check again if all fields are filled out!");
+        alert("There is something wrong! Check again.");
     }
 }
