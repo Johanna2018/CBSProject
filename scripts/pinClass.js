@@ -9,6 +9,5 @@ class Pin {
     this.comment = comment;
     this.type = type;
     this.latlng = latlng;
-    this.pinIndex = null;
   }
 }

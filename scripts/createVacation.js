@@ -138,7 +138,7 @@ saveVac.onclick = function () {
     var zoom = map.getZoom();
 
     // push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
-    var currentVac = new Vacation(id, title, description, pins, isSelected, isPublished, tags, ratings, center, zoom);
+    var currentVac = new Vacation(id, title, description, pins, isPublished, tags, ratings, center, zoom);
 
     //push the just created vacation into vacations array in currentUser object and the allVac array
     currentUser.vacations.push(currentVac);

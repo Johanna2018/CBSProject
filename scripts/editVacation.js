@@ -377,7 +377,7 @@ deleteVac.onclick = function () {
             //Find the index of this vacation (vac) in the array and assign it to a local variable
             var index = arr.indexOf(vac);
 
-            //Delete the vacation with the splice() method
+            //Delete the vacation with the splice() method; source: https://www.w3schools.com/jsref/jsref_splice.asp 
             //index is our variable we just defined, so at position of index one element will be removed (index, 1)
             arr.splice(index, 1);
         }
