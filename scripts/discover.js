@@ -82,6 +82,8 @@ function displayElements(shouldResetRadiosAndResetFilterValue) {
             //only return the vacations, of which average rating is less or equal the value selected from the radio button
             return vacation.getAverageRatings() <= filterValue;
         });
+    }else{
+        searchResult = [];
     }
 
     // Now we need another if-else statement, which will decide what to do with our results - searchResults array
