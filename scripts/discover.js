@@ -15,7 +15,7 @@ var vacationsFromLocalStorage = getStorage('allVac');
 // this is done because we want to be able to use the functionality from the class (the calculation of the average), if we didn't do it, that function would be
 // undefined
 var allVacations = vacationsFromLocalStorage.map(function (vacation) {
-    return new Vacation(vacation.id, vacation.title, vacation.description, vacation.pins, vacation.isSelected, vacation.isPublished, vacation.tags, vacation.ratings, vacation.center, vacation.zoom);
+    return new Vacation(vacation.id, vacation.title, vacation.description, vacation.pins, vacation.isPublished, vacation.tags, vacation.ratings, vacation.center, vacation.zoom);
 });
 
 
