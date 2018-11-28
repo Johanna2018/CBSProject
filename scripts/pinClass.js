@@ -2,7 +2,7 @@
 
 class Pin {
 
-    // The constructor for our class, which will allow us to create new objects of our class
+  // The constructor for our class, which will allow us to create new objects of our class
   constructor(id, name, comment, type, latlng) {
     this.id = id;
     this.name = name;

@@ -77,7 +77,7 @@ function savePin() {
         infowindow.close();
 
     }, 1000);
-    
+
     //DATA IS SAVED and INFO WINDOW IS CLOSED
 }
 

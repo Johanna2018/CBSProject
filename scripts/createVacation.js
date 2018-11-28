@@ -10,9 +10,9 @@ var recentMarker;
 var pinObjects = [];
 //MapPosition and zoom is needed to initialize the map, it will open up the world map with this values
 var MapPosition = {
-            lat: 25.048921, 
-            lng: 9.553599
-        };
+    lat: 25.048921,
+    lng: 9.553599
+};
 var zoom = 2
 
 //Now we safe the data of the marker in a pin object
@@ -113,61 +113,61 @@ saveVac.onclick = function () {
     if (title == "" || pins.length == 0) {
         alert("To save your vacation needs a title and at least 1 pin!");
     } else {
-    var description = document.getElementById("vacDescription").value;
-    var isSelected = false;
-    //get input from tag input in HTML, split() method splits the input after whatever you put in the quotation marks
-    //makes automatically an array out of it
-    var tags = document.getElementById("tags").value.split(",");
-    var isPublished = false;
-    // check if the check box is clicked, if yes --> var isPublished is true
-    if (document.getElementById("publish").checked == true) {
-        var isPublished = true;
+        var description = document.getElementById("vacDescription").value;
+        var isSelected = false;
+        //get input from tag input in HTML, split() method splits the input after whatever you put in the quotation marks
+        //makes automatically an array out of it
+        var tags = document.getElementById("tags").value.split(",");
+        var isPublished = false;
+        // check if the check box is clicked, if yes --> var isPublished is true
+        if (document.getElementById("publish").checked == true) {
+            var isPublished = true;
+        }
+
+        //create new variable pins and assign it pinObjects, for later use
+        var pins = pinObjects;
+
+        // A vacation has no ratings when it is created, therefore ratings has to be an empty array
+        var ratings = [];
+
+        //Getting center location of displyed window, need it for later so the map opens on the same location as user saved it
+        //getCenter() is a method from Google Maps API
+        var center = map.getCenter();
+
+        //Getting zoom level --> map will open at same zoom level again
+        var zoom = map.getZoom();
+
+        // push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
+        var currentVac = new Vacation(id, title, description, pins, isPublished, tags, ratings, center, zoom);
+
+        //push the just created vacation into vacations array in currentUser object and the allVac array
+        currentUser.vacations.push(currentVac);
+        allVac.push(currentVac);
+
+        //3. The changes of currentUser have to be updated in the users array (+ stored in localStorage), we do that with updateUser() function (defined in util.js)
+        updateUser();
+
+        // store new vacation in local storage, function store(y, keyname) defined in util.js
+        store(currentVac, "currentVac");
+
+        //we store the allVac array in the localStorage, function store(y, keyname) defined in util.js
+        store(allVac, "allVac");
+
+        //store updated currentUser object in localStorage, function store(y, keyname) defined in util.js
+        store(currentUser, "currentUser");
+
+        //Now all fields need to be reseted
+        // clear the input fields for later
+        document.getElementById("vacTitle").value = "";
+        document.getElementById("vacDescription").value = "";
+        document.getElementById("publish").checked = false;
+        document.getElementById("tags").value = "";
+
+        //alert a message and redirecting to myVacations page
+        alert("Awesome! Your vacation is saved! You can review and edit it under My Vacations!")
+
+        window.location = "myVacations.html";
+
+        return true;
     }
-
-    //create new variable pins and assign it pinObjects, for later use
-    var pins = pinObjects;
-
-    // A vacation has no ratings when it is created, therefore ratings has to be an empty array
-    var ratings = [];
-
-    //Getting center location of displyed window, need it for later so the map opens on the same location as user saved it
-    //getCenter() is a method from Google Maps API
-    var center = map.getCenter();
-
-    //Getting zoom level --> map will open at same zoom level again
-    var zoom = map.getZoom();
-
-    // push the new vacation in the vacations array, new Vacation makes it part of the Vacation class  
-    var currentVac = new Vacation(id, title, description, pins, isPublished, tags, ratings, center, zoom);
-
-    //push the just created vacation into vacations array in currentUser object and the allVac array
-    currentUser.vacations.push(currentVac);
-    allVac.push(currentVac);
-
-    //3. The changes of currentUser have to be updated in the users array (+ stored in localStorage), we do that with updateUser() function (defined in util.js)
-    updateUser();
-
-    // store new vacation in local storage, function store(y, keyname) defined in util.js
-    store(currentVac, "currentVac");
-
-    //we store the allVac array in the localStorage, function store(y, keyname) defined in util.js
-    store(allVac, "allVac");
-
-    //store updated currentUser object in localStorage, function store(y, keyname) defined in util.js
-    store(currentUser, "currentUser");
-
-    //Now all fields need to be reseted
-    // clear the input fields for later
-    document.getElementById("vacTitle").value = "";
-    document.getElementById("vacDescription").value = "";
-    document.getElementById("publish").checked = false;
-    document.getElementById("tags").value = "";
-
-    //alert a message and redirecting to myVacations page
-    alert("Awesome! Your vacation is saved! You can review and edit it under My Vacations!")
-
-    window.location = "myVacations.html";
-
-    return true;
-}
 }

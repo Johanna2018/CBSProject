@@ -26,7 +26,7 @@ class Vacation {
                 ratingAvgSum = ratingAvgSum + this.ratings[i];
             }
 
-            avgRating = ratingAvgSum/this.ratings.length;
+            avgRating = ratingAvgSum / this.ratings.length;
         }
         //toFixed is returning a string value, we need a number with two decimals
         //https://www.w3schools.com/jsref/jsref_parsefloat.asp

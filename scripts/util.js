@@ -5,32 +5,32 @@
 //function to store something in the localStorage, y = value (object/array), keyName = name of key which you assign value to and save it in localStorage
 //keyName --> you need it to recall it later in getStorage
 function store(y, keyName) {
-   var stringified = JSON.stringify(y);
+    var stringified = JSON.stringify(y);
     localStorage.setItem(String(keyName), stringified);
 }
 
 //function to get data which are stored in localStorage, keyName = name of key which you assign value to and save it in localStorage
 //keyName --> need to remember from when you stored it to local storage
-function getStorage(keyName){
+function getStorage(keyName) {
     var parsed = JSON.parse(localStorage.getItem(keyName));
     return parsed;
 }
 
 //function to generate the next ID in an array
 //arr --> array for which objects ID should be created
-function getNextId(arr){
+function getNextId(arr) {
     // set variable max to 0
     var max = 0;
     // Loop over array 
     // Make sure when calling this function that the array filled with data 
-    for(i = 0; i < arr.length; i++){
+    for (i = 0; i < arr.length; i++) {
         // Find the highest ID and add one
         // Has to be >= max, because the allVac array could be 0, if non vacation yet
-            if(arr[i].id >= max){
+        if (arr[i].id >= max) {
             // Set max to one more than biggest existing id
-                max = arr[i].id + 1;
-            }
-        
+            max = arr[i].id + 1;
+        }
+
     }
     //Return the max --> max is the generate ID
     return max;
@@ -39,7 +39,7 @@ function getNextId(arr){
 //function to initialize the map on different parts of the program (e.g. editVacation, createVacation)
 // initialize the Map
 function initMap(position, zoom) {
-    
+
 
     // fill map variable with initialized map and set start location and zoom level
     map = new google.maps.Map(document.getElementById('map'), {
@@ -90,7 +90,7 @@ function initMap(position, zoom) {
 }
 
 //Function that initializes map and re-creates markers of a particular vacation
-function retrieveMapPositionAndPins(vacation){
+function retrieveMapPositionAndPins(vacation) {
     var MapPosition = {
         lat: vacation.center.lat,
         lng: vacation.center.lng
@@ -102,10 +102,8 @@ function retrieveMapPositionAndPins(vacation){
         center: MapPosition,
         zoom: vacation.zoom
     });
-    // We're calling it a mapElement, because it only appears together with the map
 
-
-    //then we loop over the pins of the particular map and "set"/"create" new pins on this map accordingly
+    //then we loop over the pins of the particular map and "set"/"create" new markers on this map accordingly
     markers = [];
     for (var i = 0; i < vacation.pins.length; i++) {
         var marker = vacation.pins[i];
@@ -147,7 +145,7 @@ function updateInfoWindow(marker, name, comment, type) {
 
 // Function for toggle button
 // With the toggle function we show all the markers 
-function toggle (arrMarkers) {
+function toggle(arrMarkers) {
     //set a variable entriesHidden to true --> to use it later for if statement
     var entriesHidden = true;
 
@@ -156,7 +154,7 @@ function toggle (arrMarkers) {
 
     // If entries are not shown, we will have the event mouseover to show all the markers.
     if (entriesHidden)
-    //We use "mouseover" --> to simulate that a mouse is over all of the markers to show all the infowindows
+        //We use "mouseover" --> to simulate that a mouse is over all of the markers to show all the infowindows
         event = "mouseover";
     // If entries are shown, we will have the event mouseout to hide all markers again
     else
@@ -170,12 +168,14 @@ function toggle (arrMarkers) {
 
 }
 
-//function that finds the vacation by ID in order to be used multiple places, vacationList in this case is the array we pass it when currently working with it, either publishedVacation or AllVacations
+//function that finds the vacation by ID in order to be used multiple places, 
+//vacationList in this case is the array we pass it when currently working with it, 
+//mostly either publishedVacation or AllVacations
 function findVacationById(vacationId, vacationList) {
     return vacationList.find(function (vacation) {
         //What the next line esentially does, is following
         // if vacation.id == vacationId
-        //     return vacation - and store the value of that particular vacation in the vacationToDisplay variable
+        //     return vacation - and store the value of that particular vacation in the vacationToDisplay variable later
         return vacation.id == vacationId;
     });
 }
@@ -190,7 +190,7 @@ function deleteMap() {
 
 //Function for Home button
 //Redirects user to homePage.html
-function home () {
+function home() {
     //redirecting to log out page
     window.location = "homePage.html";
     //Return true to jump out of the function, since we now have all we need.
@@ -199,7 +199,7 @@ function home () {
 
 //Function for My Vacations button
 //Redirects user to myVacations.html    
-function myVac () {
+function myVac() {
     //redirecting to log out page
     window.location = "myVacations.html";
     //Return true to jump out of the function, since we now have all we need
@@ -208,7 +208,7 @@ function myVac () {
 
 //Function for Logout button
 //Redirects user to logout.html   
-function logout () {
+function logout() {
     //set variable isLoggedIn to false
     currentUser.isLoggedIn = false;
 
@@ -221,7 +221,7 @@ function logout () {
 
 //Function for Profile button
 //Redirects user to profile.html  
-function profile () {
+function profile() {
     //redirecting to profile page
     window.location = "profile.html";
 
@@ -231,7 +231,7 @@ function profile () {
 
 //Function for Discover button
 //Redirects user to discover.html
- function discover () {
+function discover() {
     //redirecting to profile page
     window.location = "discover.html";
 
@@ -240,8 +240,8 @@ function profile () {
 }
 
 //Function to update currentUser data in users array
-   function updateUser(){ 
-// Loop over users array to find the object with the same id and set it to currentUser
+function updateUser() {
+    // Loop over users array to find the object with the same id and set it to currentUser
     for (i = 0; i < users.length; i++) {
         if (currentUser.id === users[i].id) {
             users[i] = currentUser;
