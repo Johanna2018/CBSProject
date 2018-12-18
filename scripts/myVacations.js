@@ -84,9 +84,9 @@ function initVacationElementEvents(vacationElement) {
 //function that deletes the edit button when we click on different vacation on the list
 function deleteEditButton() {
     var mapElement = document.getElementById('editVacation');
-    var newElement = document.createElement('button');
+    //var newElement = document.getElementById('button');
     mapElement.innerHTML = '';
-    newElement.innerHTML = '';
+    //newElement.innerHTML = '';
 }
 
 //Redirect to creating new vacation after clicking the button

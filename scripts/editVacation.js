@@ -32,7 +32,7 @@ if (pinObjects == null) {
 }
 
 
-//create function to save pins --> onclick set on element in HTML 
+//create function to save pins --> onclick set on element in HTML (util.js - initMap function, contentString)
 function savePin() {
 
     //Make message field visible
@@ -141,7 +141,7 @@ function editPin() {
     }, 1000);
 }
 
-// Function start is onclick in HTML --> for initializing the map
+// Function start is onclick in HTML --> for initializing the map, can be found in the link to load the Google Maps API
 function start() {
 
     // // if no pins are saved, initialize empty map
@@ -180,6 +180,8 @@ function showPins(pinObjects) {
 
         // Now we take the collected data from above and create a marker on the map for every object in pinObjects
         // new google.maps.Marker --> is like a own class defined by Google Maps API
+        //at this point, the retrievedMarkers array is still empty and the following is basically filling it in with new markers accroding to the
+        //data retrieved previously from pins
         retrievedMarkers[i] = new google.maps.Marker({
             position: latlng,
             map: map,
@@ -390,7 +392,7 @@ deleteVac.onclick = function () {
         store(allVac, "allVac");
         //3. The changes of currentUser have to be updated in the users array(+ stored in localStorage), we do that with updateUser() function (defined in util.js)
         updateUser();
-        //4. set currentVacation to undefined
+        //4. set currentVacation to undefined, maybe not so necessary, as we are re-directing and currentVac is removed from the localStorage anyway
         currentVac = undefined;
         //5. delete currentVac from localStorage
         localStorage.removeItem("currentVac");
